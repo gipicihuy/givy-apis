@@ -12,6 +12,16 @@
   ],
   "routes": [
     {
+      "src": "/(.*)",
+      "status": 404,
+      "dest": "/api-page/404.html"
+    },
+    {
+      "src": "/(.*)",
+      "status": 500,
+      "dest": "/api-page/500.html"
+    },
+    {
       "src": "/",
       "dest": "/api-page/index.html"
     },
@@ -30,9 +40,5 @@
   ],
   "env": {
     "NODE_ENV": "production"
-  },
-  "error": {
-    "404": "/api-page/404.html",
-    "500": "/api-page/500.html"
   }
 }
