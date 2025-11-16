@@ -82,9 +82,9 @@ h1 {
     text-decoration: none;
     border-radius: var(--border-radius);
     font-size: 0.9em;
-    transition: all 0.3s;
     font-weight: bold;
     border: 1px solid var(--accent-color);
+    transition: all 0.3s;
 }
 
 .contact-links a:hover {
@@ -106,7 +106,7 @@ h1 {
 /* H2: API Endpoints (Menggunakan Kuning/Emas) */
 .endpoints-header {
     font-size: 1.6em;
-    color: var(--secondary-color); /* WARNA DIUBAH KE KUNING/EMAS */
+    color: var(--secondary-color); 
     margin-bottom: 20px;
     font-weight: 700;
 }
@@ -170,35 +170,64 @@ details[open] summary .arrow {
     border-top: 1px dashed rgba(104, 211, 145, 0.5);
 }
 
-/* ENDPOINT CARD */
-.endpoint-card {
-    background: var(--card-bg);
-    padding: 16px;
+/* ------------------------------------- */
+/* NEW STYLES FOR NESTED ENDPOINT DETAILS */
+/* ------------------------------------- */
+
+.endpoint-group {
+    background: var(--card-bg); 
+    border: 1px solid #444; 
     border-radius: var(--border-radius);
-    margin-bottom: 10px;
-    border-left: 4px solid var(--accent-color);
+    margin-bottom: 8px;
+    margin-top: 5px;
+    border-left: 4px solid var(--secondary-color); 
     transition: all 0.3s;
-    border: 1px solid var(--bg-color);
+}
+
+.endpoint-group:hover {
+    box-shadow: 0 0 5px rgba(229, 192, 123, 0.2); 
+}
+
+.endpoint-group summary {
+    /* Menimpa style summary utama agar tidak terlalu tebal */
+    padding: 12px 16px; 
+    font-size: 1em;
+    font-weight: 400;
+    color: var(--text-color);
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+}
+
+.endpoint-group summary:hover {
+     background: rgba(229, 192, 123, 0.1);
+}
+
+.endpoint-group summary .endpoint-title {
+    color: var(--secondary-color); 
+    font-weight: 700;
+}
+
+.endpoint-group[open] > .endpoint-summary .arrow {
+    transform: rotate(90deg);
+}
+
+.endpoint-card {
+    /* Konten card endpoint yang terbuka */
+    border-left: none; 
+    padding: 10px 16px 16px 16px;
+    margin: 0;
+    background: var(--card-bg); 
+    border-top: 1px dashed #444;
 }
 
 .endpoint-card:hover {
-    transform: translateX(0px);
-    box-shadow: 0 0 8px var(--box-shadow-color);
+    transform: none; /* Hapus transform hover di card dalam details */
+    box-shadow: none;
 }
 
-.endpoint-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    gap: 10px;
-}
-
-.endpoint-title {
-    font-size: 1.1em;
-    color: var(--accent-color);
-    font-weight: 700;
-}
+/* ------------------------------------- */
+/* ENDPOINT BADGE AND INFO */
+/* ------------------------------------- */
 
 .badge {
     background: #10b981;
@@ -309,7 +338,6 @@ details[open] summary .arrow {
     margin-top: 12px;
     transition: all 0.3s;
     width: 100%;
-    /* Pastikan ikon sejajar */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -337,14 +365,12 @@ details[open] summary .arrow {
     display: none;
 }
 
-/* New CSS for Copy Button */
 .result-header {
     font-size: 0.75em;
     color: var(--secondary-color);
     font-weight: 700;
     margin-bottom: 8px;
     text-transform: uppercase;
-    /* Flexbox untuk mensejajarkan teks dan ikon copy */
     display: flex; 
     align-items: center;
     justify-content: space-between;
@@ -353,9 +379,9 @@ details[open] summary .arrow {
 .copy-btn {
     cursor: pointer;
     color: var(--secondary-color);
-    font-size: 1.2em; /* Ukuran ikon */
+    font-size: 1.2em; 
     transition: color 0.2s;
-    padding: 0 5px; /* Sedikit padding agar mudah diklik */
+    padding: 0 5px; 
 }
 
 .copy-btn:hover {
@@ -363,10 +389,8 @@ details[open] summary .arrow {
 }
 
 .copy-btn.success {
-    color: #48bb78 !important; /* Warna hijau untuk sukses */
+    color: #48bb78 !important; 
 }
-/* End New CSS for Copy Button */
-
 
 .request-url {
     background: rgba(0, 0, 0, 0.5);
@@ -394,11 +418,11 @@ details[open] summary .arrow {
 /* FOOTER */
 footer {
     text-align: center;
-    color: #999; /* WARNA TEKS DIUBAH KE ABU-ABU LEBIH CERAH */
+    color: #999; /* ABU-ABU LEBIH CERAH */
     margin-top: 32px;
     padding: 16px;
     font-size: 0.95em;
-    border-top: 1px dashed #666; /* WARNA GARIS DIUBAH KE ABU-ABU LEBIH CERAH */
+    border-top: 1px dashed #666; /* GARIS ABU-ABU LEBIH CERAH */
 }
 
 /* LOADING */
@@ -444,10 +468,6 @@ footer {
         padding: 14px 16px;
     }
     
-    .endpoint-card {
-        padding: 14px;
-    }
-
     .param-item {
         flex-direction: column;
         align-items: flex-start;
@@ -482,7 +502,7 @@ footer {
         </div>
         
         <footer id="footer">
-            <p>© 2025 GivyAPIs | Made with ❤️ by <strong>Givy</strong></p>
+            <p>© 2025 GivyAPIs</p>
         </footer>
     </div>
 
@@ -544,7 +564,7 @@ footer {
                 // Build endpoints HTML dengan <details> & <summary>
                 let html = '';
                 data.categories.forEach((cat, catIndex) => {
-                    // MENGAMBIL CLASS FONT AWESOME LANGSUNG DARI settings.json
+                    // Kategori utama
                     const iconClass = cat.icon || 'fa-solid fa-folder-open';
                     const desc = cat.description || '';
                     
@@ -561,6 +581,7 @@ footer {
                             <div class="category-content">
                     `;
                     
+                    // Loop untuk items (ENDPOINT) - DIBUAT SEBAGAI NESTED DETAILS
                     cat.items.forEach((item, itemIndex) => {
                         const badgeClass = item.status === 'ready' ? 'ready' : 
                                           item.status === 'update' ? 'update' : 'error';
@@ -569,13 +590,18 @@ footer {
                         const displayPath = item.path.startsWith('/') ? `${BASE_URL}${item.path}` : `${BASE_URL}/${item.path}`;
 
                         html += `
-                            <div class="endpoint-card">
-                                <div class="endpoint-header">
-                                    <div class="endpoint-title">${item.name}</div>
-                                    <span class="badge ${badgeClass}">${item.status}</span>
-                                </div>
-                                <p class="endpoint-desc">${item.desc}</p>
-                                <div class="endpoint-path">${displayPath}</div>
+                            <details class="endpoint-group">
+                                <summary class="endpoint-summary">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 10px;">
+                                        <div class="endpoint-title">${item.name}</div>
+                                        <span class="badge ${badgeClass}">${item.status}</span>
+                                        <span class="arrow" style="margin-left: 10px; font-size: 0.8em;"><i class="fa-solid fa-chevron-right"></i></span>
+                                    </div>
+                                </summary>
+
+                                <div class="endpoint-card"> 
+                                    <p class="endpoint-desc">${item.desc}</p>
+                                    <div class="endpoint-path">${displayPath}</div>
                         `;
                         
                         // Parameters section
@@ -608,19 +634,19 @@ footer {
                             `;
                         }
                         
-                        html += `</div>`; // Close endpoint-card
+                        html += `</div></details>`; // Close endpoint-card dan nested details
                     });
                     
                     html += `
                             </div>
                         </details>
-                    `; // Close details
+                    `; // Close details kategori utama
                 });
                 
                 document.getElementById('endpoints').innerHTML = html;
 
-                // Auto-close other details when opening one
-                const allDetails = document.querySelectorAll('details');
+                // Auto-close other details when opening one (hanya untuk kategori utama)
+                const allDetails = document.querySelectorAll('.container > .endpoints-container > div > details');
                 allDetails.forEach(detail => {
                     detail.addEventListener('toggle', function() {
                         if (this.open) {
