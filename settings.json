@@ -2,10 +2,10 @@
   "name": "GivyAPIs",
   "version": "v1.0",
   "description": "Simple, Fast, & Scalable REST API",
-  "tagline": "Start with Stalker, Expand Anytime!",
+  "tagline": "A fast, flexible API made for whatever you need!",
   "contact": {
     "telegram": "https://t.me/givyo",
-    "github": "https://github.com/yourusername"
+    "github": "https://github.com/gipicihuy"
   },
   "apiSettings": {
     "creator": "Givy",
