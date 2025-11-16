@@ -19,6 +19,8 @@
     --card-bg: #21252b;
     --border-radius: 0px;
     --box-shadow-color: rgba(104, 211, 145, 0.2);
+    /* Warna Hover Biru Gelap Transparan */
+    --hover-color-dark-blue: rgba(0, 100, 140, 0.3); 
 }
 
 * {
@@ -39,6 +41,19 @@ body {
     max-width: 900px;
     margin: 0 auto;
 }
+
+/* ------------------------------------- */
+/* PENAMBAHAN ANIMASI SMOOTH (TRANSITION) */
+/* ------------------------------------- */
+header, details, summary, .contact-links a, .execute-btn, .endpoint-group, .endpoint-group summary {
+    /* Menerapkan transisi ke elemen interaktif */
+    transition: all 0.3s ease-in-out; 
+}
+/* Memastikan detail terbuka juga memiliki transisi */
+details[open] {
+    transition: all 0.3s ease-in-out; 
+}
+
 
 /* HEADER */
 header {
@@ -84,7 +99,6 @@ h1 {
     font-size: 0.9em;
     font-weight: bold;
     border: 1px solid var(--accent-color);
-    transition: all 0.3s;
 }
 
 .contact-links a:hover {
@@ -117,7 +131,6 @@ details {
     border-radius: var(--border-radius);
     margin-bottom: 12px;
     border: 1px solid var(--accent-color);
-    transition: all 0.3s;
 }
 
 details[open] {
@@ -136,11 +149,11 @@ summary {
     gap: 12px;
     user-select: none;
     border-radius: var(--border-radius);
-    transition: all 0.2s;
 }
 
+/* HOVER BARU: Kategori Utama (Warna Biru Gelap Transparan) */
 summary:hover {
-    background: rgba(104, 211, 145, 0.1);
+    background: var(--hover-color-dark-blue);
 }
 
 summary .icon {
@@ -151,7 +164,6 @@ summary .icon {
 summary .arrow {
     margin-left: auto;
     font-size: 0.8em;
-    transition: transform 0.3s;
 }
 
 details[open] summary .arrow {
@@ -181,7 +193,6 @@ details[open] summary .arrow {
     margin-bottom: 8px;
     margin-top: 5px;
     border-left: 4px solid var(--secondary-color); 
-    transition: all 0.3s;
 }
 
 .endpoint-group:hover {
@@ -198,22 +209,23 @@ details[open] summary .arrow {
     border-radius: var(--border-radius);
 }
 
+/* HOVER BARU: Endpoint (Warna Biru Gelap Transparan) */
 .endpoint-group summary:hover {
-     background: rgba(229, 192, 123, 0.1);
+     background: var(--hover-color-dark-blue);
 }
 
 /* Mengatur agar Title dan Badge berdekatan dan Arrow di ujung kanan */
 .endpoint-group summary > div {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Untuk memisahkan group Title/Badge dengan Arrow */
+    justify-content: space-between; 
     width: 100%;
 }
 
 .endpoint-group summary .endpoint-title-group {
-    display: flex; /* GROUPING Title dan Badge */
+    display: flex; 
     align-items: center;
-    gap: 10px; /* Jarak antara Title dan Badge */
+    gap: 10px; 
 }
 
 .endpoint-group summary .endpoint-title {
@@ -235,7 +247,7 @@ details[open] summary .arrow {
 }
 
 .endpoint-card:hover {
-    transform: none; /* Hapus transform hover di card dalam details */
+    transform: none; 
     box-shadow: none;
 }
 
@@ -350,7 +362,6 @@ details[open] summary .arrow {
     font-weight: bold;
     font-size: 0.9em;
     margin-top: 12px;
-    transition: all 0.3s;
     width: 100%;
     display: flex;
     align-items: center;
@@ -394,7 +405,6 @@ details[open] summary .arrow {
     cursor: pointer;
     color: var(--secondary-color);
     font-size: 1.2em; 
-    transition: color 0.2s;
     padding: 0 5px; 
 }
 
@@ -432,11 +442,11 @@ details[open] summary .arrow {
 /* FOOTER */
 footer {
     text-align: center;
-    color: #999; /* ABU-ABU LEBIH CERAH */
+    color: #999; 
     margin-top: 32px;
     padding: 16px;
     font-size: 0.95em;
-    border-top: 1px dashed #666; /* GARIS ABU-ABU LEBIH CERAH */
+    border-top: 1px dashed #666; 
 }
 
 /* LOADING */
