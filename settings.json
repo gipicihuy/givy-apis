@@ -20,7 +20,7 @@
         {
           "name": "Instagram Stalker",
           "desc": "Get Instagram profile info (username, followers, bio, posts, etc)",
-          "path": "/stalk/ig?username=",
+          "path": "/stalk/ig?",
           "status": "ready",
           "params": {
             "username": "Instagram username (without @)"
