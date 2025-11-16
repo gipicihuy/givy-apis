@@ -171,7 +171,7 @@ details[open] summary .arrow {
 }
 
 /* ------------------------------------- */
-/* NEW STYLES FOR NESTED ENDPOINT DETAILS */
+/* STYLES FOR NESTED ENDPOINT DETAILS */
 /* ------------------------------------- */
 
 .endpoint-group {
@@ -200,6 +200,20 @@ details[open] summary .arrow {
 
 .endpoint-group summary:hover {
      background: rgba(229, 192, 123, 0.1);
+}
+
+/* Mengatur agar Title dan Badge berdekatan dan Arrow di ujung kanan */
+.endpoint-group summary > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Untuk memisahkan group Title/Badge dengan Arrow */
+    width: 100%;
+}
+
+.endpoint-group summary .endpoint-title-group {
+    display: flex; /* GROUPING Title dan Badge */
+    align-items: center;
+    gap: 10px; /* Jarak antara Title dan Badge */
 }
 
 .endpoint-group summary .endpoint-title {
@@ -592,10 +606,12 @@ footer {
                         html += `
                             <details class="endpoint-group">
                                 <summary class="endpoint-summary">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 10px;">
-                                        <div class="endpoint-title">${item.name}</div>
-                                        <span class="badge ${badgeClass}">${item.status}</span>
-                                        <span class="arrow" style="margin-left: 10px; font-size: 0.8em;"><i class="fa-solid fa-chevron-right"></i></span>
+                                    <div>
+                                        <div class="endpoint-title-group">
+                                            <div class="endpoint-title">${item.name}</div>
+                                            <span class="badge ${badgeClass}">${item.status}</span>
+                                        </div>
+                                        <span class="arrow" style="font-size: 0.8em;"><i class="fa-solid fa-chevron-right"></i></span>
                                     </div>
                                 </summary>
 
@@ -658,6 +674,22 @@ footer {
                         }
                     });
                 });
+
+                // Auto-close other NESTED details when opening one (permintaan user)
+                const allEndpointGroups = document.querySelectorAll('.endpoint-group');
+                allEndpointGroups.forEach(group => {
+                    group.addEventListener('toggle', function() {
+                        if (this.open) {
+                            allEndpointGroups.forEach(otherGroup => {
+                                // Hanya tutup yang merupakan sibling dan berada dalam kategori yang sama
+                                if (otherGroup !== this && otherGroup.parentElement === this.parentElement) {
+                                    otherGroup.open = false;
+                                }
+                            });
+                        }
+                    });
+                });
+
 
                 // Add event listener untuk semua execute buttons
                 document.querySelectorAll('.execute-btn').forEach(btn => {
