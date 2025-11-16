@@ -537,11 +537,15 @@ footer {
 
     <script>
         const BASE_URL = window.location.origin;
+        // Gunakan SCROLL_DELAY yang lebih aman (800ms)
+        const SCROLL_DELAY = 800;
+        // Duration animasi 400ms tetap sama
+        const ANIMATION_DURATION = 400;
 
         // ===========================================
         // === FUNGSI INTI ANIMASI (Buka/Tutup) ===
         // ===========================================
-        function toggleDetailsAnimation(detailsElement, contentSelector, duration = 400, isClosingOnly = false) {
+        function toggleDetailsAnimation(detailsElement, contentSelector, duration = ANIMATION_DURATION, isClosingOnly = false) {
             const content = detailsElement.querySelector(contentSelector);
             
             if (detailsElement.hasAttribute('data-animating')) {
@@ -626,7 +630,7 @@ footer {
         // ===========================================
         // === FUNGSI SETUP LISTENER & AUTO-CLOSE ===
         // ===========================================
-        function setupDetailsAnimation(detailsElement, contentSelector, duration = 400) {
+        function setupDetailsAnimation(detailsElement, contentSelector, duration = ANIMATION_DURATION) {
             const summary = detailsElement.querySelector('summary');
 
             summary.addEventListener('click', (e) => {
@@ -648,13 +652,13 @@ footer {
                     }
                     
                     // === PERBAIKAN SCROLL: SCROLL MULUS KE ELEMEN YANG BARU DIBUKA ===
-                    // Delay yang lebih panjang (duration * 1.5) untuk memastikan kedua animasi (buka dan tutup sibling) SAMA-SAMA selesai dan DOM stabil.
+                    // Menggunakan fixed delay 800ms (2x lipat 400ms duration) untuk memastikan semua animasi buka/tutup selesai dan DOM stabil.
                     setTimeout(() => {
                         detailsElement.scrollIntoView({
                             behavior: 'smooth',
                             block: 'start' 
                         });
-                    }, duration * 1.5); 
+                    }, SCROLL_DELAY); 
                     // ================================================================
                 }
                 
