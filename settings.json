@@ -20,7 +20,7 @@
         {
           "name": "Instagram Stalker",
           "desc": "Get Instagram profile info (username, followers, bio, posts, etc)",
-          "path": "/stalk/ig?",
+          "path": "/stalk/ig",
           "status": "ready",
           "params": {
             "username": "Instagram username (without @)"
@@ -29,7 +29,7 @@
         {
           "name": "Free Fire Stalker",
           "desc": "Get Free Fire player info (nickname, server, last scan time)",
-          "path": "/stalk/ff?playerid=",
+          "path": "/stalk/ff",
           "status": "ready",
           "params": {
             "playerid": "Free Fire Player ID (example: 1234567890)"
@@ -38,7 +38,7 @@
         {
           "name": "Roblox Stalker",
           "desc": "Get Roblox player detailed info (username, status, friends, badges, groups, presence)",
-          "path": "/stalk/roblox?username=",
+          "path": "/stalk/roblox",
           "status": "ready",
           "params": {
             "username": "Roblox username (example: BuilderMan)"
@@ -47,7 +47,7 @@
         {
           "name": "NGL Checker",
           "desc": "Check NGL username validity with profile picture",
-          "path": "/stalk/ngl?username=",
+          "path": "/stalk/ngl",
           "status": "ready",
           "params": {
             "username": "NGL username to verify"
