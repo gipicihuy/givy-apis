@@ -22,6 +22,9 @@
           "desc": "Download video dari url tiktok",
           "path": "/api/tiktok?url",
           "status": "ready"
+          "params": {
+            "url": "Link video tiktok"
+        }
         }
       ]
     },
