@@ -9,7 +9,7 @@
     "sync": "node sync-settings.js"
   },
   "engines": {
-    "node": ">=20"
+    "node": "22.x"
   },
   "author": "GivyAPIs",
   "license": "MIT",
