@@ -49,6 +49,11 @@ header, details, summary, .contact-links a, .execute-btn, .endpoint-group, .endp
     /* Menerapkan transisi ke elemen interaktif */
     transition: all 0.3s ease-in-out; 
 }
+
+details {
+    /* Memastikan details dan border-nya ikut bertransisi */
+    transition: all 0.3s ease-in-out; 
+}
 /* Memastikan detail terbuka juga memiliki transisi */
 details[open] {
     transition: all 0.3s ease-in-out; 
@@ -177,10 +182,24 @@ details[open] summary .arrow {
     margin-top: 2px;
 }
 
+/* --- ANIMASI KONTEN KATEGORI UTAMA --- */
 .category-content {
-    padding: 8px 20px 20px 20px;
+    /* Default: tertutup (0 height) */
+    padding: 0 20px 0 20px; 
     border-top: 1px dashed rgba(104, 211, 145, 0.5);
+    max-height: 0;
+    overflow: hidden;
+    /* Transisi Max-Height dan Padding Vertikal */
+    transition: max-height 0.4s ease-in-out, padding-top 0.4s ease-in-out, padding-bottom 0.4s ease-in-out;
 }
+
+details[open] > .category-content {
+    /* Saat terbuka: tinggi besar dan padding kembali normal */
+    max-height: 2000px; 
+    padding: 8px 20px 20px 20px; 
+}
+/* -------------------------------------- */
+
 
 /* ------------------------------------- */
 /* STYLES FOR NESTED ENDPOINT DETAILS */
@@ -237,19 +256,27 @@ details[open] summary .arrow {
     transform: rotate(90deg);
 }
 
+/* --- ANIMASI KONTEN ENDPOINT --- */
 .endpoint-card {
-    /* Konten card endpoint yang terbuka */
+    /* Default: tertutup (0 height) */
     border-left: none; 
-    padding: 10px 16px 16px 16px;
+    padding: 0 16px 0 16px; 
     margin: 0;
     background: var(--card-bg); 
     border-top: 1px dashed #444;
+    max-height: 0;
+    overflow: hidden;
+    /* Transisi Max-Height dan Padding Vertikal */
+    transition: max-height 0.4s ease-in-out, padding-top 0.4s ease-in-out, padding-bottom 0.4s ease-in-out;
 }
 
-.endpoint-card:hover {
-    transform: none; 
-    box-shadow: none;
+.endpoint-group[open] > .endpoint-card {
+    /* Saat terbuka: tinggi besar dan padding kembali normal */
+    max-height: 2000px; 
+    padding: 10px 16px 16px 16px; 
 }
+/* -------------------------------------- */
+
 
 /* ------------------------------------- */
 /* ENDPOINT BADGE AND INFO */
@@ -470,11 +497,6 @@ footer {
 
 @keyframes spin {
     to { transform: rotate(360deg); }
-}
-
-.loading-text {
-    color: var(--accent-color);
-    font-size: 1em;
 }
 
 /* RESPONSIVE */
