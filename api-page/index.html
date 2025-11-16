@@ -13,8 +13,8 @@
 :root {
     --bg-color: #282c34;
     --text-color: #abb2bf;
-    --accent-color: #68d391; /* Hijau - Digunakan untuk Endpoint Header */
-    --secondary-color: #e5c07b; /* Kuning/Emas - Digunakan untuk Main Header */
+    --accent-color: #68d391; /* Hijau - Digunakan untuk Badge Ready, Button, dll. */
+    --secondary-color: #e5c07b; /* Kuning/Emas - Digunakan untuk Main Header dan Endpoint Header */
     --error-color: #e06c75;
     --card-bg: #21252b;
     --border-radius: 0px;
@@ -51,7 +51,7 @@ header {
     border: 1px solid var(--accent-color);
 }
 
-/* PERUBAHAN DI SINI: Mengubah warna h1 menjadi --secondary-color (Kuning/Emas) */
+/* H1: GivyAPIs (Menggunakan Kuning/Emas) */
 h1 {
     font-size: 2.5em;
     color: var(--secondary-color); 
@@ -103,10 +103,10 @@ h1 {
     border: 1px solid var(--accent-color);
 }
 
-/* PERUBAHAN DI SINI: Tetap menggunakan --accent-color (Hijau) untuk H2 */
+/* H2: API Endpoints (Menggunakan Kuning/Emas) */
 .endpoints-header {
     font-size: 1.6em;
-    color: var(--accent-color); 
+    color: var(--secondary-color); /* WARNA DIUBAH KE KUNING/EMAS */
     margin-bottom: 20px;
     font-weight: 700;
 }
@@ -394,11 +394,11 @@ details[open] summary .arrow {
 /* FOOTER */
 footer {
     text-align: center;
-    color: #444;
+    color: #999; /* WARNA TEKS DIUBAH KE ABU-ABU LEBIH CERAH */
     margin-top: 32px;
     padding: 16px;
     font-size: 0.95em;
-    border-top: 1px dashed #444;
+    border-top: 1px dashed #666; /* WARNA GARIS DIUBAH KE ABU-ABU LEBIH CERAH */
 }
 
 /* LOADING */
