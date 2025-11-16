@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GivyAPIs Documentation</title>
     <style>
@@ -138,10 +139,6 @@ summary {
 
 summary:hover {
     background: rgba(104, 211, 145, 0.1);
-}
-
-summary::marker {
-    content: '';
 }
 
 summary .icon {
@@ -333,13 +330,36 @@ details[open] summary .arrow {
     display: none;
 }
 
+/* New CSS for Copy Button */
 .result-header {
     font-size: 0.75em;
     color: var(--secondary-color);
     font-weight: 700;
     margin-bottom: 8px;
     text-transform: uppercase;
+    /* Flexbox untuk mensejajarkan teks dan ikon copy */
+    display: flex; 
+    align-items: center;
+    justify-content: space-between;
 }
+
+.copy-btn {
+    cursor: pointer;
+    color: var(--secondary-color);
+    font-size: 1.2em; /* Ukuran ikon */
+    transition: color 0.2s;
+    padding: 0 5px; /* Sedikit padding agar mudah diklik */
+}
+
+.copy-btn:hover {
+    color: var(--accent-color);
+}
+
+.copy-btn.success {
+    color: #48bb78 !important; /* Warna hijau untuk sukses */
+}
+/* End New CSS for Copy Button */
+
 
 .request-url {
     background: rgba(0, 0, 0, 0.5);
@@ -439,17 +459,17 @@ footer {
 <body>
     <div class="container">
         <header>
-            <h1>🚀 GivyAPIs</h1>
+            <h1><i class="fa-solid fa-rocket"></i> GivyAPIs</h1>
             <p class="tagline" id="tagline">Loading...</p>
             <div class="contact-links" id="contactLinks"></div>
         </header>
         
         <div class="endpoints-container">
-            <h2 class="endpoints-header">📚 API Endpoints</h2>
+            <h2 class="endpoints-header"><i class="fa-solid fa-book"></i> API Endpoints</h2>
             <div id="endpoints">
                 <div class="loading">
                     <div class="spinner"></div>
-                    <p class="loading-text">Loading endpoints...</p>
+                    <p class="loading-text"><i class="fa-solid fa-hourglass-half"></i> Loading endpoints...</p>
                 </div>
             </div>
         </div>
@@ -462,25 +482,54 @@ footer {
     <script>
         const BASE_URL = window.location.origin;
 
+        // Function untuk menyalin konten hasil JSON
+        function copyResultContent(btnElement, uniqueId) {
+            const contentElement = document.getElementById(`content-${uniqueId}`);
+            const content = contentElement.textContent;
+
+            if (!content || content.startsWith('Loading...') || content.startsWith('Error:')) {
+                alert('Tidak ada JSON response yang valid untuk disalin.');
+                return;
+            }
+
+            // Gunakan navigator.clipboard untuk menyalin
+            navigator.clipboard.writeText(content).then(() => {
+                // Feedback visual: ubah ikon menjadi centang
+                const originalIconClass = btnElement.className;
+                btnElement.className = 'fa-solid fa-check copy-btn success';
+                
+                setTimeout(() => {
+                    // Kembalikan ikon setelah 1.5 detik
+                    btnElement.className = originalIconClass;
+                }, 1500);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert('Gagal menyalin teks. Silakan salin secara manual.');
+            });
+        }
+
         // Load Endpoints dengan Details/Summary
         async function loadEndpoints() {
             try {
-                // *** PENGAMBILAN KONFIGURASI DARI SERVER ***
+                // PENGAMBILAN KONFIGURASI DARI SERVER
                 const res = await fetch(`${BASE_URL}/api/config`);
+                
+                if (!res.ok) {
+                    throw new Error(`Failed to fetch config: ${res.statusText}`);
+                }
 
                 const data = await res.json();
                 
-                // Update tagline
                 document.getElementById('tagline').textContent = data.tagline || data.description;
                 
-                // Update contact links
+                // Update contact links (ikon Telegram dan GitHub)
                 if (data.contact) {
                     let contactHTML = '';
                     if (data.contact.telegram) {
-                        contactHTML += `<a href="${data.contact.telegram}" target="_blank">📱 Telegram</a>`;
+                        contactHTML += `<a href="${data.contact.telegram}" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a>`;
                     }
                     if (data.contact.github) {
-                        contactHTML += `<a href="${data.contact.github}" target="_blank">💻 GitHub</a>`;
+                        contactHTML += `<a href="${data.contact.github}" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>`;
                     }
                     document.getElementById('contactLinks').innerHTML = contactHTML;
                 }
@@ -488,18 +537,27 @@ footer {
                 // Build endpoints HTML dengan <details> & <summary>
                 let html = '';
                 data.categories.forEach((cat, catIndex) => {
-                    const icon = cat.icon || '📦';
+                    // Ganti icon emoji dengan Font Awesome
+                    let iconClass = 'fa-solid fa-folder-open';
+                    if (cat.name.toLowerCase().includes('stalker')) {
+                         iconClass = 'fa-solid fa-magnifying-glass';
+                    } else if (cat.name.toLowerCase().includes('system')) {
+                         iconClass = 'fa-solid fa-gears';
+                    } else if (cat.name.toLowerCase().includes('download')) {
+                         iconClass = 'fa-solid fa-download';
+                    }
+
                     const desc = cat.description || '';
                     
                     html += `
                         <details id="category-${catIndex}">
                             <summary>
-                                <span class="icon">${icon}</span>
+                                <span class="icon"><i class="${iconClass}"></i></span>
                                 <div style="flex: 1;">
                                     <div>${cat.name}</div>
                                     <div class="category-desc">${desc}</div>
                                 </div>
-                                <span class="arrow">▶</span>
+                                <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
                             </summary>
                             <div class="category-content">
                     `;
@@ -509,7 +567,6 @@ footer {
                                           item.status === 'update' ? 'update' : 'error';
                         const uniqueId = `${catIndex}-${itemIndex}`;
                         
-                        // Path yang ditampilkan di UI harus lengkap
                         const displayPath = item.path.startsWith('/') ? `${BASE_URL}${item.path}` : `${BASE_URL}/${item.path}`;
 
                         html += `
@@ -538,7 +595,7 @@ footer {
                             });
                             html += `
                                 <button class="execute-btn" data-path="${item.path}" data-id="${uniqueId}" data-params='${JSON.stringify(Object.keys(item.params))}'>
-                                    ▶️ Execute
+                                    <i class="fa-solid fa-play"></i> Execute
                                 </button>
                                 <div class="result-section" id="result-${uniqueId}"></div>
                             `;
@@ -546,7 +603,7 @@ footer {
                         } else {
                             html += `
                                 <button class="execute-btn" data-path="${item.path}" data-id="${uniqueId}" data-params='[]'>
-                                    ▶️ Execute
+                                    <i class="fa-solid fa-play"></i> Execute
                                 </button>
                                 <div class="result-section" id="result-${uniqueId}"></div>
                             `;
@@ -584,7 +641,6 @@ footer {
                         const uniqueId = this.getAttribute('data-id');
                         const paramKeys = JSON.parse(this.getAttribute('data-params'));
                         
-                        // data.apiSettings.apikey tidak lagi dikirim ke fungsi executeRequest
                         executeRequest(path, uniqueId, paramKeys, this); 
                     });
                 });
@@ -592,7 +648,7 @@ footer {
             } catch (e) {
                 document.getElementById('endpoints').innerHTML = `
                     <div style="text-align: center; padding: 30px; color: #ef4444;">
-                        <h3>⚠️ Failed to load endpoints</h3>
+                        <h3><i class="fa-solid fa-triangle-exclamation"></i> Failed to load endpoints</h3>
                         <p style="margin-top: 10px; color: #888;">${e.message}</p>
                     </div>
                 `;
@@ -600,21 +656,17 @@ footer {
         }
 
         // Function untuk execute request
-        function executeRequest(path, uniqueId, paramKeys, btnElement) { // apiKeyList dihapus
+        function executeRequest(path, uniqueId, paramKeys, btnElement) { 
             const resultDiv = document.getElementById(`result-${uniqueId}`);
             
             btnElement.disabled = true;
-            btnElement.textContent = '⏳ Loading...';
+            btnElement.innerHTML = '<i class="fa-solid fa-hourglass-half"></i> Loading...';
             
-            // 1. Bersihkan path dari query string yang sudah ada (misal: menghapus "?username=")
             const cleanedPath = path.split('?')[0]; 
             let url = BASE_URL + cleanedPath; 
 
             const queryParams = new URLSearchParams();
             
-            // 2. BLOK UNTUK MENAMBAHKAN APIKEY OTOMATIS DIHAPUS, SESUAI PERMINTAAN USER.
-
-            // 3. Ambil value dari input fields
             paramKeys.forEach(key => {
                 const inputElement = document.getElementById(`input-${uniqueId}-${key}`);
                 if (inputElement) {
@@ -634,8 +686,12 @@ footer {
             resultDiv.innerHTML = `
                 <div class="result-header">📡 Request URL:</div>
                 <div class="request-url">${url}</div>
-                <div class="result-header">📦 Response:</div>
-                <div class="result-content">Loading...</div>
+                
+                <div class="result-header">
+                    📦 Response
+                    <i class="fa-solid fa-copy copy-btn" onclick="copyResultContent(this, '${uniqueId}')" title="Copy Response"></i>
+                </div>
+                <div class="result-content" id="content-${uniqueId}">Loading...</div>
             `;
             
             // Fetch data
@@ -653,14 +709,14 @@ footer {
                     resultContent.textContent = JSON.stringify(data, null, 2);
                     resultContent.style.color = 'var(--text-color)';
                     btnElement.disabled = false;
-                    btnElement.textContent = '▶️ Execute';
+                    btnElement.innerHTML = '<i class="fa-solid fa-play"></i> Execute';
                 })
                 .catch(error => {
                     const resultContent = resultDiv.querySelector('.result-content');
                     resultContent.textContent = `Error: ${error.message}`;
                     resultContent.style.color = 'var(--error-color)';
                     btnElement.disabled = false;
-                    btnElement.textContent = '▶️ Execute';
+                    btnElement.innerHTML = '<i class="fa-solid fa-play"></i> Execute';
                 });
         }
 
