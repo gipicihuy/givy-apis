@@ -6,15 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GivyAPIs Documentation</title>
     <style>
+       /*
+ * GLOBAL STYLES - DARK GREEN THEME
+ */
 :root {
-    --bg-color: #282c34;
-    --text-color: #abb2bf;
-    --accent-color: #68d391;
-    --secondary-color: #e5c07b;
-    --error-color: #e06c75;
-    --card-bg: #21252b;
-    --border-radius: 0px;
-    --box-shadow-color: rgba(104, 211, 145, 0.2);
+    --bg-color: #282c34; /* Dark background, similar to VS Code or terminals */
+    --text-color: #abb2bf; /* Light gray text */
+    --accent-color: #68d391; /* Neon Green (Success/Primary accent) */
+    --secondary-color: #e5c07b; /* Yellow/Orange for warnings/updates */
+    --error-color: #e06c75; /* Red for errors */
+    --card-bg: #21252b; /* Slightly lighter dark background for cards */
+    --border-radius: 0px; /* Force sharp corners */
+    --box-shadow-color: rgba(104, 211, 145, 0.2); /* Neon shadow */
 }
 
 * {
@@ -36,6 +39,7 @@ body {
     margin: 0 auto;
 }
 
+/* HEADER */
 header {
     background: var(--card-bg);
     padding: 30px;
@@ -84,9 +88,11 @@ h1 {
 .contact-links a:hover {
     background: var(--bg-color);
     color: var(--accent-color);
+    transform: none;
     box-shadow: 0 0 10px var(--accent-color);
 }
 
+/* ENDPOINTS CONTAINER */
 .endpoints-container {
     background: var(--card-bg);
     padding: 24px;
@@ -102,6 +108,7 @@ h1 {
     font-weight: 700;
 }
 
+/* CATEGORY - DETAILS & SUMMARY */
 details {
     background: rgba(0, 0, 0, 0.2);
     border-radius: var(--border-radius);
@@ -164,6 +171,7 @@ details[open] summary .arrow {
     border-top: 1px dashed rgba(104, 211, 145, 0.5);
 }
 
+/* ENDPOINT CARD */
 .endpoint-card {
     background: var(--card-bg);
     padding: 16px;
@@ -175,6 +183,7 @@ details[open] summary .arrow {
 }
 
 .endpoint-card:hover {
+    transform: translateX(0px);
     box-shadow: 0 0 8px var(--box-shadow-color);
 }
 
@@ -193,7 +202,7 @@ details[open] summary .arrow {
 }
 
 .badge {
-    background: #10b981;
+    background: #10b981; /* Default for ready */
     color: var(--bg-color);
     padding: 4px 10px;
     border-radius: var(--border-radius);
@@ -205,8 +214,8 @@ details[open] summary .arrow {
 }
 
 .badge.ready {
-    background: var(--accent-color);
-    border-color: var(--accent-color);
+     background: var(--accent-color);
+     border-color: var(--accent-color);
 }
 
 .badge.update {
@@ -236,7 +245,6 @@ details[open] summary .arrow {
     overflow-x: auto;
     white-space: nowrap;
     border: 1px dashed var(--accent-color);
-    margin-bottom: 10px;
 }
 
 .params-section {
@@ -322,6 +330,7 @@ details[open] summary .arrow {
     padding: 12px;
     border-radius: var(--border-radius);
     border: 1px solid #444;
+    display: none;
 }
 
 .result-header {
@@ -355,6 +364,17 @@ details[open] summary .arrow {
     word-break: break-word;
 }
 
+/* FOOTER */
+footer {
+    text-align: center;
+    color: #444;
+    margin-top: 32px;
+    padding: 16px;
+    font-size: 0.95em;
+    border-top: 1px dashed #444;
+}
+
+/* LOADING */
 .loading {
     display: flex;
     flex-direction: column;
@@ -382,15 +402,7 @@ details[open] summary .arrow {
     font-size: 1em;
 }
 
-footer {
-    text-align: center;
-    color: #444;
-    margin-top: 32px;
-    padding: 16px;
-    font-size: 0.95em;
-    border-top: 1px dashed #444;
-}
-
+/* RESPONSIVE */
 @media (max-width: 768px) {
     h1 {
         font-size: 2em;
@@ -408,7 +420,7 @@ footer {
     .endpoint-card {
         padding: 14px;
     }
-    
+
     .param-item {
         flex-direction: column;
         align-items: flex-start;
@@ -426,15 +438,14 @@ footer {
 </head>
 <body>
     <div class="container">
+        <!-- HEADER -->
         <header>
             <h1>🚀 GivyAPIs</h1>
-            <p class="tagline">Simple, Fast, & Scalable REST API - Start with Stalker, Expand Anytime!</p>
-            <div class="contact-links">
-                <a href="https://t.me/givyo" target="_blank">📱 Telegram</a>
-                <a href="https://github.com/yourusername" target="_blank">💻 GitHub</a>
-            </div>
+            <p class="tagline" id="tagline">Loading...</p>
+            <div class="contact-links" id="contactLinks"></div>
         </header>
         
+        <!-- ENDPOINTS -->
         <div class="endpoints-container">
             <h2 class="endpoints-header">📚 API Endpoints</h2>
             <div id="endpoints">
@@ -445,80 +456,20 @@ footer {
             </div>
         </div>
         
-        <footer>
+        <!-- FOOTER -->
+        <footer id="footer">
             <p>© 2025 GivyAPIs | Made with ❤️ by <strong>Givy</strong></p>
         </footer>
     </div>
 
     <script>
-        const BASE_URL = 'https://your-api-domain.com'; // Ganti dengan domain API Anda
+        const BASE_URL = window.location.origin;
 
-        const apiData = {
-            "name": "GivyAPIs",
-            "tagline": "Start with Stalker, Expand Anytime!",
-            "categories": [
-                {
-                    "name": "Stalker",
-                    "icon": "🔍",
-                    "description": "Social media & game profile lookup",
-                    "items": [
-                        {
-                            "name": "Instagram Stalker",
-                            "desc": "Get Instagram profile info (username, followers, bio, posts, etc)",
-                            "path": "/stalk/ig",
-                            "status": "ready",
-                            "params": {
-                                "username": "Instagram username (without @)"
-                            }
-                        },
-                        {
-                            "name": "Free Fire Stalker",
-                            "desc": "Get Free Fire player info (nickname, server, last scan time)",
-                            "path": "/stalk/ff",
-                            "status": "ready",
-                            "params": {
-                                "playerid": "Free Fire Player ID (example: 1234567890)"
-                            }
-                        },
-                        {
-                            "name": "Roblox Stalker",
-                            "desc": "Get Roblox player detailed info (username, status, friends, badges, groups, presence)",
-                            "path": "/stalk/roblox",
-                            "status": "ready",
-                            "params": {
-                                "username": "Roblox username (example: BuilderMan)"
-                            }
-                        },
-                        {
-                            "name": "NGL Checker",
-                            "desc": "Check NGL username validity with profile picture",
-                            "path": "/stalk/ngl",
-                            "status": "ready",
-                            "params": {
-                                "username": "NGL username to verify"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "name": "System",
-                    "icon": "⚙️",
-                    "description": "API system information & monitoring",
-                    "items": [
-                        {
-                            "name": "API Status",
-                            "desc": "Check API health, total requests, total features, and uptime",
-                            "path": "/api/status",
-                            "status": "ready"
-                        }
-                    ]
-                }
-            ]
-        };
-
-        function executeRequest(path, params) {
-            const resultDiv = document.getElementById(`result-${path.replace(/\//g, '-')}`);
-            const executeBtn = document.getElementById(`btn-${path.replace(/\//g, '-')}`);
+        // Function untuk execute request
+        function executeRequest(path, paramKeys) {
+            const pathId = path.replace(/\//g, '-');
+            const resultDiv = document.getElementById(`result-${pathId}`);
+            const executeBtn = document.getElementById(`btn-${pathId}`);
             
             executeBtn.disabled = true;
             executeBtn.textContent = '⏳ Loading...';
@@ -526,17 +477,23 @@ footer {
             let url = BASE_URL + path;
             const queryParams = new URLSearchParams();
             
-            for (const [key, value] of Object.entries(params)) {
-                const inputValue = document.getElementById(`input-${path}-${key}`).value.trim();
-                if (inputValue) {
-                    queryParams.append(key, inputValue);
+            // Ambil value dari input fields
+            paramKeys.forEach(key => {
+                const inputElement = document.getElementById(`input-${pathId}-${key}`);
+                if (inputElement) {
+                    const inputValue = inputElement.value.trim();
+                    if (inputValue) {
+                        queryParams.append(key, inputValue);
+                    }
                 }
-            }
+            });
             
             if (queryParams.toString()) {
                 url += '?' + queryParams.toString();
             }
             
+            // Show result section
+            resultDiv.style.display = 'block';
             resultDiv.innerHTML = `
                 <div class="result-header">📡 Request URL:</div>
                 <div class="request-url">${url}</div>
@@ -544,6 +501,7 @@ footer {
                 <div class="result-content">Loading...</div>
             `;
             
+            // Fetch data
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -561,101 +519,128 @@ footer {
                 });
         }
 
-        function loadEndpoints() {
-            let html = '';
-            
-            apiData.categories.forEach((cat, catIndex) => {
-                const icon = cat.icon || '📦';
-                const desc = cat.description || '';
+        // Load Endpoints dengan Details/Summary
+        async function loadEndpoints() {
+            try {
+                const res = await fetch(`${BASE_URL}/assets/settings.json`);
+                const data = await res.json();
                 
-                html += `
-                    <details id="category-${catIndex}">
-                        <summary>
-                            <span class="icon">${icon}</span>
-                            <div style="flex: 1;">
-                                <div>${cat.name}</div>
-                                <div class="category-desc">${desc}</div>
-                            </div>
-                            <span class="arrow">▶</span>
-                        </summary>
-                        <div class="category-content">
-                `;
+                // Update tagline
+                document.getElementById('tagline').textContent = data.tagline || data.description;
                 
-                cat.items.forEach(item => {
-                    const badgeClass = item.status === 'ready' ? '' : 
-                                      item.status === 'update' ? 'update' : 'error';
-                    const pathId = item.path.replace(/\//g, '-');
+                // Update contact links
+                if (data.contact) {
+                    let contactHTML = '';
+                    if (data.contact.telegram) {
+                        contactHTML += `<a href="${data.contact.telegram}" target="_blank">📱 Telegram</a>`;
+                    }
+                    if (data.contact.github) {
+                        contactHTML += `<a href="${data.contact.github}" target="_blank">💻 GitHub</a>`;
+                    }
+                    document.getElementById('contactLinks').innerHTML = contactHTML;
+                }
+                
+                // Build endpoints HTML dengan <details> & <summary>
+                let html = '';
+                data.categories.forEach((cat, catIndex) => {
+                    const icon = cat.icon || '📦';
+                    const desc = cat.description || '';
                     
                     html += `
-                        <div class="endpoint-card">
-                            <div class="endpoint-header">
-                                <div class="endpoint-title">${item.name}</div>
-                                <span class="badge ${badgeClass}">${item.status}</span>
-                            </div>
-                            <p class="endpoint-desc">${item.desc}</p>
-                            <div class="endpoint-path">${BASE_URL}${item.path}</div>
+                        <details id="category-${catIndex}">
+                            <summary>
+                                <span class="icon">${icon}</span>
+                                <div style="flex: 1;">
+                                    <div>${cat.name}</div>
+                                    <div class="category-desc">${desc}</div>
+                                </div>
+                                <span class="arrow">▶</span>
+                            </summary>
+                            <div class="category-content">
                     `;
                     
-                    if (item.params && Object.keys(item.params).length > 0) {
-                        html += `<div class="params-section"><div class="params-title">Parameters:</div>`;
+                    cat.items.forEach(item => {
+                        const badgeClass = item.status === 'ready' ? '' : 
+                                          item.status === 'update' ? 'update' : 'error';
+                        const pathId = item.path.replace(/\//g, '-');
                         
-                        Object.entries(item.params).forEach(([key, value]) => {
-                            html += `
-                                <div class="param-item">
-                                    <strong>${key}:</strong>
-                                    <input type="text" id="input-${item.path}-${key}" placeholder="${value}">
+                        html += `
+                            <div class="endpoint-card">
+                                <div class="endpoint-header">
+                                    <div class="endpoint-title">${item.name}</div>
+                                    <span class="badge ${badgeClass}">${item.status}</span>
                                 </div>
-                            `;
-                        });
+                                <p class="endpoint-desc">${item.desc}</p>
+                                <div class="endpoint-path">${BASE_URL}${item.path}</div>
+                        `;
                         
-                        html += `
-                            <button class="execute-btn" id="btn-${pathId}" onclick="executeRequest('${item.path}', ${JSON.stringify(Object.keys(item.params).reduce((acc, key) => {acc[key] = ''; return acc;}, {}))})">
-                                ▶️ Execute
-                            </button>
-                            <div class="result-section" id="result-${pathId}" style="display: none;"></div>
-                        `;
-                        html += `</div>`;
-                    } else {
-                        html += `
-                            <button class="execute-btn" id="btn-${pathId}" onclick="executeRequest('${item.path}', {})">
-                                ▶️ Execute
-                            </button>
-                            <div class="result-section" id="result-${pathId}" style="display: none;"></div>
-                        `;
-                    }
+                        // Parameters section
+                        if (item.params && Object.keys(item.params).length > 0) {
+                            const paramKeys = Object.keys(item.params);
+                            html += `
+                                <div class="params-section">
+                                    <div class="params-title">Parameters:</div>
+                            `;
+                            Object.entries(item.params).forEach(([key, value]) => {
+                                html += `
+                                    <div class="param-item">
+                                        <strong>${key}:</strong>
+                                        <input type="text" id="input-${pathId}-${key}" placeholder="${value}">
+                                    </div>
+                                `;
+                            });
+                            html += `
+                                <button class="execute-btn" id="btn-${pathId}" onclick="executeRequest('${item.path}', ${JSON.stringify(paramKeys)})">
+                                    ▶️ Execute
+                                </button>
+                                <div class="result-section" id="result-${pathId}"></div>
+                            `;
+                            html += `</div>`;
+                        } else {
+                            html += `
+                                <button class="execute-btn" id="btn-${pathId}" onclick="executeRequest('${item.path}', [])">
+                                    ▶️ Execute
+                                </button>
+                                <div class="result-section" id="result-${pathId}"></div>
+                            `;
+                        }
+                        
+                        html += `</div>`; // Close endpoint-card
+                    });
                     
-                    html += `</div>`;
+                    html += `
+                            </div>
+                        </details>
+                    `; // Close details
                 });
                 
-                html += `</div></details>`;
-            });
-            
-            document.getElementById('endpoints').innerHTML = html;
-            
-            // Auto-close other details when opening one
-            const allDetails = document.querySelectorAll('details');
-            allDetails.forEach(detail => {
-                detail.addEventListener('toggle', function() {
-                    if (this.open) {
-                        allDetails.forEach(other => {
-                            if (other !== this) {
-                                other.open = false;
-                            }
-                        });
-                    }
+                document.getElementById('endpoints').innerHTML = html;
+
+                // Auto-close other details when opening one
+                const allDetails = document.querySelectorAll('details');
+                allDetails.forEach(detail => {
+                    detail.addEventListener('toggle', function() {
+                        if (this.open) {
+                            allDetails.forEach(other => {
+                                if (other !== this) {
+                                    other.open = false;
+                                }
+                            });
+                        }
+                    });
                 });
-            });
-            
-            // Show result section when execute button is clicked
-            document.querySelectorAll('.execute-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const pathId = this.id.replace('btn-', '');
-                    const resultDiv = document.getElementById(`result-${pathId}`);
-                    resultDiv.style.display = 'block';
-                });
-            });
+                
+            } catch (e) {
+                document.getElementById('endpoints').innerHTML = `
+                    <div style="text-align: center; padding: 30px; color: #ef4444;">
+                        <h3>⚠️ Failed to load endpoints</h3>
+                        <p style="margin-top: 10px; color: #888;">${e.message}</p>
+                    </div>
+                `;
+            }
         }
 
+        // Initialize
         loadEndpoints();
     </script>
 </body>
