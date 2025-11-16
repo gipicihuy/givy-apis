@@ -5,18 +5,41 @@ const cors = require('cors');
 const path = require('path');
 const axios = require('axios');
 
-require("./function.js");
+// Memuat fungsi global (runtime, fetchJson, dll.) dari function.js
+require("./function.js"); 
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+// =========================================================================================================
+// KONFIGURASI WEBHOOK DISCORD
 // Ganti webhook Discord lu disini:
 const WEBHOOK_URL = 'https://discord.com/api/webhooks/1428758998420684806/FaQk3iAXjQf5lgn7m_yB-QVqskpj_y_F9FWGTYCJNQU1DZPP8gIId1qOO3S0f4xJD1mQ';
 
 // Buffer untuk batch log
 let logBuffer = [];
+let requestCount = 0;
+let cooldownActive = false;
+let totalRoutes = 0; // Inisialisasi penghitung rute
 
-// Kirim batch tiap detik
+// =========================================================================================================
+// LOGGING & COOLDOWN MECHANISM
+
+// Function log queue
+function queueLog({ method, status, url, duration, error = null }) {
+    let colorCode;
+    if (status >= 500) colorCode = '[2;31m';
+    else if (status >= 400) colorCode = '[2;31m';
+    else if (status === 304) colorCode = '[2;34m';
+    else if (status >= 200 && status < 300) colorCode = '[2;32m';
+    else colorCode = '[2;33m';
+
+    const logMessage = `\u001b[38;5;250m[${new Date().toISOString().slice(11, -1)}] \u001b[0m\u001b${colorCode}${method} \u001b[0m\u001b[2;37m${url} \u001b[0m\u001b${colorCode}${status}\u001b[0m \u001b[38;5;250m| ${duration}ms\u001b[0m`;
+
+    logBuffer.push(logMessage);
+}
+
+// Kirim batch log tiap 2 detik
 setInterval(() => {
     if (logBuffer.length === 0) return;
 
@@ -32,136 +55,102 @@ ${combinedLogs}
     axios.post(WEBHOOK_URL, { content: payload }).catch(console.error);
 }, 2000);
 
-// Function log queue
-function queueLog({ method, status, url, duration, error = null }) {
-    let colorCode;
-    if (status >= 500) colorCode = '[2;31m';
-    else if (status >= 400) colorCode = '[2;31m';
-    else if (status === 304) colorCode = '[2;34m';
-    else colorCode = '[2;32m';
-
-    let line = `${colorCode}[${method}] ${status} ${url} - ${duration}ms[0m`;
-
-    if (error) {
-        line += `\n[2;31m[ERROR] ${error.message || error}[0m`;
-    }
-
-    logBuffer.push(line);
-}
-
-// Cooldown vars
-let requestCount = 0;
-let isCooldown = false;
-
+// Reset request count setiap detik
 setInterval(() => {
     requestCount = 0;
 }, 1000);
 
+// =========================================================================================================
+// MIDDLEWARE & GLOBAL SETTINGS
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Middleware untuk mencatat waktu mulai request
 app.use((req, res, next) => {
-    if (isCooldown) {
-        queueLog({
-            method: req.method,
-            status: 503,
-            url: req.originalUrl,
-            duration: 0,
-            error: 'Server is in cooldown'
-        });
-        return res.status(503).json({ error: 'Server is in cooldown, try again later.' });
-    }
-
-    requestCount++;
-
-    if (requestCount > 10) {
-        isCooldown = true;
-        const cooldownTime = (Math.random() * (120000 - 60000) + 60000).toFixed(3);
-
-        console.log(`⚠️ SPAM DETECT: Cooldown ${cooldownTime / 1000} detik`);
-const userTag = '<@1162931657276395600>';
-        const spamMsg =
-`${userTag}
-\`\`\`ansi
-⚠️ [ SPAM DETECT ] ⚠️
-
-[ ! ] Too many requests, server cooldown for ${cooldownTime / 1000} sec!
-
-[2;31m[${req.method}] 503 ${req.originalUrl} - 0ms[0m
-\`\`\`
-`;
-
-        axios.post(WEBHOOK_URL, { content: spamMsg }).catch(console.error);
-
-        setTimeout(() => {
-            isCooldown = false;
-            console.log('✅ Cooldown selesai, server aktif lagi');
-        }, cooldownTime);
-
-        return res.status(503).json({ error: 'Too many requests, server cooldown!' });
-    }
-
+    req.start = Date.now();
     next();
 });
 
-app.enable("trust proxy");
-app.set("json spaces", 2);
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+app.use('/src', express.static(path.join(__dirname, 'src'))); 
+app.use('/assets', express.static(path.join(__dirname, 'assets'))); 
 
-// Load Settings
-const settingsPath = path.join(__dirname, './settings.json');
-const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf-8'));
-global.apikey = settings.apiSettings.apikey;
+// Memuat settings.json dari ROOT untuk konfigurasi global
+try {
+    const settings = JSON.parse(fs.readFileSync('./settings.json', 'utf8'));
+    global.apikey = settings.apiSettings.apikey;
+    global.creator = settings.apiSettings.creator;
+    global.totalreq = 0; // Inisialisasi global request count
+    console.log(chalk.bgGreen.hex('#333').bold(' API Key Loaded! '));
+} catch (e) {
+    console.error(chalk.bgRed.hex('#fff').bold(' FAILED TO LOAD settings.json (root)! '), e.message);
+}
 
-// Custom Log + Wrap res.json + Batch log semua response
+
+// Cooldown Middleware (Rate Limiter)
 app.use((req, res, next) => {
-    console.log(chalk.bgHex('#FFFF99').hex('#333').bold(` Request Route: ${req.path} `));
-    global.totalreq += 1;
+    if (cooldownActive) {
+        return res.status(503).json({
+            status: false,
+            message: "API sedang dalam masa cooldown (overload request). Silakan coba lagi sebentar lagi.",
+            cooldownUntil: new Date(cooldownActive).toISOString()
+        });
+    }
 
-    const start = Date.now();
-    const originalJson = res.json;
+    requestCount++;
+    global.totalreq++;
 
-    res.json = function (data) {
-        if (data && typeof data === 'object') {
-            const responseData = {
-                status: data.status,
-                creator: settings.apiSettings.creator || "Eberardos",
-                ...data
-            };
-            return originalJson.call(this, responseData);
-        }
-        return originalJson.call(this, data);
-    };
+    if (requestCount > 10 && !cooldownActive) {
+        // ACTIVATE COOLDOWN
+        const cooldownTime = Math.floor(Math.random() * (120000 - 60000 + 1) + 60000); // 60s to 120s
+        cooldownActive = Date.now() + cooldownTime;
 
+        // NOTIFIKASI WEBHOOK
+        const cooldownPayload = `\`\`\`ansi\n\u001b[2;31m[CRITICAL] \u001b[0mAPI masuk mode COOLDOWN! Request per detik: ${requestCount}. Cooldown selama ${Math.floor(cooldownTime / 1000)} detik.\n\`\`\``;
+        axios.post(WEBHOOK_URL, { content: cooldownPayload }).catch(console.error);
+
+        console.log(chalk.bgRed.hex('#fff').bold(` API COOLDOWN: ${Math.floor(cooldownTime / 1000)}s`));
+        
+        // Atur timer untuk menonaktifkan cooldown
+        setTimeout(() => {
+            cooldownActive = false;
+            const resumePayload = `\`\`\`ansi\n\u001b[2;32m[INFO] \u001b[0mAPI keluar dari mode COOLDOWN. Server kembali normal.\n\`\`\``;
+            axios.post(WEBHOOK_URL, { content: resumePayload }).catch(console.error);
+            console.log(chalk.bgGreen.hex('#333').bold(' API COOLDOWN ENDED. '));
+        }, cooldownTime);
+
+        // Langsung hentikan request saat ini
+        return res.status(503).json({
+            status: false,
+            message: "API masuk mode cooldown (overload request). Silakan coba lagi sebentar lagi.",
+            cooldownUntil: new Date(cooldownActive).toISOString()
+        });
+    }
+    
+    next();
+});
+
+// Middleware untuk mencatat waktu respons
+app.use((req, res, next) => {
     res.on('finish', () => {
-        const duration = Date.now() - start;
-
+        const duration = Date.now() - req.start;
         queueLog({
             method: req.method,
             status: res.statusCode,
             url: req.originalUrl,
-            duration
+            duration: duration
         });
     });
-
     next();
 });
 
-// Serve settings.json untuk web
-app.get('/assets/settings.json', (req, res) => {
-    res.sendFile(path.join(__dirname, 'settings.json'));
-});
+// =========================================================================================================
+// MUAT RUTE SECARA DINAMIS DARI FOLDER src/api/
 
-// Static & Src Protect
-app.use('/', express.static(path.join(__dirname, 'api-page')));
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
+const apiFolder = path.join(__dirname, 'src', 'api');
+console.log(chalk.bgCyan.hex('#333').bold(' Loading Routes... '));
 
-app.use('/src', (req, res) => {
-    res.status(403).json({ error: 'Forbidden access' });
-});
-
-// Load API routes dinamis dari src/api/
-let totalRoutes = 0;
-const apiFolder = path.join(__dirname, './src/api');
 fs.readdirSync(apiFolder).forEach((subfolder) => {
     const subfolderPath = path.join(apiFolder, subfolder);
     if (fs.statSync(subfolderPath).isDirectory()) {
@@ -179,40 +168,53 @@ fs.readdirSync(apiFolder).forEach((subfolder) => {
 console.log(chalk.bgHex('#90EE90').hex('#333').bold(' Load Complete! ✓ '));
 console.log(chalk.bgHex('#90EE90').hex('#333').bold(` Total Routes Loaded: ${totalRoutes} `));
 
-// Index route
+// =========================================================================================================
+// RUTE SPESIAL & DOKUMENTASI
+
+// RUTE BARU: Menyajikan konfigurasi dokumentasi dari file root settings.json
+// index.html akan mengambil data dari sini.
+app.get('/api/config', (req, res) => {
+    const configPath = path.join(__dirname, 'settings.json'); // Path ke settings.json di ROOT
+    
+    if (!fs.existsSync(configPath)) {
+        return res.status(500).json({ status: false, message: 'File settings.json (root) tidak ditemukan.' });
+    }
+    
+    try {
+        const configData = fs.readFileSync(configPath, 'utf8');
+        res.setHeader('Content-Type', 'application/json');
+        res.send(configData); 
+    } catch (error) {
+        console.error("Error reading root settings.json for documentation:", error);
+        res.status(500).json({ status: false, message: 'Gagal membaca konfigurasi dokumentasi.' });
+    }
+});
+
+// Index route (Halaman Dokumentasi)
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'api-page', 'index.html'));
 });
 
-// Error handler 404 & 500 + batch log
-app.use((req, res, next) => {
-    queueLog({
-        method: req.method,
-        status: 404,
-        url: req.originalUrl,
-        duration: 0,
-        error: 'Not Found'
-    });
+// =========================================================================================================
+// ERROR HANDLERS
 
-    res.status(404).sendFile(process.cwd() + "/api-page/404.html");
+// Error handler 404
+app.use((req, res, next) => {
+    // Log 404 (sudah dicatat oleh finish handler di atas)
+    res.status(404).sendFile(path.join(__dirname, "api-page", "404.html"));
 });
 
+// Error handler 500 (Catch-all)
 app.use((err, req, res, next) => {
     console.error(err.stack);
-
-    queueLog({
-        method: req.method,
-        status: 500,
-        url: req.originalUrl,
-        duration: 0,
-        error: err
-    });
-
-    res.status(500).sendFile(process.cwd() + "/api-page/500.html");
+    
+    // Kirim respons 500
+    res.status(500).sendFile(path.join(__dirname, "api-page", "500.html"));
 });
+
+// =========================================================================================================
+// START SERVER
 
 app.listen(PORT, () => {
-    console.log(chalk.bgHex('#90EE90').hex('#333').bold(` Server is running on port ${PORT} `));
+    console.log(chalk.bgBlue.hex('#fff').bold(` Server is running on port ${PORT} `));
 });
-
-module.exports = app;
