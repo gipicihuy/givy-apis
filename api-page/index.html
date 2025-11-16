@@ -10,14 +10,14 @@
  * GLOBAL STYLES - DARK GREEN THEME
  */
 :root {
-    --bg-color: #282c34; /* Dark background, similar to VS Code or terminals */
-    --text-color: #abb2bf; /* Light gray text */
-    --accent-color: #68d391; /* Neon Green (Success/Primary accent) */
-    --secondary-color: #e5c07b; /* Yellow/Orange for warnings/updates */
-    --error-color: #e06c75; /* Red for errors */
-    --card-bg: #21252b; /* Slightly lighter dark background for cards */
-    --border-radius: 0px; /* Force sharp corners */
-    --box-shadow-color: rgba(104, 211, 145, 0.2); /* Neon shadow */
+    --bg-color: #282c34;
+    --text-color: #abb2bf;
+    --accent-color: #68d391;
+    --secondary-color: #e5c07b;
+    --error-color: #e06c75;
+    --card-bg: #21252b;
+    --border-radius: 0px;
+    --box-shadow-color: rgba(104, 211, 145, 0.2);
 }
 
 * {
@@ -202,7 +202,7 @@ details[open] summary .arrow {
 }
 
 .badge {
-    background: #10b981; /* Default for ready */
+    background: #10b981;
     color: var(--bg-color);
     padding: 4px 10px;
     border-radius: var(--border-radius);
@@ -465,60 +465,6 @@ footer {
     <script>
         const BASE_URL = window.location.origin;
 
-        // Function untuk execute request - HARUS DI WINDOW SCOPE
-        window.executeRequest = function(path, paramKeys) {
-            const pathId = path.replace(/\//g, '-');
-            const resultDiv = document.getElementById(`result-${pathId}`);
-            const executeBtn = document.getElementById(`btn-${pathId}`);
-            
-            executeBtn.disabled = true;
-            executeBtn.textContent = '⏳ Loading...';
-            
-            let url = BASE_URL + path;
-            const queryParams = new URLSearchParams();
-            
-            // Ambil value dari input fields
-            paramKeys.forEach(key => {
-                const inputElement = document.getElementById(`input-${pathId}-${key}`);
-                if (inputElement) {
-                    const inputValue = inputElement.value.trim();
-                    if (inputValue) {
-                        queryParams.append(key, inputValue);
-                    }
-                }
-            });
-            
-            if (queryParams.toString()) {
-                url += '?' + queryParams.toString();
-            }
-            
-            // Show result section
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = `
-                <div class="result-header">📡 Request URL:</div>
-                <div class="request-url">${url}</div>
-                <div class="result-header">📦 Response:</div>
-                <div class="result-content">Loading...</div>
-            `;
-            
-            // Fetch data
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    const resultContent = resultDiv.querySelector('.result-content');
-                    resultContent.textContent = JSON.stringify(data, null, 2);
-                    executeBtn.disabled = false;
-                    executeBtn.textContent = '▶️ Execute';
-                })
-                .catch(error => {
-                    const resultContent = resultDiv.querySelector('.result-content');
-                    resultContent.textContent = `Error: ${error.message}`;
-                    resultContent.style.color = 'var(--error-color)';
-                    executeBtn.disabled = false;
-                    executeBtn.textContent = '▶️ Execute';
-                });
-        };
-
         // Load Endpoints dengan Details/Summary
         async function loadEndpoints() {
             try {
@@ -559,10 +505,10 @@ footer {
                             <div class="category-content">
                     `;
                     
-                    cat.items.forEach(item => {
+                    cat.items.forEach((item, itemIndex) => {
                         const badgeClass = item.status === 'ready' ? '' : 
                                           item.status === 'update' ? 'update' : 'error';
-                        const pathId = item.path.replace(/\//g, '-');
+                        const uniqueId = `${catIndex}-${itemIndex}`;
                         
                         html += `
                             <div class="endpoint-card">
@@ -576,7 +522,6 @@ footer {
                         
                         // Parameters section
                         if (item.params && Object.keys(item.params).length > 0) {
-                            const paramKeys = Object.keys(item.params);
                             html += `
                                 <div class="params-section">
                                     <div class="params-title">Parameters:</div>
@@ -585,23 +530,23 @@ footer {
                                 html += `
                                     <div class="param-item">
                                         <strong>${key}:</strong>
-                                        <input type="text" id="input-${pathId}-${key}" placeholder="${value}">
+                                        <input type="text" id="input-${uniqueId}-${key}" placeholder="${value}">
                                     </div>
                                 `;
                             });
                             html += `
-                                <button class="execute-btn" id="btn-${pathId}" onclick="executeRequest('${item.path}', ${JSON.stringify(paramKeys)})">
+                                <button class="execute-btn" data-path="${item.path}" data-id="${uniqueId}" data-params='${JSON.stringify(Object.keys(item.params))}'>
                                     ▶️ Execute
                                 </button>
-                                <div class="result-section" id="result-${pathId}"></div>
+                                <div class="result-section" id="result-${uniqueId}"></div>
                             `;
                             html += `</div>`;
                         } else {
                             html += `
-                                <button class="execute-btn" id="btn-${pathId}" onclick="executeRequest('${item.path}', [])">
+                                <button class="execute-btn" data-path="${item.path}" data-id="${uniqueId}" data-params='[]'>
                                     ▶️ Execute
                                 </button>
-                                <div class="result-section" id="result-${pathId}"></div>
+                                <div class="result-section" id="result-${uniqueId}"></div>
                             `;
                         }
                         
@@ -629,6 +574,17 @@ footer {
                         }
                     });
                 });
+
+                // Add event listener untuk semua execute buttons
+                document.querySelectorAll('.execute-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const path = this.getAttribute('data-path');
+                        const uniqueId = this.getAttribute('data-id');
+                        const paramKeys = JSON.parse(this.getAttribute('data-params'));
+                        
+                        executeRequest(path, uniqueId, paramKeys, this);
+                    });
+                });
                 
             } catch (e) {
                 document.getElementById('endpoints').innerHTML = `
@@ -638,6 +594,58 @@ footer {
                     </div>
                 `;
             }
+        }
+
+        // Function untuk execute request
+        function executeRequest(path, uniqueId, paramKeys, btnElement) {
+            const resultDiv = document.getElementById(`result-${uniqueId}`);
+            
+            btnElement.disabled = true;
+            btnElement.textContent = '⏳ Loading...';
+            
+            let url = BASE_URL + path;
+            const queryParams = new URLSearchParams();
+            
+            // Ambil value dari input fields
+            paramKeys.forEach(key => {
+                const inputElement = document.getElementById(`input-${uniqueId}-${key}`);
+                if (inputElement) {
+                    const inputValue = inputElement.value.trim();
+                    if (inputValue) {
+                        queryParams.append(key, inputValue);
+                    }
+                }
+            });
+            
+            if (queryParams.toString()) {
+                url += '?' + queryParams.toString();
+            }
+            
+            // Show result section
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <div class="result-header">📡 Request URL:</div>
+                <div class="request-url">${url}</div>
+                <div class="result-header">📦 Response:</div>
+                <div class="result-content">Loading...</div>
+            `;
+            
+            // Fetch data
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const resultContent = resultDiv.querySelector('.result-content');
+                    resultContent.textContent = JSON.stringify(data, null, 2);
+                    btnElement.disabled = false;
+                    btnElement.textContent = '▶️ Execute';
+                })
+                .catch(error => {
+                    const resultContent = resultDiv.querySelector('.result-content');
+                    resultContent.textContent = `Error: ${error.message}`;
+                    resultContent.style.color = 'var(--error-color)';
+                    btnElement.disabled = false;
+                    btnElement.textContent = '▶️ Execute';
+                });
         }
 
         // Initialize
