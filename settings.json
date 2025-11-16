@@ -30,7 +30,7 @@
           "name": "Spotify",
           "desc": "Unduh musik dri spotify😋",
           "path": "/download/spotify?url=",
-          "status": "ready",
+          "status": "maintenance",
           "params": {
             "url": "link spotify"
           }
