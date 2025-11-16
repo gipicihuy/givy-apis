@@ -21,7 +21,7 @@
           "name": "Tiktok",
           "desc": "Unduh video dari tiktok😋",
           "path": "/api/tiktok?url=",
-          "status": "ready"
+          "status": "ready",
           "params": {
             "url": "link vt"
           }
