@@ -34,7 +34,7 @@
       "description": "Social media & game profile lookup",
       "items": [
         {
-          "name": "Instagram Stalker",
+          "name": "Instagram",
           "desc": "Get Instagram profile info (username, followers, bio, posts, etc)",
           "path": "/stalk/ig?username=",
           "status": "ready",
@@ -43,7 +43,7 @@
           }
         },
         {
-          "name": "Free Fire Stalker",
+          "name": "Free Fire",
           "desc": "Get Free Fire player info (nickname, server, last scan time)",
           "path": "/stalk/ff?playerid=",
           "status": "ready",
@@ -52,7 +52,7 @@
           }
         },
         {
-          "name": "Roblox Stalker",
+          "name": "Roblox",
           "desc": "Get Roblox player detailed info (username, status, friends, badges, groups, presence)",
           "path": "/stalk/roblox?username=",
           "status": "ready",
@@ -61,8 +61,8 @@
           }
         },
         {
-          "name": "NGL Checker",
-          "desc": "Check NGL username validity with profile picture",
+          "name": "NGL",
+          "desc": "Get NGL username validity with profile picture",
           "path": "/stalk/ngl?username=",
           "status": "ready",
           "params": {
