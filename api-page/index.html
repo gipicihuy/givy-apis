@@ -13,8 +13,8 @@
 :root {
     --bg-color: #282c34;
     --text-color: #abb2bf;
-    --accent-color: #68d391;
-    --secondary-color: #e5c07b;
+    --accent-color: #68d391; /* Hijau - Digunakan untuk Endpoint Header */
+    --secondary-color: #e5c07b; /* Kuning/Emas - Digunakan untuk Main Header */
     --error-color: #e06c75;
     --card-bg: #21252b;
     --border-radius: 0px;
@@ -51,11 +51,12 @@ header {
     border: 1px solid var(--accent-color);
 }
 
+/* PERUBAHAN DI SINI: Mengubah warna h1 menjadi --secondary-color (Kuning/Emas) */
 h1 {
     font-size: 2.5em;
-    color: var(--accent-color);
+    color: var(--secondary-color); 
     margin-bottom: 8px;
-    text-shadow: 0 0 5px var(--accent-color);
+    text-shadow: 0 0 5px var(--secondary-color); 
 }
 
 .tagline {
@@ -102,9 +103,10 @@ h1 {
     border: 1px solid var(--accent-color);
 }
 
+/* PERUBAHAN DI SINI: Tetap menggunakan --accent-color (Hijau) untuk H2 */
 .endpoints-header {
     font-size: 1.6em;
-    color: var(--accent-color);
+    color: var(--accent-color); 
     margin-bottom: 20px;
     font-weight: 700;
 }
@@ -307,6 +309,11 @@ details[open] summary .arrow {
     margin-top: 12px;
     transition: all 0.3s;
     width: 100%;
+    /* Pastikan ikon sejajar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .execute-btn:hover {
@@ -537,16 +544,8 @@ footer {
                 // Build endpoints HTML dengan <details> & <summary>
                 let html = '';
                 data.categories.forEach((cat, catIndex) => {
-                    // Ganti icon emoji dengan Font Awesome
-                    let iconClass = 'fa-solid fa-folder-open';
-                    if (cat.name.toLowerCase().includes('stalker')) {
-                         iconClass = 'fa-solid fa-magnifying-glass';
-                    } else if (cat.name.toLowerCase().includes('system')) {
-                         iconClass = 'fa-solid fa-gears';
-                    } else if (cat.name.toLowerCase().includes('download')) {
-                         iconClass = 'fa-solid fa-download';
-                    }
-
+                    // MENGAMBIL CLASS FONT AWESOME LANGSUNG DARI settings.json
+                    const iconClass = cat.icon || 'fa-solid fa-folder-open';
                     const desc = cat.description || '';
                     
                     html += `
