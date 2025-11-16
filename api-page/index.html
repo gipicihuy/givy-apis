@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GivyAPIs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        /* HEADER */
+        header {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .tagline {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        
+        .contact-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .contact-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+        
+        .contact-links a:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .stat-card h3 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+        
+        .stat-card p {
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        /* ENDPOINTS CONTAINER */
+        .endpoints-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        /* CATEGORY */
+        .category {
+            margin-bottom: 40px;
+        }
+        
+        .category:last-child {
+            margin-bottom: 0;
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .category-icon {
+            font-size: 2.5em;
+        }
+        
+        .category-info h2 {
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .category-desc {
+            color: #888;
+            font-size: 0.95em;
+        }
+        
+        /* ENDPOINT CARD */
+        .endpoint-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .endpoint-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        }
+        
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .endpoint-title {
+            font-size: 1.4em;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .badge {
+            background: #10b981;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .badge.update {
+            background: #f59e0b;
+        }
+        
+        .badge.error {
+            background: #ef4444;
+        }
+        
+        .endpoint-desc {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .endpoint-path {
+            background: #2d3748;
+            color: #68d391;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        
+        .params-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .params-title {
+            font-size: 0.85em;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .param-item {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+        
+        .param-item strong {
+            color: #667eea;
+        }
+        
+        /* FOOTER */
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 0.95em;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        /* LOADING */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            gap: 20px;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: white;
+            font-size: 1.1em;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .endpoints-container {
+                padding: 25px 20px;
+            }
+            
+            .category-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .endpoint-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <h1>🚀 GivyAPIs</h1>
+            <p class="tagline" id="tagline">Loading...</p>
+            <div class="contact-links" id="contactLinks"></div>
+        </header>
+        
+        <!-- STATS -->
+        <div class="stats" id="stats">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p class="loading-text">Loading stats...</p>
+            </div>
+        </div>
+        
+        <!-- ENDPOINTS -->
+        <div class="endpoints-container" id="endpoints">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p class="loading-text">Loading endpoints...</p>
+            </div>
+        </div>
+        
+        <!-- FOOTER -->
+        <footer id="footer">
+            <p>© 2025 GivyAPIs | Made with ❤️ by <strong>Givy</strong></p>
+        </footer>
+    </div>
+
+    <script>
+        const BASE_URL = window.location.origin;
+
+        // Load Stats
+        async function loadStats() {
+            try {
+                const res = await fetch(`${BASE_URL}/api/status`);
+                const data = await res.json();
+                
+                document.getElementById('stats').innerHTML = `
+                    <div class="stat-card">
+                        <h3>${data.result.totalfitur}</h3>
+                        <p>Total Endpoints</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>${data.result.totalrequest}</h3>
+                        <p>Total Requests</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>${data.result.runtime}</h3>
+                        <p>Server Uptime</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>${data.result.status}</h3>
+                        <p>Status</p>
+                    </div>
+                `;
+            } catch (e) {
+                document.getElementById('stats').innerHTML = `
+                    <div class="stat-card">
+                        <h3>⚠️</h3>
+                        <p>Stats Unavailable</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Load Endpoints (AUTO-EXPAND!)
+        async function loadEndpoints() {
+            try {
+                const res = await fetch(`${BASE_URL}/assets/settings.json`);
+                const data = await res.json();
+                
+                // Update tagline
+                document.getElementById('tagline').textContent = data.tagline || data.description;
+                
+                // Update contact links
+                if (data.contact) {
+                    let contactHTML = '';
+                    if (data.contact.telegram) {
+                        contactHTML += `<a href="${data.contact.telegram}" target="_blank">📱 Telegram</a>`;
+                    }
+                    if (data.contact.github) {
+                        contactHTML += `<a href="${data.contact.github}" target="_blank">💻 GitHub</a>`;
+                    }
+                    document.getElementById('contactLinks').innerHTML = contactHTML;
+                }
+                
+                // Build endpoints HTML
+                let html = '';
+                data.categories.forEach(cat => {
+                    const icon = cat.icon || '📦';
+                    const desc = cat.description || '';
+                    
+                    html += `
+                        <div class="category">
+                            <div class="category-header">
+                                <div class="category-icon">${icon}</div>
+                                <div class="category-info">
+                                    <h2>${cat.name}</h2>
+                                    <p class="category-desc">${desc}</p>
+                                </div>
+                            </div>
+                    `;
+                    
+                    cat.items.forEach(item => {
+                        const badgeClass = item.status === 'ready' ? '' : 
+                                          item.status === 'update' ? 'update' : 'error';
+                        
+                        html += `
+                            <div class="endpoint-card">
+                                <div class="endpoint-header">
+                                    <div class="endpoint-title">${item.name}</div>
+                                    <span class="badge ${badgeClass}">${item.status}</span>
+                                </div>
+                                <p class="endpoint-desc">${item.desc}</p>
+                                <div class="endpoint-path">${BASE_URL}${item.path}</div>
+                        `;
+                        
+                        // Parameters section
+                        if (item.params && Object.keys(item.params).length > 0) {
+                            html += `
+                                <div class="params-section">
+                                    <div class="params-title">Parameters:</div>
+                            `;
+                            Object.entries(item.params).forEach(([key, value]) => {
+                                html += `
+                                    <div class="param-item">
+                                        <strong>${key}:</strong> ${value}
+                                    </div>
+                                `;
+                            });
+                            html += `</div>`;
+                        }
+                        
+                        html += `</div>`; // Close endpoint-card
+                    });
+                    
+                    html += `</div>`; // Close category
+                });
+                
+                document.getElementById('endpoints').innerHTML = html;
+            } catch (e) {
+                document.getElementById('endpoints').innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #ef4444;">
+                        <h3>⚠️ Failed to load endpoints</h3>
+                        <p style="margin-top: 10px; color: #888;">${e.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize
+        loadStats();
+        loadEndpoints();
+        
+        // Auto refresh stats every 30 seconds
+        setInterval(loadStats, 30000);
+    </script>
+</body>
+</html>
