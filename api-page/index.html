@@ -253,11 +253,15 @@ footer {
 
         // Function to load endpoints dynamically
         function loadEndpoints() {
-            // =========================================================================
-            // !!! PENTING: UBAH FETCH INI DARI /assets/settings.json menjadi /api/config !!!
-            // =========================================================================
+            // *** INI ADALAH BARIS KRUSIAL YANG DIUBAH ***
+            // Mengambil konfigurasi dari server (root settings.json)
             fetch('/api/config') 
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Failed to load config: ${response.status} ${response.statusText}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     // Update Header Info
                     document.title = data.name + ' Documentation';
@@ -404,6 +408,7 @@ footer {
                     // Check if response is 404/500 and handle error reading
                     if (!response.ok) {
                         return response.text().then(text => { 
+                            // Tampilkan 50 karakter pertama dari error text
                             throw new Error(`HTTP Error ${response.status}: ${text.substring(0, 50)}...`);
                         });
                     }
