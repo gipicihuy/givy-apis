@@ -1,0 +1,72 @@
+{
+  "name": "GivyAPIs",
+  "version": "v1.0",
+  "description": "Simple, Fast, & Scalable REST API",
+  "tagline": "Start with Stalker, Expand Anytime!",
+  "contact": {
+    "telegram": "https://t.me/givyo",
+    "github": "https://github.com/yourusername"
+  },
+  "apiSettings": {
+    "creator": "Givy",
+    "apikey": ["givy-key-2025"]
+  },
+  "categories": [
+    {
+      "name": "Stalker",
+      "icon": "🔍",
+      "description": "Social media & game profile lookup",
+      "items": [
+        {
+          "name": "Instagram Stalker",
+          "desc": "Get Instagram profile info (username, followers, bio, posts, etc)",
+          "path": "/stalk/ig?username=",
+          "status": "ready",
+          "params": {
+            "username": "Instagram username (without @)"
+          }
+        },
+        {
+          "name": "Free Fire Stalker",
+          "desc": "Get Free Fire player info (nickname, server, last scan time)",
+          "path": "/stalk/ff?playerid=",
+          "status": "ready",
+          "params": {
+            "playerid": "Free Fire Player ID (example: 1234567890)"
+          }
+        },
+        {
+          "name": "Roblox Stalker",
+          "desc": "Get Roblox player detailed info (username, status, friends, badges, groups, presence)",
+          "path": "/stalk/roblox?username=",
+          "status": "ready",
+          "params": {
+            "username": "Roblox username (example: BuilderMan)"
+          }
+        },
+        {
+          "name": "NGL Checker",
+          "desc": "Check NGL username validity with profile picture",
+          "path": "/stalk/ngl?username=",
+          "status": "ready",
+          "params": {
+            "username": "NGL username to verify"
+          }
+        }
+      ]
+    },
+    {
+      "name": "System",
+      "icon": "⚙️",
+      "description": "API system information & monitoring",
+      "items": [
+        {
+          "name": "API Status",
+          "desc": "Check API health, total requests, total features, and uptime",
+          "path": "/api/status",
+          "status": "ready"
+        }
+      ]
+    }
+  ]
+}
