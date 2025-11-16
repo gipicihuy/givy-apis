@@ -468,7 +468,7 @@ footer {
         // Load Endpoints dengan Details/Summary
         async function loadEndpoints() {
             try {
-                const res = await fetch(`${BASE_URL}/assets/settings.json`);
+                const res = await fetch(`${BASE_URL}/api/config`);
                 const data = await res.json();
                 
                 // Update tagline
