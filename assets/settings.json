@@ -13,22 +13,6 @@
   },
   "categories": [
     {
-      "name": "Download",
-      "icon": "⬇️",
-      "description": "API for downloading from various platforms",
-      "items": [
-        {
-          "name": "Tiktok",
-          "desc": "Download video dari url tiktok",
-          "path": "/api/tiktok?url",
-          "status": "ready"
-          "params": {
-            "url": "Link video tiktok"
-        }
-        }
-      ]
-    },
-    {
       "name": "Stalker",
       "icon": "🔍",
       "description": "Social media & game profile lookup",
