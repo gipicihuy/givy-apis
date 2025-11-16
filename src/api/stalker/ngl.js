@@ -139,7 +139,7 @@ module.exports = function (app) {
             
             res.json({
                 status: true,
-                creator: 'Eberardos',
+                creator: 'Givy ygy',
                 result: {
                     username: result.username,
                     status: result.status,
