@@ -648,13 +648,13 @@ footer {
                     }
                     
                     // === PERBAIKAN SCROLL: SCROLL MULUS KE ELEMEN YANG BARU DIBUKA ===
-                    // Diubah agar scroll terjadi setelah SEMUA animasi selesai (durasi + 50ms)
+                    // Delay yang lebih panjang (duration * 1.5) untuk memastikan kedua animasi (buka dan tutup sibling) SAMA-SAMA selesai dan DOM stabil.
                     setTimeout(() => {
                         detailsElement.scrollIntoView({
                             behavior: 'smooth',
-                            block: 'start' // Coba 'start' (atas) atau 'center' (tengah)
+                            block: 'start' 
                         });
-                    }, duration + 50); // Menunggu animasi selesai + sedikit waktu istirahat
+                    }, duration * 1.5); 
                     // ================================================================
                 }
                 
