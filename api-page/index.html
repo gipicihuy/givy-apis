@@ -35,6 +35,7 @@ html {
 }
 /* ========================================================== */
 
+
 body {
     font-family: 'Ubuntu Mono', monospace;
     background-color: var(--bg-color);
@@ -625,8 +626,6 @@ footer {
         // ===========================================
         // === FUNGSI SETUP LISTENER & AUTO-CLOSE ===
         // ===========================================
-        /* * Fungsi ini memasang event listener dan menangani logika auto-close sibling.
-         */
         function setupDetailsAnimation(detailsElement, contentSelector, duration = 400) {
             const summary = detailsElement.querySelector('summary');
 
@@ -649,13 +648,13 @@ footer {
                     }
                     
                     // === PERBAIKAN SCROLL: SCROLL MULUS KE ELEMEN YANG BARU DIBUKA ===
-                    // Beri sedikit delay agar scroll terjadi saat animasi pembukaan sudah berjalan
+                    // Diubah agar scroll terjadi setelah SEMUA animasi selesai (durasi + 50ms)
                     setTimeout(() => {
                         detailsElement.scrollIntoView({
                             behavior: 'smooth',
                             block: 'start' // Coba 'start' (atas) atau 'center' (tengah)
                         });
-                    }, duration * 0.7); // Mulai scroll setelah 70% durasi animasi
+                    }, duration + 50); // Menunggu animasi selesai + sedikit waktu istirahat
                     // ================================================================
                 }
                 
