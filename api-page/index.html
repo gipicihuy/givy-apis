@@ -178,6 +178,7 @@ details[open] summary .arrow {
     padding: 0 20px 0 20px; 
     border-top: 1px dashed rgba(104, 211, 145, 0.5);
     overflow: hidden;
+    /* Transisi height akan diatur secara inline oleh JS */
 }
 
 details[open] > .category-content {
@@ -250,6 +251,7 @@ details[open] > .category-content {
     background: var(--card-bg); 
     border-top: 1px dashed #444;
     overflow: hidden;
+    /* Transisi height akan diatur secara inline oleh JS */
 }
 
 .endpoint-group[open] > .endpoint-card {
@@ -537,91 +539,113 @@ footer {
         const BASE_URL = window.location.origin;
 
         // ===========================================
-        // === FUNGSI ANIMASI DETAILS (THE SMOOTHER) ===
+        // === FUNGSI INTI ANIMASI (Buka/Tutup) ===
         // ===========================================
-        function animateDetails(detailsElement, contentSelector, duration = 400) {
-            const summary = detailsElement.querySelector('summary');
+        /* * Fungsi ini menangani animasi height/padding yang mulus.
+         * isClosingOnly = true digunakan saat fungsi dipanggil oleh sibling yang akan ditutup.
+         */
+        function toggleDetailsAnimation(detailsElement, contentSelector, duration = 400, isClosingOnly = false) {
             const content = detailsElement.querySelector(contentSelector);
             
-            // Set transisi pada wrapper konten
-            content.style.transition = `height ${duration}ms ease-in-out, padding-top ${duration}ms ease-in-out, padding-bottom ${duration}ms ease-in-out`;
+            // Mencegah animasi ganda jika sudah berjalan
+            if (detailsElement.hasAttribute('data-animating')) {
+                return;
+            }
+
+            detailsElement.setAttribute('data-animating', '');
+
+            // === MENUTUP (CLOSING) ===
+            if (detailsElement.open || isClosingOnly) {
+                
+                // 1. Pastikan detailsElement.open=true untuk mengukur tinggi awal yang benar
+                if (!detailsElement.open) detailsElement.setAttribute('open', ''); 
+
+                // 2. Lock height saat ini untuk memulai transisi
+                content.style.height = content.offsetHeight + 'px';
+                
+                // 3. Mulai transisi setelah sedikit delay
+                setTimeout(() => {
+                    content.style.height = '0px'; 
+                    
+                    // Hapus padding vertikal saat menutup
+                    content.style.paddingTop = '0px';
+                    content.style.paddingBottom = '0px';
+
+                    // 4. Setelah transisi selesai
+                    setTimeout(() => {
+                        detailsElement.removeAttribute('open');
+                        content.style.height = ''; // Hapus height agar konten bisa menyesuaikan diri
+                        detailsElement.removeAttribute('data-animating');
+                    }, duration);
+                }, 10);
+                
+                // Hentikan eksekusi jika tujuan hanya menutup sibling
+                if (isClosingOnly) return;
+                
+            // === MEMBUKA (OPENING) ===
+            } else {
+                
+                // 1. Set 'open' agar konten diukur
+                detailsElement.setAttribute('open', '');
+                
+                // 2. Ukur tinggi target konten
+                const targetHeight = content.scrollHeight;
+
+                // 3. Set tinggi awal 0px
+                content.style.height = '0px';
+                
+                // 4. Mulai transisi ke tinggi target
+                setTimeout(() => {
+                    content.style.height = targetHeight + 'px';
+                    
+                    // Terapkan padding akhir sesuai elemen (Kategori atau Endpoint)
+                    if (contentSelector === '.category-content') {
+                        content.style.paddingTop = '8px';
+                        content.style.paddingBottom = '20px';
+                    } else if (contentSelector === '.endpoint-card') {
+                        content.style.paddingTop = '10px';
+                        content.style.paddingBottom = '16px';
+                    }
+                    
+                    // 5. Cleanup setelah transisi
+                    setTimeout(() => {
+                        content.style.height = ''; 
+                        detailsElement.removeAttribute('data-animating');
+                    }, duration);
+                }, 10);
+
+            }
+        }
+
+        // ===========================================
+        // === FUNGSI SETUP LISTENER & AUTO-CLOSE ===
+        // ===========================================
+        /* * Fungsi ini memasang event listener dan menangani logika auto-close sibling.
+         */
+        function setupDetailsAnimation(detailsElement, contentSelector, duration = 400) {
+            const summary = detailsElement.querySelector('summary');
 
             summary.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                // Mencegah animasi ganda
-                if (detailsElement.hasAttribute('data-animating')) {
-                    return;
-                }
-
-                detailsElement.setAttribute('data-animating', '');
-                
-                // === MENUTUP (CLOSING) ===
-                if (detailsElement.open) {
-                    
-                    // 1. Lock height saat ini untuk memulai transisi
-                    content.style.height = content.offsetHeight + 'px';
-                    
-                    // 2. Mulai transisi setelah sedikit delay
-                    setTimeout(() => {
-                        content.style.height = '0px'; 
-                        
-                        // Hapus padding vertikal saat menutup
-                        content.style.paddingTop = '0px';
-                        content.style.paddingBottom = '0px';
-
-                        // 3. Setelah transisi selesai
-                        setTimeout(() => {
-                            detailsElement.removeAttribute('open');
-                            content.style.height = ''; 
-                            detailsElement.removeAttribute('data-animating');
-                        }, duration);
-                    }, 10);
-                    
-                // === MEMBUKA (OPENING) ===
-                } else {
-                    
-                    // 1. Set 'open' agar konten diukur
-                    detailsElement.setAttribute('open', '');
-                    
-                    // 2. Ukur tinggi target konten
-                    const targetHeight = content.scrollHeight;
-
-                    // 3. Set tinggi awal 0px (sudah dilakukan di CSS, tapi kita pastikan)
-                    content.style.height = '0px';
-                    
-                    // 4. Mulai transisi ke tinggi target
-                    setTimeout(() => {
-                        content.style.height = targetHeight + 'px';
-                        
-                        // Terapkan padding akhir
-                        if (contentSelector === '.category-content') {
-                            content.style.paddingTop = '8px';
-                            content.style.paddingBottom = '20px';
-                        } else if (contentSelector === '.endpoint-card') {
-                            content.style.paddingTop = '10px';
-                            content.style.paddingBottom = '16px';
-                        }
-                        
-                        // 5. Cleanup setelah transisi
-                        setTimeout(() => {
-                            content.style.height = ''; 
-                            detailsElement.removeAttribute('data-animating');
-                        }, duration);
-                    }, 10);
-                    
-                    // Auto-close sibling details (agar tetap halus)
+                // Hanya jalankan auto-close jika elemen ini akan dibuka
+                if (!detailsElement.open) { 
                     const parentContainer = detailsElement.parentElement;
+                    
                     if (parentContainer.id === 'endpoints' || parentContainer.classList.contains('category-content')) {
                         const siblings = parentContainer.querySelectorAll(detailsElement.tagName);
+                        
                         siblings.forEach(sibling => {
                             if (sibling !== detailsElement && sibling.open) {
                                 // Panggil fungsi animasi untuk menutup sibling
-                                animateDetails(sibling, sibling.classList.contains('endpoint-group') ? '.endpoint-card' : '.category-content', duration);
+                                toggleDetailsAnimation(sibling, sibling.classList.contains('endpoint-group') ? '.endpoint-card' : '.category-content', duration, true);
                             }
                         });
                     }
                 }
+                
+                // Panggil fungsi animasi untuk elemen ini sendiri (buka/tutup)
+                toggleDetailsAnimation(detailsElement, contentSelector, duration);
             });
         }
         // ===========================================
@@ -770,12 +794,12 @@ footer {
                 
                 // 1. Kategori Utama (Main Categories)
                 document.querySelectorAll('#endpoints > details').forEach(detail => {
-                    animateDetails(detail, '.category-content');
+                    setupDetailsAnimation(detail, '.category-content');
                 });
 
                 // 2. Endpoint Group (Nested Details)
                 document.querySelectorAll('.endpoint-group').forEach(group => {
-                    animateDetails(group, '.endpoint-card');
+                    setupDetailsAnimation(group, '.endpoint-card');
                 });
                 // ===========================================
 
