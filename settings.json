@@ -25,6 +25,15 @@
           "params": {
             "url": "link vt"
           }
+        },
+        {
+          "name": "Spotify",
+          "desc": "Unduh musik dri spotify😋",
+          "path": "/download/spotify?url=",
+          "status": "ready",
+          "params": {
+            "url": "link spotify"
+          }
         }
       ]
     },
