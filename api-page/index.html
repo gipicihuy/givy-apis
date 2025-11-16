@@ -160,6 +160,7 @@ summary .icon {
 summary .arrow {
     margin-left: auto;
     font-size: 0.8em;
+    transition: transform 0.3s ease-in-out; /* Tambahkan transisi ke panah */
 }
 
 details[open] summary .arrow {
@@ -178,13 +179,9 @@ details[open] summary .arrow {
     padding: 0 20px 0 20px; 
     border-top: 1px dashed rgba(104, 211, 145, 0.5);
     overflow: hidden;
-    /* Transisi height akan diatur secara inline oleh JS */
+    /* Transisi height dan padding diatur di JS */
 }
 
-details[open] > .category-content {
-    /* Padding final saat terbuka, height dikontrol JS */
-    padding: 8px 20px 20px 20px; 
-}
 /* -------------------------------------- */
 
 
@@ -251,13 +248,9 @@ details[open] > .category-content {
     background: var(--card-bg); 
     border-top: 1px dashed #444;
     overflow: hidden;
-    /* Transisi height akan diatur secara inline oleh JS */
+    /* Transisi height dan padding diatur di JS */
 }
 
-.endpoint-group[open] > .endpoint-card {
-    /* Padding final saat terbuka, height dikontrol JS */
-    padding: 10px 16px 16px 16px; 
-}
 /* -------------------------------------- */
 
 
@@ -547,24 +540,29 @@ footer {
         function toggleDetailsAnimation(detailsElement, contentSelector, duration = 400, isClosingOnly = false) {
             const content = detailsElement.querySelector(contentSelector);
             
-            // Mencegah animasi ganda jika sudah berjalan
             if (detailsElement.hasAttribute('data-animating')) {
                 return;
             }
 
             detailsElement.setAttribute('data-animating', '');
 
+            // Set transisi pada wrapper konten
+            content.style.transition = `height ${duration}ms ease-in-out, padding-top ${duration}ms ease-in-out, padding-bottom ${duration}ms ease-in-out`;
+
+
             // === MENUTUP (CLOSING) ===
             if (detailsElement.open || isClosingOnly) {
                 
-                // 1. Pastikan detailsElement.open=true untuk mengukur tinggi awal yang benar
+                // Pastikan details open agar offsetHeight terukur dengan benar
                 if (!detailsElement.open) detailsElement.setAttribute('open', ''); 
 
-                // 2. Lock height saat ini untuk memulai transisi
-                content.style.height = content.offsetHeight + 'px';
+                // 1. Lock height saat ini untuk memulai transisi
+                const initialHeight = content.offsetHeight;
+                content.style.height = initialHeight + 'px';
                 
-                // 3. Mulai transisi setelah sedikit delay
-                setTimeout(() => {
+                // 2. Gunakan rAF untuk memastikan browser siap memulai transisi
+                requestAnimationFrame(() => {
+                    // 3. Mulai transisi ke 0
                     content.style.height = '0px'; 
                     
                     // Hapus padding vertikal saat menutup
@@ -574,31 +572,34 @@ footer {
                     // 4. Setelah transisi selesai
                     setTimeout(() => {
                         detailsElement.removeAttribute('open');
-                        content.style.height = ''; // Hapus height agar konten bisa menyesuaikan diri
+                        content.style.height = ''; 
                         detailsElement.removeAttribute('data-animating');
+                        content.style.transition = ''; // Hapus transition inline
                     }, duration);
-                }, 10);
+                });
                 
-                // Hentikan eksekusi jika tujuan hanya menutup sibling
                 if (isClosingOnly) return;
                 
             // === MEMBUKA (OPENING) ===
             } else {
                 
-                // 1. Set 'open' agar konten diukur
+                // 1. Set 'open' agar scrollHeight terukur (konten tersembunyi karena CSS height: 0)
                 detailsElement.setAttribute('open', '');
                 
                 // 2. Ukur tinggi target konten
                 const targetHeight = content.scrollHeight;
 
-                // 3. Set tinggi awal 0px
+                // 3. Pastikan height awal 0px dan padding 0
                 content.style.height = '0px';
+                content.style.paddingTop = '0px';
+                content.style.paddingBottom = '0px';
                 
-                // 4. Mulai transisi ke tinggi target
-                setTimeout(() => {
+                // 4. Gunakan rAF untuk memastikan browser siap memulai transisi
+                requestAnimationFrame(() => {
+                    // 5. Mulai transisi ke tinggi target
                     content.style.height = targetHeight + 'px';
                     
-                    // Terapkan padding akhir sesuai elemen (Kategori atau Endpoint)
+                    // Terapkan padding akhir
                     if (contentSelector === '.category-content') {
                         content.style.paddingTop = '8px';
                         content.style.paddingBottom = '20px';
@@ -607,12 +608,13 @@ footer {
                         content.style.paddingBottom = '16px';
                     }
                     
-                    // 5. Cleanup setelah transisi
+                    // 6. Cleanup setelah transisi
                     setTimeout(() => {
-                        content.style.height = ''; 
+                        content.style.height = ''; // Hapus height agar konten bisa menyesuaikan diri (misal jika ada perubahan DOM)
                         detailsElement.removeAttribute('data-animating');
+                        content.style.transition = ''; // Hapus transition inline
                     }, duration);
-                }, 10);
+                });
 
             }
         }
@@ -628,7 +630,7 @@ footer {
             summary.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                // Hanya jalankan auto-close jika elemen ini akan dibuka
+                // Logic Auto-Close Sibling (Hanya dilakukan jika elemen ini AKAN dibuka)
                 if (!detailsElement.open) { 
                     const parentContainer = detailsElement.parentElement;
                     
