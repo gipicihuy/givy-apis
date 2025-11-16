@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="https://cdn.yupra.my.id/yp/caid6j0m.jpg">
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GivyAPIs</title>
+    <title>GivyAPIs Documentation</title>
     <style>
        /*
  * GLOBAL STYLES - DARK GREEN THEME
@@ -29,6 +28,12 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+/* === PERBAIKAN SCROLL: Tambahkan smooth behavior ke HTML === */
+html {
+    scroll-behavior: smooth;
+}
+/* ========================================================== */
 
 body {
     font-family: 'Ubuntu Mono', monospace;
@@ -535,9 +540,6 @@ footer {
         // ===========================================
         // === FUNGSI INTI ANIMASI (Buka/Tutup) ===
         // ===========================================
-        /* * Fungsi ini menangani animasi height/padding yang mulus.
-         * isClosingOnly = true digunakan saat fungsi dipanggil oleh sibling yang akan ditutup.
-         */
         function toggleDetailsAnimation(detailsElement, contentSelector, duration = 400, isClosingOnly = false) {
             const content = detailsElement.querySelector(contentSelector);
             
@@ -645,6 +647,16 @@ footer {
                             }
                         });
                     }
+                    
+                    // === PERBAIKAN SCROLL: SCROLL MULUS KE ELEMEN YANG BARU DIBUKA ===
+                    // Beri sedikit delay agar scroll terjadi saat animasi pembukaan sudah berjalan
+                    setTimeout(() => {
+                        detailsElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start' // Coba 'start' (atas) atau 'center' (tengah)
+                        });
+                    }, duration * 0.7); // Mulai scroll setelah 70% durasi animasi
+                    // ================================================================
                 }
                 
                 // Panggil fungsi animasi untuk elemen ini sendiri (buka/tutup)
