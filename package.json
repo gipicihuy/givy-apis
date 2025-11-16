@@ -5,8 +5,7 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node sync-settings.js && node --no-deprecation index.js",
-    "sync": "node sync-settings.js"
+    "start": "node --no-deprecation index.js"
   },
   "engines": {
     "node": ">=20.0.0"
