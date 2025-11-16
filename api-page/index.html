@@ -41,339 +41,569 @@ body {
 
 /* HEADER */
 header {
-    text-align: center;
-    padding: 20px 0;
-    border-bottom: 2px dashed var(--accent-color);
-    margin-bottom: 30px;
-}
-
-header h1 {
-    color: var(--accent-color);
-    font-size: 2.5em;
-    margin-bottom: 5px;
-}
-
-header p {
-    color: var(--secondary-color);
-    font-style: italic;
-}
-
-/* CONTACT */
-.contact-info {
-    text-align: center;
-    margin-bottom: 30px;
-    color: var(--text-color);
-}
-
-.contact-info a {
-    color: var(--accent-color);
-    text-decoration: none;
-    margin: 0 10px;
-    transition: color 0.2s;
-}
-
-.contact-info a:hover {
-    color: var(--secondary-color);
-}
-
-/* ENDPOINT CATEGORIES */
-.endpoint-categories details {
-    background-color: var(--card-bg);
-    margin-bottom: 15px;
-    border: 1px solid rgba(104, 211, 145, 0.5);
+    background: var(--card-bg);
+    padding: 30px;
     border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px var(--box-shadow-color);
+    margin-bottom: 24px;
+    text-align: center;
+    border: 1px solid var(--accent-color);
+}
+
+h1 {
+    font-size: 2.5em;
+    color: var(--accent-color);
+    margin-bottom: 8px;
+    text-shadow: 0 0 5px var(--accent-color);
+}
+
+.tagline {
+    color: var(--text-color);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+}
+
+.contact-links {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.contact-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--accent-color);
+    color: var(--bg-color);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-size: 0.9em;
+    transition: all 0.3s;
+    font-weight: bold;
+    border: 1px solid var(--accent-color);
+}
+
+.contact-links a:hover {
+    background: var(--bg-color);
+    color: var(--accent-color);
+    transform: none;
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+/* ENDPOINTS CONTAINER */
+.endpoints-container {
+    background: var(--card-bg);
+    padding: 24px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px var(--box-shadow-color);
+    border: 1px solid var(--accent-color);
+}
+
+.endpoints-header {
+    font-size: 1.6em;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+/* CATEGORY - DETAILS & SUMMARY */
+details {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    margin-bottom: 12px;
+    border: 1px solid var(--accent-color);
+    transition: all 0.3s;
+}
+
+details[open] {
+    border-color: var(--accent-color);
     box-shadow: 0 0 10px var(--box-shadow-color);
 }
 
-.endpoint-categories summary {
-    padding: 15px;
+summary {
+    padding: 16px 20px;
     cursor: pointer;
-    font-weight: bold;
+    font-size: 1.2em;
+    font-weight: 700;
     color: var(--accent-color);
-    font-size: 1.1em;
-    outline: none;
-    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    user-select: none;
+    border-radius: var(--border-radius);
+    transition: all 0.2s;
 }
 
-.endpoint-categories summary:hover {
-    background-color: #2a3038;
+summary:hover {
+    background: rgba(104, 211, 145, 0.1);
 }
 
-.endpoint-categories .category-desc {
-    padding: 0 15px 15px;
-    color: #999;
-    font-size: 0.9em;
+summary::marker {
+    content: '';
+}
+
+summary .icon {
+    font-size: 1.4em;
+    flex-shrink: 0;
+}
+
+summary .arrow {
+    margin-left: auto;
+    font-size: 0.8em;
+    transition: transform 0.3s;
+}
+
+details[open] summary .arrow {
+    transform: rotate(90deg);
+}
+
+.category-desc {
+    color: #888;
+    font-size: 0.85em;
+    font-weight: 400;
+    margin-top: 2px;
+}
+
+.category-content {
+    padding: 8px 20px 20px 20px;
+    border-top: 1px dashed rgba(104, 211, 145, 0.5);
 }
 
 /* ENDPOINT CARD */
-.endpoint-list {
-    padding: 10px 15px;
-}
-
 .endpoint-card {
-    background-color: #3b4048;
-    padding: 15px;
-    margin-bottom: 15px;
+    background: var(--card-bg);
+    padding: 16px;
     border-radius: var(--border-radius);
-}
-
-.endpoint-card h3 {
-    color: var(--secondary-color);
-    font-size: 1.2em;
-    border-bottom: 1px dotted #495057;
-    padding-bottom: 5px;
     margin-bottom: 10px;
+    border-left: 4px solid var(--accent-color);
+    transition: all 0.3s;
+    border: 1px solid var(--bg-color);
 }
 
-.endpoint-card p {
+.endpoint-card:hover {
+    transform: translateX(0px);
+    box-shadow: 0 0 8px var(--box-shadow-color);
+}
+
+.endpoint-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    gap: 10px;
+}
+
+.endpoint-title {
+    font-size: 1.1em;
+    color: var(--accent-color);
+    font-weight: 700;
+}
+
+.badge {
+    background: #10b981;
+    color: var(--bg-color);
+    padding: 4px 10px;
+    border-radius: var(--border-radius);
+    font-size: 0.65em;
+    font-weight: bold;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    border: 1px solid #10b981;
+}
+
+.badge.ready {
+     background: var(--accent-color);
+     border-color: var(--accent-color);
+}
+
+.badge.update {
+    background: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.badge.error {
+    background: var(--error-color);
+    border-color: var(--error-color);
+}
+
+.endpoint-desc {
+    color: var(--text-color);
+    line-height: 1.5;
     margin-bottom: 10px;
-}
-
-.endpoint-info {
-    color: #999;
-    font-size: 0.9em;
+    font-size: 0.92em;
 }
 
 .endpoint-path {
-    background-color: #495057;
-    padding: 5px 10px;
-    border-radius: 3px;
-    font-size: 0.9em;
-    word-break: break-all;
-    margin-bottom: 15px;
-}
-
-.endpoint-params label {
-    display: block;
-    margin-top: 10px;
-    font-weight: bold;
+    background: rgba(0, 0, 0, 0.3);
     color: var(--accent-color);
+    padding: 10px 12px;
+    border-radius: var(--border-radius);
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    overflow-x: auto;
+    white-space: nowrap;
+    border: 1px dashed var(--accent-color);
 }
 
-.endpoint-params input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    background-color: #1e2127;
-    border: 1px solid #495057;
+.params-section {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed #444;
+}
+
+.params-title {
+    font-size: 0.75em;
+    color: var(--secondary-color);
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.param-item {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 6px 10px;
+    border-radius: var(--border-radius);
+    margin-bottom: 6px;
+    font-size: 0.85em;
+    border-left: 2px solid var(--secondary-color);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.param-item strong {
+    color: var(--secondary-color);
+    font-weight: bold;
+    min-width: 100px;
+}
+
+.param-item input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #444;
     color: var(--text-color);
+    padding: 6px 10px;
     border-radius: var(--border-radius);
     font-family: 'Ubuntu Mono', monospace;
+    font-size: 0.9em;
 }
 
-.endpoint-execute-btn {
-    background-color: var(--accent-color);
-    color: var(--card-bg);
+.param-item input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 5px var(--box-shadow-color);
+}
+
+.execute-btn {
+    background: var(--accent-color);
+    color: var(--bg-color);
     border: none;
     padding: 10px 20px;
-    margin-top: 15px;
+    border-radius: var(--border-radius);
     cursor: pointer;
     font-family: 'Ubuntu Mono', monospace;
     font-weight: bold;
-    transition: background-color 0.2s;
-    border-radius: var(--border-radius);
+    font-size: 0.9em;
+    margin-top: 12px;
+    transition: all 0.3s;
     width: 100%;
 }
 
-.endpoint-execute-btn:hover:not(:disabled) {
-    background-color: #48bb78;
+.execute-btn:hover {
+    background: var(--bg-color);
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-color);
 }
 
-.endpoint-execute-btn:disabled {
-    background-color: #495057;
+.execute-btn:disabled {
+    opacity: 0.5;
     cursor: not-allowed;
 }
 
-/* RESULT SECTION */
 .result-section {
-    margin-top: 20px;
-    background-color: #1e2127;
-    border: 1px solid #495057;
-    padding: 15px;
+    margin-top: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px;
     border-radius: var(--border-radius);
-    display: none; /* Initially hidden */
+    border: 1px solid #444;
+    display: none;
 }
 
 .result-header {
-    font-weight: bold;
+    font-size: 0.75em;
     color: var(--secondary-color);
-    margin-bottom: 5px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-transform: uppercase;
 }
 
 .request-url {
+    background: rgba(0, 0, 0, 0.5);
     color: var(--accent-color);
-    margin-bottom: 15px;
+    padding: 8px;
+    border-radius: var(--border-radius);
+    font-size: 0.8em;
     word-break: break-all;
-    font-size: 0.9em;
+    margin-bottom: 10px;
+    border: 1px dashed var(--accent-color);
 }
 
 .result-content {
-    white-space: pre-wrap;
-    word-break: break-all;
+    background: rgba(0, 0, 0, 0.5);
     color: var(--text-color);
-    font-size: 0.85em;
+    padding: 12px;
+    border-radius: var(--border-radius);
+    font-size: 0.8em;
     max-height: 400px;
     overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
 }
 
 /* FOOTER */
 footer {
     text-align: center;
-    padding: 20px 0;
-    margin-top: 30px;
-    border-top: 2px dashed var(--accent-color);
-    font-size: 0.8em;
-    color: #666;
+    color: #444;
+    margin-top: 32px;
+    padding: 16px;
+    font-size: 0.95em;
+    border-top: 1px dashed #444;
+}
+
+/* LOADING */
+.loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    gap: 16px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(104, 211, 145, 0.3);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-text {
+    color: var(--accent-color);
+    font-size: 1em;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2em;
+    }
+    
+    .endpoints-container {
+        padding: 16px;
+    }
+    
+    summary {
+        font-size: 1.1em;
+        padding: 14px 16px;
+    }
+    
+    .endpoint-card {
+        padding: 14px;
+    }
+
+    .param-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .param-item strong {
+        min-width: auto;
+    }
+    
+    .param-item input {
+        width: 100%;
+    }
 }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1 id="api-name">Loading...</h1>
-            <p id="api-tagline"></p>
+            <h1>🚀 GivyAPIs</h1>
+            <p class="tagline" id="tagline">Loading...</p>
+            <div class="contact-links" id="contactLinks"></div>
         </header>
-
-        <div class="contact-info">
-            <span id="api-version"></span> | Developed by <span id="api-creator"></span> | 
-            <a id="telegram-link" href="#" target="_blank">Telegram</a> | 
-            <a id="github-link" href="#" target="_blank">GitHub</a>
-        </div>
-
-        <div class="endpoint-categories">
+        
+        <div class="endpoints-container">
+            <h2 class="endpoints-header">📚 API Endpoints</h2>
+            <div id="endpoints">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p class="loading-text">Loading endpoints...</p>
+                </div>
             </div>
-
-        <footer>
-            <p>&copy; 2025 <span id="footer-name"></span>. All Rights Reserved.</p>
+        </div>
+        
+        <footer id="footer">
+            <p>© 2025 GivyAPIs | Made with ❤️ by <strong>Givy</strong></p>
         </footer>
     </div>
 
     <script>
         const BASE_URL = window.location.origin;
 
-        // Function to load endpoints dynamically
-        function loadEndpoints() {
-            // *** INI ADALAH BARIS KRUSIAL YANG DIUBAH ***
-            // Mengambil konfigurasi dari server (root settings.json)
-            fetch('/api/config') 
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Failed to load config: ${response.status} ${response.statusText}`);
+        // Load Endpoints dengan Details/Summary
+        async function loadEndpoints() {
+            try {
+                // *** BARIS INI YANG DIUBAH: Mengambil konfigurasi dari server (root settings.json) ***
+                const res = await fetch(`${BASE_URL}/api/config`);
+                // *** AKHIR BARIS YANG DIUBAH ***
+
+                const data = await res.json();
+                
+                // Update tagline
+                document.getElementById('tagline').textContent = data.tagline || data.description;
+                
+                // Update contact links
+                if (data.contact) {
+                    let contactHTML = '';
+                    if (data.contact.telegram) {
+                        contactHTML += `<a href="${data.contact.telegram}" target="_blank">📱 Telegram</a>`;
                     }
-                    return response.json();
-                })
-                .then(data => {
-                    // Update Header Info
-                    document.title = data.name + ' Documentation';
-                    document.getElementById('api-name').textContent = data.name;
-                    document.getElementById('api-tagline').textContent = data.tagline;
-                    document.getElementById('api-version').textContent = 'Version: ' + data.version;
-                    document.getElementById('api-creator').textContent = data.apiSettings.creator;
-                    document.getElementById('footer-name').textContent = data.name;
-
-                    // Update Contact Links
-                    document.getElementById('telegram-link').href = data.contact.telegram;
-                    document.getElementById('github-link').href = data.contact.github;
-
-                    const categoriesContainer = document.querySelector('.endpoint-categories');
-                    categoriesContainer.innerHTML = ''; // Clear loading message
-
-                    // Loop through categories
-                    data.categories.forEach((category, catIndex) => {
-                        const categoryDetails = document.createElement('details');
-                        categoryDetails.open = catIndex === 0; // Open first category by default
+                    if (data.contact.github) {
+                        contactHTML += `<a href="${data.contact.github}" target="_blank">💻 GitHub</a>`;
+                    }
+                    document.getElementById('contactLinks').innerHTML = contactHTML;
+                }
+                
+                // Build endpoints HTML dengan <details> & <summary>
+                let html = '';
+                data.categories.forEach((cat, catIndex) => {
+                    const icon = cat.icon || '📦';
+                    const desc = cat.description || '';
+                    
+                    html += `
+                        <details id="category-${catIndex}">
+                            <summary>
+                                <span class="icon">${icon}</span>
+                                <div style="flex: 1;">
+                                    <div>${cat.name}</div>
+                                    <div class="category-desc">${desc}</div>
+                                </div>
+                                <span class="arrow">▶</span>
+                            </summary>
+                            <div class="category-content">
+                    `;
+                    
+                    cat.items.forEach((item, itemIndex) => {
+                        const badgeClass = item.status === 'ready' ? 'ready' : 
+                                          item.status === 'update' ? 'update' : 'error';
+                        const uniqueId = `${catIndex}-${itemIndex}`;
                         
-                        const summary = document.createElement('summary');
-                        summary.textContent = `${category.icon} ${category.name}`;
-                        categoryDetails.appendChild(summary);
-
-                        const desc = document.createElement('div');
-                        desc.className = 'category-desc';
-                        desc.textContent = category.description;
-                        categoryDetails.appendChild(desc);
+                        html += `
+                            <div class="endpoint-card">
+                                <div class="endpoint-header">
+                                    <div class="endpoint-title">${item.name}</div>
+                                    <span class="badge ${badgeClass}">${item.status}</span>
+                                </div>
+                                <p class="endpoint-desc">${item.desc}</p>
+                                <div class="endpoint-path">${BASE_URL}${item.path}</div>
+                        `;
                         
-                        const list = document.createElement('div');
-                        list.className = 'endpoint-list';
-
-                        // Loop through endpoints in category
-                        category.items.forEach(endpoint => {
-                            const card = document.createElement('div');
-                            card.className = 'endpoint-card';
-                            
-                            // Title
-                            const title = document.createElement('h3');
-                            title.textContent = `${endpoint.name} (${endpoint.status.toUpperCase()})`;
-                            card.appendChild(title);
-                            
-                            // Description
-                            const info = document.createElement('p');
-                            info.className = 'endpoint-info';
-                            info.textContent = endpoint.desc;
-                            card.appendChild(info);
-
-                            // Path
-                            const pathDiv = document.createElement('div');
-                            pathDiv.className = 'endpoint-path';
-                            pathDiv.textContent = endpoint.path.replace('?', '?') + '...';
-                            card.appendChild(pathDiv);
-
-                            // Parameters Section
-                            const paramsDiv = document.createElement('div');
-                            paramsDiv.className = 'endpoint-params';
-                            card.appendChild(paramsDiv);
-
-                            const inputs = {};
-                            if (endpoint.params) {
-                                for (const key in endpoint.params) {
-                                    const label = document.createElement('label');
-                                    label.textContent = `${key} : (${endpoint.params[key]})`;
-                                    paramsDiv.appendChild(label);
-                                    
-                                    const input = document.createElement('input');
-                                    input.type = 'text';
-                                    input.id = `input-${endpoint.name}-${key}`;
-                                    input.placeholder = endpoint.params[key];
-                                    paramsDiv.appendChild(input);
-                                    inputs[key] = input;
-                                }
-                            }
-                            
-                            // Execute Button
-                            const executeBtn = document.createElement('button');
-                            executeBtn.className = 'endpoint-execute-btn';
-                            executeBtn.textContent = '▶️ Execute';
-                            executeBtn.onclick = () => executeRequest(endpoint, inputs, executeBtn, data.apiSettings.apikey);
-                            card.appendChild(executeBtn);
-
-                            // Result Section
-                            const resultDiv = document.createElement('div');
-                            resultDiv.className = 'result-section';
-                            resultDiv.id = `result-${endpoint.name}`;
-                            card.appendChild(resultDiv);
-
-                            list.appendChild(card);
-                        });
-
-                        categoryDetails.appendChild(list);
-                        categoriesContainer.appendChild(categoryDetails);
+                        // Parameters section
+                        if (item.params && Object.keys(item.params).length > 0) {
+                            html += `
+                                <div class="params-section">
+                                    <div class="params-title">Parameters:</div>
+                            `;
+                            Object.entries(item.params).forEach(([key, value]) => {
+                                html += `
+                                    <div class="param-item">
+                                        <strong>${key}:</strong>
+                                        <input type="text" id="input-${uniqueId}-${key}" placeholder="${value}">
+                                    </div>
+                                `;
+                            });
+                            html += `
+                                <button class="execute-btn" data-path="${item.path}" data-id="${uniqueId}" data-params='${JSON.stringify(Object.keys(item.params))}'>
+                                    ▶️ Execute
+                                </button>
+                                <div class="result-section" id="result-${uniqueId}"></div>
+                            `;
+                            html += `</div>`;
+                        } else {
+                            html += `
+                                <button class="execute-btn" data-path="${item.path}" data-id="${uniqueId}" data-params='[]'>
+                                    ▶️ Execute
+                                </button>
+                                <div class="result-section" id="result-${uniqueId}"></div>
+                            `;
+                        }
+                        
+                        html += `</div>`; // Close endpoint-card
                     });
-
-                })
-                .catch(error => {
-                    const categoriesContainer = document.querySelector('.endpoint-categories');
-                    categoriesContainer.innerHTML = `<p style="color: var(--error-color); text-align: center;">Error loading configuration: ${error.message}. Make sure the server is running and settings.json is accessible via /api/config.</p>`;
-                    document.getElementById('api-name').textContent = 'API Error';
+                    
+                    html += `
+                            </div>
+                        </details>
+                    `; // Close details
                 });
+                
+                document.getElementById('endpoints').innerHTML = html;
+
+                // Auto-close other details when opening one
+                const allDetails = document.querySelectorAll('details');
+                allDetails.forEach(detail => {
+                    detail.addEventListener('toggle', function() {
+                        if (this.open) {
+                            allDetails.forEach(other => {
+                                if (other !== this) {
+                                    other.open = false;
+                                }
+                            });
+                        }
+                    });
+                });
+
+                // Add event listener untuk semua execute buttons
+                document.querySelectorAll('.execute-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const path = this.getAttribute('data-path');
+                        const uniqueId = this.getAttribute('data-id');
+                        const paramKeys = JSON.parse(this.getAttribute('data-params'));
+                        
+                        executeRequest(path, uniqueId, paramKeys, this, data.apiSettings.apikey);
+                    });
+                });
+                
+            } catch (e) {
+                document.getElementById('endpoints').innerHTML = `
+                    <div style="text-align: center; padding: 30px; color: #ef4444;">
+                        <h3>⚠️ Failed to load endpoints</h3>
+                        <p style="margin-top: 10px; color: #888;">${e.message}</p>
+                    </div>
+                `;
+            }
         }
 
-        // Function to execute the API request
-        function executeRequest(endpoint, inputs, btnElement, apiKeyList) {
-            btnElement.disabled = true;
-            btnElement.textContent = '...Loading';
+        // Function untuk execute request
+        function executeRequest(path, uniqueId, paramKeys, btnElement, apiKeyList) {
+            const resultDiv = document.getElementById(`result-${uniqueId}`);
             
-            const resultDiv = document.getElementById(`result-${endpoint.name}`);
-            let url = BASE_URL + endpoint.path.split('?')[0]; // Ambil hanya base path
-
+            btnElement.disabled = true;
+            btnElement.textContent = '⏳ Loading...';
+            
+            let url = BASE_URL + path;
             const queryParams = new URLSearchParams();
             
             // Tambahkan apikey default jika ada
@@ -381,11 +611,14 @@ footer {
                 queryParams.append('apikey', apiKeyList[0]);
             }
 
-            // Tambahkan parameter dari input fields
-            Object.keys(inputs).forEach(key => {
-                const inputValue = inputs[key].value;
-                if (inputValue) {
-                    queryParams.append(key, inputValue);
+            // Ambil value dari input fields
+            paramKeys.forEach(key => {
+                const inputElement = document.getElementById(`input-${uniqueId}-${key}`);
+                if (inputElement) {
+                    const inputValue = inputElement.value.trim();
+                    if (inputValue) {
+                        queryParams.append(key, inputValue);
+                    }
                 }
             });
             
@@ -405,10 +638,8 @@ footer {
             // Fetch data
             fetch(url)
                 .then(response => {
-                    // Check if response is 404/500 and handle error reading
                     if (!response.ok) {
                         return response.text().then(text => { 
-                            // Tampilkan 50 karakter pertama dari error text
                             throw new Error(`HTTP Error ${response.status}: ${text.substring(0, 50)}...`);
                         });
                     }
@@ -417,7 +648,7 @@ footer {
                 .then(data => {
                     const resultContent = resultDiv.querySelector('.result-content');
                     resultContent.textContent = JSON.stringify(data, null, 2);
-                    resultContent.style.color = 'var(--text-color)'; // Reset color
+                    resultContent.style.color = 'var(--text-color)';
                     btnElement.disabled = false;
                     btnElement.textContent = '▶️ Execute';
                 })
