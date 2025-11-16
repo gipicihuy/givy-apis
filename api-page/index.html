@@ -465,9 +465,8 @@ footer {
         // Load Endpoints dengan Details/Summary
         async function loadEndpoints() {
             try {
-                // *** BARIS INI YANG DIUBAH: Mengambil konfigurasi dari server (root settings.json) ***
+                // *** PENGAMBILAN KONFIGURASI DARI SERVER ***
                 const res = await fetch(`${BASE_URL}/api/config`);
-                // *** AKHIR BARIS YANG DIUBAH ***
 
                 const data = await res.json();
                 
@@ -510,6 +509,9 @@ footer {
                                           item.status === 'update' ? 'update' : 'error';
                         const uniqueId = `${catIndex}-${itemIndex}`;
                         
+                        // Path yang ditampilkan di UI harus lengkap
+                        const displayPath = item.path.startsWith('/') ? `${BASE_URL}${item.path}` : `${BASE_URL}/${item.path}`;
+
                         html += `
                             <div class="endpoint-card">
                                 <div class="endpoint-header">
@@ -517,7 +519,7 @@ footer {
                                     <span class="badge ${badgeClass}">${item.status}</span>
                                 </div>
                                 <p class="endpoint-desc">${item.desc}</p>
-                                <div class="endpoint-path">${BASE_URL}${item.path}</div>
+                                <div class="endpoint-path">${displayPath}</div>
                         `;
                         
                         // Parameters section
@@ -582,7 +584,8 @@ footer {
                         const uniqueId = this.getAttribute('data-id');
                         const paramKeys = JSON.parse(this.getAttribute('data-params'));
                         
-                        executeRequest(path, uniqueId, paramKeys, this, data.apiSettings.apikey);
+                        // data.apiSettings.apikey tidak lagi dikirim ke fungsi executeRequest
+                        executeRequest(path, uniqueId, paramKeys, this); 
                     });
                 });
                 
@@ -597,21 +600,21 @@ footer {
         }
 
         // Function untuk execute request
-        function executeRequest(path, uniqueId, paramKeys, btnElement, apiKeyList) {
+        function executeRequest(path, uniqueId, paramKeys, btnElement) { // apiKeyList dihapus
             const resultDiv = document.getElementById(`result-${uniqueId}`);
             
             btnElement.disabled = true;
             btnElement.textContent = '⏳ Loading...';
             
-            let url = BASE_URL + path;
+            // 1. Bersihkan path dari query string yang sudah ada (misal: menghapus "?username=")
+            const cleanedPath = path.split('?')[0]; 
+            let url = BASE_URL + cleanedPath; 
+
             const queryParams = new URLSearchParams();
             
-            // Tambahkan apikey default jika ada
-            if (apiKeyList && apiKeyList.length > 0) {
-                queryParams.append('apikey', apiKeyList[0]);
-            }
+            // 2. BLOK UNTUK MENAMBAHKAN APIKEY OTOMATIS DIHAPUS, SESUAI PERMINTAAN USER.
 
-            // Ambil value dari input fields
+            // 3. Ambil value dari input fields
             paramKeys.forEach(key => {
                 const inputElement = document.getElementById(`input-${uniqueId}-${key}`);
                 if (inputElement) {
