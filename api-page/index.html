@@ -1,21 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="title" content="GivyAPIs">
-<meta property="og:title" content="GivyAPIs">
-<meta name="twitter:title" content="GivyAPIs">
-<meta name="description" content="A fast, flexible API made for whatever you need.">
-<meta property="og:description" content="A fast, flexible API made for whatever you need.">
-<meta name="twitter:description" content="A fast, flexible API made for whatever you need.">
-<link rel="icon" href="https://cdn.yupra.my.id/yp/caid6j0m.jpg" type="image/jpeg">
-<meta property="og:image" content="https://cdn.yupra.my.id/yp/caid6j0m.jpg">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://cdn.yupra.my.id/yp/caid6j0m.jpg">
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GivyAPIs</title>
+    <title>GivyAPIs Documentation</title>
     <style>
 :root {
     --bg-color: #282c34;
@@ -112,7 +102,6 @@ h1 {
     padding: 24px;
     border-radius: var(--border-radius);
     box-shadow: 0 4px 15px var(--box-shadow-color);
-    border: 1px solid var(--accent-color);
 }
 
 .endpoints-header {
@@ -563,6 +552,19 @@ footer {
         }
 
         // ============================================
+        // PERBAIKAN LEBIH LANJUT: Force GPU Acceleration & Will-Change
+        // ============================================
+        function prepareAnimation(content) {
+            content.style.willChange = 'height, padding-top, padding-bottom';
+            content.style.transform = 'translateZ(0)'; // Force GPU
+        }
+
+        function cleanupAnimation(content) {
+            content.style.willChange = '';
+            content.style.transform = '';
+        }
+
+        // ============================================
         // PERBAIKAN: Toggle Animation dengan Promise
         // ============================================
         function toggleDetailsAnimation(detailsElement, contentSelector, duration = ANIMATION_DURATION, forceClose = false) {
@@ -577,8 +579,11 @@ footer {
             const isOpening = !detailsElement.open && !forceClose;
 
             const animationPromise = new Promise((resolve) => {
+                // Prepare untuk animasi smooth
+                prepareAnimation(content);
+
                 // Setup transition
-                content.style.transition = `height ${duration}ms ease-in-out, padding-top ${duration}ms ease-in-out, padding-bottom ${duration}ms ease-in-out`;
+                content.style.transition = `height ${duration}ms cubic-bezier(0.4, 0, 0.2, 1), padding-top ${duration}ms cubic-bezier(0.4, 0, 0.2, 1), padding-bottom ${duration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
 
                 if (!isOpening) {
                     // CLOSING
@@ -586,55 +591,66 @@ footer {
                         detailsElement.setAttribute('open', '');
                     }
 
-                    // Batch read untuk menghindari reflow
-                    const initialHeight = content.offsetHeight;
+                    // Force reflow untuk memastikan state awal
+                    void content.offsetHeight;
                     
-                    // Batch write
+                    // Batch read
+                    const initialHeight = content.scrollHeight;
+                    
+                    // Batch write - set current state
+                    content.style.overflow = 'hidden';
                     content.style.height = initialHeight + 'px';
                     
+                    // Force reflow
+                    void content.offsetHeight;
+                    
                     requestAnimationFrame(() => {
-                        requestAnimationFrame(() => {
-                            content.style.height = '0px';
-                            content.style.paddingTop = '0px';
-                            content.style.paddingBottom = '0px';
+                        content.style.height = '0px';
+                        content.style.paddingTop = '0px';
+                        content.style.paddingBottom = '0px';
 
-                            setTimeout(() => {
-                                detailsElement.removeAttribute('open');
-                                content.style.height = '';
-                                content.style.transition = '';
-                                content.style.paddingTop = '';
-                                content.style.paddingBottom = '';
-                                resolve();
-                            }, duration);
-                        });
+                        setTimeout(() => {
+                            detailsElement.removeAttribute('open');
+                            content.style.height = '';
+                            content.style.overflow = '';
+                            content.style.transition = '';
+                            content.style.paddingTop = '';
+                            content.style.paddingBottom = '';
+                            cleanupAnimation(content);
+                            resolve();
+                        }, duration);
                     });
                 } else {
                     // OPENING
                     detailsElement.setAttribute('open', '');
                     
-                    // Batch read
+                    // Set initial state
+                    content.style.overflow = 'hidden';
+                    content.style.height = '0px';
+                    content.style.paddingTop = '0px';
+                    content.style.paddingBottom = '0px';
+                    
+                    // Force reflow
+                    void content.offsetHeight;
+                    
+                    // Batch read - ambil ukuran target
                     const targetHeight = content.scrollHeight;
                     const paddingConfig = contentSelector === '.category-content' 
                         ? { top: '8px', bottom: '20px' }
                         : { top: '10px', bottom: '16px' };
 
-                    // Batch write
-                    content.style.height = '0px';
-                    content.style.paddingTop = '0px';
-                    content.style.paddingBottom = '0px';
-
                     requestAnimationFrame(() => {
-                        requestAnimationFrame(() => {
-                            content.style.height = targetHeight + 'px';
-                            content.style.paddingTop = paddingConfig.top;
-                            content.style.paddingBottom = paddingConfig.bottom;
+                        content.style.height = targetHeight + 'px';
+                        content.style.paddingTop = paddingConfig.top;
+                        content.style.paddingBottom = paddingConfig.bottom;
 
-                            setTimeout(() => {
-                                content.style.height = '';
-                                content.style.transition = '';
-                                resolve();
-                            }, duration);
-                        });
+                        setTimeout(() => {
+                            content.style.height = '';
+                            content.style.overflow = '';
+                            content.style.transition = '';
+                            cleanupAnimation(content);
+                            resolve();
+                        }, duration);
                     });
                 }
             });
@@ -673,35 +689,46 @@ footer {
         // ============================================
         function setupDetailsAnimation(detailsElement, contentSelector, duration = ANIMATION_DURATION) {
             const summary = detailsElement.querySelector('summary');
-            let clickTimeout = null;
+            let isProcessing = false;
 
             summary.addEventListener('click', async (e) => {
                 e.preventDefault();
                 
-                // Debounce rapid clicks
-                if (clickTimeout) return;
-                clickTimeout = setTimeout(() => { clickTimeout = null; }, 100);
+                // Cegah multiple clicks saat processing
+                if (isProcessing) return;
+                isProcessing = true;
 
                 const willOpen = !detailsElement.open;
 
-                if (willOpen) {
-                    // Tutup siblings dulu, tunggu selesai
-                    await autoCloseSiblings(detailsElement, contentSelector);
-                    
-                    // Baru buka elemen ini
-                    await toggleDetailsAnimation(detailsElement, contentSelector, duration);
-                    
-                    // Scroll setelah animasi benar-benar selesai
-                    setTimeout(() => {
-                        detailsElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start',
-                            inline: 'nearest'
+                try {
+                    if (willOpen) {
+                        // Tutup siblings dulu, tunggu selesai
+                        await autoCloseSiblings(detailsElement, contentSelector);
+                        
+                        // Baru buka elemen ini
+                        await toggleDetailsAnimation(detailsElement, contentSelector, duration);
+                        
+                        // Scroll setelah animasi benar-benar selesai
+                        requestAnimationFrame(() => {
+                            setTimeout(() => {
+                                const rect = detailsElement.getBoundingClientRect();
+                                const offset = window.pageYOffset + rect.top - 20;
+                                
+                                window.scrollTo({
+                                    top: offset,
+                                    behavior: 'smooth'
+                                });
+                            }, 100);
                         });
-                    }, 50);
-                } else {
-                    // Tutup elemen ini
-                    await toggleDetailsAnimation(detailsElement, contentSelector, duration);
+                    } else {
+                        // Tutup elemen ini
+                        await toggleDetailsAnimation(detailsElement, contentSelector, duration);
+                    }
+                } finally {
+                    // Release lock setelah semua selesai
+                    setTimeout(() => {
+                        isProcessing = false;
+                    }, 150);
                 }
             });
         }
