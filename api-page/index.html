@@ -517,10 +517,6 @@ footer {
     <script>
         const BASE_URL = window.location.origin;
 
-        // ============================================
-        // FIX FINAL: Hapus display:none, pakai height+opacity
-        // ============================================
-        
         function setupDetailsAnimation(detailsElement) {
             const summary = detailsElement.querySelector('summary');
             let isProcessing = false;
@@ -533,7 +529,6 @@ footer {
                 
                 const isCurrentlyOpen = detailsElement.hasAttribute('open');
 
-                // Auto-close siblings
                 const parent = detailsElement.parentElement;
                 const allDetails = Array.from(parent.querySelectorAll(':scope > details'));
                 
@@ -542,11 +537,9 @@ footer {
                 });
 
                 if (!isCurrentlyOpen) {
-                    // Buka dengan slight delay
                     requestAnimationFrame(() => {
                         detailsElement.setAttribute('open', '');
                         
-                        // Scroll untuk category saja
                         if (!detailsElement.classList.contains('endpoint-group')) {
                             setTimeout(() => {
                                 const y = detailsElement.getBoundingClientRect().top + window.pageYOffset - 20;
@@ -562,9 +555,6 @@ footer {
             });
         }
 
-        // ============================================
-        // Copy function
-        // ============================================
         function copyResultContent(btnElement, uniqueId) {
             const contentElement = document.getElementById(`content-${uniqueId}`);
             const content = contentElement.textContent;
@@ -587,9 +577,6 @@ footer {
             });
         }
 
-        // ============================================
-        // Load Endpoints
-        // ============================================
         async function loadEndpoints() {
             try {
                 const res = await fetch(`${BASE_URL}/api/config`);
@@ -695,7 +682,6 @@ footer {
                 
                 document.getElementById('endpoints').innerHTML = html;
 
-                // Setup animations - SIMPLIFIED
                 document.querySelectorAll('details').forEach(detail => {
                     setupDetailsAnimation(detail);
                 });
@@ -720,9 +706,6 @@ footer {
             }
         }
 
-        // ============================================
-        // Execute Request
-        // ============================================
         function executeRequest(path, uniqueId, paramKeys, btnElement) {
             const resultDiv = document.getElementById(`result-${uniqueId}`);
             
@@ -767,12 +750,37 @@ footer {
                             throw new Error(`HTTP Error ${response.status}: ${text.substring(0, 50)}...`);
                         });
                     }
-                    return response.json();
+
+                    const contentType = response.headers.get("Content-Type");
+                    
+                    if (contentType && contentType.includes("image/png")) {
+                        return { isImage: true, url: response.url, status: response.status };
+                    }
+                    
+                    return response.json().then(data => ({ isImage: false, data: data, status: response.status }));
                 })
                 .then(data => {
                     const resultContent = resultDiv.querySelector('.result-content');
-                    resultContent.textContent = JSON.stringify(data, null, 2);
-                    resultContent.style.color = 'var(--text-color)';
+                    
+                    if (data.isImage) {
+                        resultContent.innerHTML = `
+                            <div style="padding: 12px;">
+                                <div class="response-note" style="color:var(--secondary-color); margin-bottom: 10px;">API ini mengembalikan gambar (image/png). Status: ${data.status}</div>
+                                <img src="${data.url}" alt="API Image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid var(--secondary-color);">
+                                <div class="result-header" style="margin-top: 15px;">🔗 Link Gambar:</div>
+                                <a href="${data.url}" target="_blank" style="color: var(--accent-color); word-break: break-all;">${data.url}</a>
+                            </div>
+                        `;
+                        const copyButton = resultDiv.querySelector('.result-header .copy-btn');
+                        if (copyButton) copyButton.style.display = 'none';
+
+                    } else {
+                        resultContent.textContent = JSON.stringify(data.data, null, 2);
+                        resultContent.style.color = 'var(--text-color)';
+                        const copyButton = resultDiv.querySelector('.result-header .copy-btn');
+                        if (copyButton) copyButton.style.display = 'inline';
+                    }
+                    
                     btnElement.disabled = false;
                     btnElement.innerHTML = '<i class="fa-solid fa-play"></i> Execute';
                 })
@@ -785,7 +793,6 @@ footer {
                 });
         }
 
-        // Initialize
         loadEndpoints();
     </script>
 </body>
