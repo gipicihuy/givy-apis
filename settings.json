@@ -43,6 +43,15 @@
       "description": "Social media & game profile lookup",
       "items": [
         {
+          "name": "Tiktok",
+          "desc": "Get TikTok profile info (stats, bio, avatars, privacy settings).",
+          "path": "/stalker/tiktok?username=",
+          "status": "ready",
+          "params": {
+            "username": "TikTok username (without @)"
+          }
+        },
+        {
           "name": "Instagram",
           "desc": "Get Instagram profile info (username, followers, bio, posts, etc)",
           "path": "/stalk/ig?username=",
