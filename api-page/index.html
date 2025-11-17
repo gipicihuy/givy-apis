@@ -518,11 +518,12 @@ footer {
         const BASE_URL = window.location.origin;
 
         // ============================================
-        // SOLUSI PALING SIMPLE & RELIABLE: Pure CSS
+        // SOLUSI FIX: Force re-trigger transition setiap kali
         // ============================================
         
         function setupDetailsAnimation(detailsElement) {
             const summary = detailsElement.querySelector('summary');
+            const content = detailsElement.querySelector('.category-content, .endpoint-card');
             let clickTimer = null;
 
             summary.addEventListener('click', (e) => {
@@ -545,8 +546,21 @@ footer {
                         }
                     });
 
+                    // TRICK: Reset max-height ke 0 dulu untuk force transition
+                    content.style.maxHeight = '0px';
+                    content.style.padding = '0px 20px';
+                    
                     // Buka elemen ini
                     detailsElement.setAttribute('open', '');
+                    
+                    // Force reflow
+                    void content.offsetHeight;
+                    
+                    // Hapus inline style biar CSS transition jalan
+                    requestAnimationFrame(() => {
+                        content.style.maxHeight = '';
+                        content.style.padding = '';
+                    });
                     
                     // Scroll setelah delay
                     setTimeout(() => {
