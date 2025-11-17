@@ -5,7 +5,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GivyAPIs</title>
+    <title>GivyAPIs Documentation</title>
     <style>
 :root {
     --bg-color: #282c34;
@@ -164,19 +164,20 @@ details[open] summary .arrow {
 }
 
 .category-content {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+    padding: 0 20px;
     border-top: 1px dashed rgba(104, 211, 145, 0.5);
 }
 
-.category-content > div {
-    overflow: hidden;
+details[open] > .category-content {
+    max-height: 5000px;
+    padding: 8px 20px 20px 20px;
 }
 
-details[open] > .category-content {
-    grid-template-rows: 1fr;
-    padding: 8px 20px 20px 20px;
+.category-content > div {
+    /* Remove this if exists */
 }
 
 .endpoint-group {
@@ -228,21 +229,22 @@ details[open] > .category-content {
 }
 
 .endpoint-card {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
     background: var(--card-bg);
     border-top: 1px dashed #444;
     margin: 0;
-}
-
-.endpoint-card > div {
-    overflow: hidden;
+    padding: 0 16px;
 }
 
 .endpoint-group[open] > .endpoint-card {
-    grid-template-rows: 1fr;
+    max-height: 3000px;
     padding: 10px 16px 16px 16px;
+}
+
+.endpoint-card > div {
+    /* Remove this if exists */
 }
 
 .badge {
@@ -516,26 +518,26 @@ footer {
         const BASE_URL = window.location.origin;
 
         // ============================================
-        // SOLUSI TERBAIK: CSS Grid + Manual State Management
+        // SOLUSI PALING SIMPLE & RELIABLE: Pure CSS
         // ============================================
         
         function setupDetailsAnimation(detailsElement) {
             const summary = detailsElement.querySelector('summary');
-            
-            let isAnimating = false;
+            let clickTimer = null;
 
             summary.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                if (isAnimating) return;
-                isAnimating = true;
+                // Prevent double click
+                if (clickTimer) return;
+                clickTimer = setTimeout(() => clickTimer = null, 500);
 
-                const willOpen = !detailsElement.hasAttribute('open');
+                const isOpen = detailsElement.hasAttribute('open');
 
-                if (willOpen) {
-                    // Auto-close siblings INSTANTLY
+                if (!isOpen) {
+                    // AKAN DIBUKA: Auto-close siblings dulu
                     const parent = detailsElement.parentElement;
-                    const siblings = parent.querySelectorAll(detailsElement.tagName);
+                    const siblings = Array.from(parent.querySelectorAll(':scope > details'));
                     
                     siblings.forEach(sibling => {
                         if (sibling !== detailsElement && sibling.hasAttribute('open')) {
@@ -543,29 +545,23 @@ footer {
                         }
                     });
 
-                    // Buka dengan animasi
+                    // Buka elemen ini
                     detailsElement.setAttribute('open', '');
                     
-                    // Scroll after opening animation
+                    // Scroll setelah delay
                     setTimeout(() => {
                         const rect = detailsElement.getBoundingClientRect();
-                        const isInView = rect.top >= 0 && rect.top <= window.innerHeight * 0.3;
-                        
-                        if (!isInView) {
+                        if (rect.top < 0 || rect.top > window.innerHeight * 0.5) {
                             window.scrollTo({
                                 top: window.pageYOffset + rect.top - 20,
                                 behavior: 'smooth'
                             });
                         }
-                    }, 200);
+                    }, 250);
                 } else {
-                    // Tutup
+                    // AKAN DITUTUP
                     detailsElement.removeAttribute('open');
                 }
-
-                setTimeout(() => {
-                    isAnimating = false;
-                }, 450);
             });
         }
 
@@ -636,7 +632,6 @@ footer {
                                 <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
                             </summary>
                             <div class="category-content">
-                                <div>
                     `;
                     
                     cat.items.forEach((item, itemIndex) => {
@@ -659,7 +654,6 @@ footer {
                                 </summary>
 
                                 <div class="endpoint-card">
-                                    <div>
                                     <p class="endpoint-desc">${item.desc}</p>
                                     <div class="endpoint-path">${displayPath}</div>
                         `;
@@ -693,11 +687,10 @@ footer {
                             `;
                         }
                         
-                        html += `</div></div></details>`;
+                        html += `</div></details>`;
                     });
                     
                     html += `
-                                </div>
                             </div>
                         </details>
                     `;
