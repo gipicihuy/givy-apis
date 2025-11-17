@@ -429,9 +429,8 @@ details[open] > .category-content {
     border: 1px dashed var(--accent-color);
 }
 
-/* New/Modified CSS for clean image display */
 .response-container {
-    margin-top: 10px; /* Space between Request URL and Response */
+    margin-top: 10px;
 }
 
 .result-content {
@@ -452,6 +451,13 @@ details[open] > .category-content {
     border-radius: var(--border-radius);
     max-height: none;
     overflow-y: visible;
+}
+
+.result-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--border-radius);
 }
 
 footer {
@@ -756,7 +762,7 @@ footer {
             
             resultDiv.style.display = 'block';
 
-            // Memisahkan secara eksplisit Request URL dan Response section
+            // Show Request URL
             resultDiv.innerHTML = `
                 <div class="result-header">📡 Request URL:</div>
                 <div class="request-url">${url}</div>
@@ -772,20 +778,33 @@ footer {
             
             fetch(url)
                 .then(response => {
+                    const contentType = response.headers.get("Content-Type");
+                    
+                    // PERBAIKAN: Deteksi content type image
+                    if (contentType && contentType.startsWith("image/")) {
+                        // Return blob untuk image
+                        return response.blob().then(blob => {
+                            return {
+                                isImage: true,
+                                blob: blob,
+                                url: url,
+                                status: response.status
+                            };
+                        });
+                    }
+                    
+                    // Untuk JSON response
                     if (!response.ok) {
                         return response.text().then(text => {
                             throw new Error(`HTTP Error ${response.status}: ${text.substring(0, 50)}...`);
                         });
                     }
-
-                    const contentType = response.headers.get("Content-Type");
                     
-                    if (contentType && contentType.includes("image/png")) {
-                        return { isImage: true, url: response.url, status: response.status };
-                    }
-                    
-                    // Menggunakan response.json() untuk JSON
-                    return response.json().then(data => ({ isImage: false, data: data, status: response.status }));
+                    return response.json().then(data => ({ 
+                        isImage: false, 
+                        data: data, 
+                        status: response.status 
+                    }));
                 })
                 .then(data => {
                     const responseContainer = document.getElementById(`response-container-${uniqueId}`);
@@ -793,32 +812,33 @@ footer {
                     const resultContent = document.getElementById(`content-${uniqueId}`);
                     
                     if (data.isImage) {
+                        // PERBAIKAN: Tampilkan image dengan benar
+                        console.log('Image detected, rendering...');
                         
-                        // Sembunyikan container Response sepenuhnya
-                        responseContainer.style.display = 'none';
-
-                        // Terapkan class untuk tampilan gambar yang bersih (tanpa padding/background)
+                        // Sembunyikan header Response untuk image
+                        responseHeader.style.display = 'none';
+                        
+                        // Terapkan class untuk tampilan gambar yang bersih
                         resultContent.classList.add('image-only');
                         
+                        // Buat object URL dari blob
+                        const imageUrl = URL.createObjectURL(data.blob);
+                        
                         resultContent.innerHTML = `
-                            <img src="${data.url}" alt="API Image" style="max-width: 100%; height: auto; margin: 0; display: block;">
+                            <img src="${imageUrl}" alt="API Response Image" style="max-width: 100%; height: auto; margin: 0; display: block; border-radius: 4px;">
                         `;
-
+                        
                     } else {
-                        
-                        // Tampilkan container Response
+                        // Tampilkan JSON response
                         responseContainer.style.display = 'block';
-                        
-                        // Hapus class image-only jika ada
+                        responseHeader.style.display = 'flex';
                         resultContent.classList.remove('image-only');
                         
-                        // Update header Response dengan status
                         responseHeader.innerHTML = `
                             📦 Response (${data.status >= 200 && data.status < 300 ? 'OK' : 'ERROR'})
                             <i class="fa-solid fa-copy copy-btn" onclick="copyResultContent(this, '${uniqueId}')" title="Copy Response"></i>
                         `;
 
-                        // Tampilkan JSON
                         resultContent.textContent = JSON.stringify(data.data, null, 2);
                         resultContent.style.color = 'var(--text-color)';
                     }
@@ -831,8 +851,8 @@ footer {
                     const responseHeader = document.getElementById(`response-header-${uniqueId}`);
                     const resultContent = document.getElementById(`content-${uniqueId}`);
 
-                    // Tampilkan container Response untuk error
                     responseContainer.style.display = 'block';
+                    responseHeader.style.display = 'flex';
                     
                     responseHeader.innerHTML = `
                         📦 Response (ERROR)
