@@ -164,20 +164,28 @@ details[open] summary .arrow {
 }
 
 .category-content {
-    max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
-    padding: 0 20px;
     border-top: 1px dashed rgba(104, 211, 145, 0.5);
 }
 
+details:not([open]) > .category-content {
+    display: none;
+}
+
 details[open] > .category-content {
-    max-height: 5000px;
+    animation: slideDown 0.3s ease-out;
     padding: 8px 20px 20px 20px;
 }
 
-.category-content > div {
-    /* Remove this if exists */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .endpoint-group {
@@ -229,22 +237,19 @@ details[open] > .category-content {
 }
 
 .endpoint-card {
-    max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
     background: var(--card-bg);
     border-top: 1px dashed #444;
     margin: 0;
-    padding: 0 16px;
+}
+
+.endpoint-group:not([open]) > .endpoint-card {
+    display: none;
 }
 
 .endpoint-group[open] > .endpoint-card {
-    max-height: 3000px;
+    animation: slideDown 0.3s ease-out;
     padding: 10px 16px 16px 16px;
-}
-
-.endpoint-card > div {
-    /* Remove this if exists */
 }
 
 .badge {
@@ -518,62 +523,40 @@ footer {
         const BASE_URL = window.location.origin;
 
         // ============================================
-        // SOLUSI FIX: Force re-trigger transition setiap kali
+        // SOLUSI PALING GAMPANG: Pure native behavior + auto-close
         // ============================================
         
         function setupDetailsAnimation(detailsElement) {
             const summary = detailsElement.querySelector('summary');
-            const content = detailsElement.querySelector('.category-content, .endpoint-card');
-            let clickTimer = null;
 
             summary.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                // Prevent double click
-                if (clickTimer) return;
-                clickTimer = setTimeout(() => clickTimer = null, 500);
+                const isCurrentlyOpen = detailsElement.hasAttribute('open');
 
-                const isOpen = detailsElement.hasAttribute('open');
-
-                if (!isOpen) {
-                    // AKAN DIBUKA: Auto-close siblings dulu
+                if (!isCurrentlyOpen) {
+                    // Auto-close siblings
                     const parent = detailsElement.parentElement;
                     const siblings = Array.from(parent.querySelectorAll(':scope > details'));
                     
                     siblings.forEach(sibling => {
-                        if (sibling !== detailsElement && sibling.hasAttribute('open')) {
+                        if (sibling !== detailsElement) {
                             sibling.removeAttribute('open');
                         }
                     });
 
-                    // TRICK: Reset max-height ke 0 dulu untuk force transition
-                    content.style.maxHeight = '0px';
-                    content.style.padding = '0px 20px';
-                    
-                    // Buka elemen ini
+                    // Buka
                     detailsElement.setAttribute('open', '');
                     
-                    // Force reflow
-                    void content.offsetHeight;
-                    
-                    // Hapus inline style biar CSS transition jalan
-                    requestAnimationFrame(() => {
-                        content.style.maxHeight = '';
-                        content.style.padding = '';
-                    });
-                    
-                    // Scroll setelah delay
+                    // Scroll
                     setTimeout(() => {
-                        const rect = detailsElement.getBoundingClientRect();
-                        if (rect.top < 0 || rect.top > window.innerHeight * 0.5) {
-                            window.scrollTo({
-                                top: window.pageYOffset + rect.top - 20,
-                                behavior: 'smooth'
-                            });
-                        }
-                    }, 250);
+                        detailsElement.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    }, 200);
                 } else {
-                    // AKAN DITUTUP
+                    // Tutup
                     detailsElement.removeAttribute('open');
                 }
             });
