@@ -41,7 +41,7 @@
           "path": "/download/pinterest?url=",
           "status": "ready",
           "params": {
-            "url": "Pinterest pin URL (e.g., https://pin.it/xxxxx)"
+            "url": "Pin url (https://pin.it/xxx)"
           }
         }
       ]
