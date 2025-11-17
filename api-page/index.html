@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GivyAPIs Documentation</title>
@@ -419,28 +419,29 @@ details[open] > .category-content {
     border: 1px dashed var(--accent-color);
 }
 
-.response-content-wrapper {
-    background: rgba(0, 0, 0, 0.5);
-    padding: 12px;
-    border-radius: var(--border-radius);
-    border: 1px solid #444;
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.response-content-wrapper.image-only {
-    padding: 0;
-    background: transparent;
-    border: none;
-    max-height: none;
-    overflow-y: visible;
+/* New/Modified CSS for clean image display */
+.response-container {
+    margin-top: 10px; /* Space between Request URL and Response */
 }
 
 .result-content {
+    background: rgba(0, 0, 0, 0.5);
     color: var(--text-color);
+    padding: 12px;
+    border-radius: var(--border-radius);
     font-size: 0.8em;
+    max-height: 400px;
+    overflow-y: auto;
     white-space: pre-wrap;
     word-break: break-word;
+}
+
+.result-content.image-only {
+    padding: 0;
+    background: transparent;
+    border-radius: var(--border-radius);
+    max-height: none;
+    overflow-y: visible;
 }
 
 footer {
@@ -744,19 +745,18 @@ footer {
             }
             
             resultDiv.style.display = 'block';
-            
+
+            // Memisahkan secara eksplisit Request URL dan Response section
             resultDiv.innerHTML = `
                 <div class="result-header">📡 Request URL:</div>
                 <div class="request-url">${url}</div>
                 
-                <div id="response-container-${uniqueId}">
+                <div class="response-container" id="response-container-${uniqueId}">
                     <div class="result-header" id="response-header-${uniqueId}">
                         📦 Response
                         <i class="fa-solid fa-copy copy-btn" onclick="copyResultContent(this, '${uniqueId}')" title="Copy Response"></i>
                     </div>
-                    <div class="response-content-wrapper" id="content-wrapper-${uniqueId}">
-                        <div class="result-content" id="content-${uniqueId}">Loading...</div>
-                    </div>
+                    <div class="result-content" id="content-${uniqueId}">Loading...</div>
                 </div>
             `;
             
@@ -774,19 +774,21 @@ footer {
                         return { isImage: true, url: response.url, status: response.status };
                     }
                     
+                    // Menggunakan response.json() untuk JSON
                     return response.json().then(data => ({ isImage: false, data: data, status: response.status }));
                 })
                 .then(data => {
                     const responseContainer = document.getElementById(`response-container-${uniqueId}`);
                     const responseHeader = document.getElementById(`response-header-${uniqueId}`);
-                    const contentWrapper = document.getElementById(`content-wrapper-${uniqueId}`);
                     const resultContent = document.getElementById(`content-${uniqueId}`);
                     
                     if (data.isImage) {
                         
+                        // Sembunyikan container Response sepenuhnya
                         responseContainer.style.display = 'none';
-                        
-                        contentWrapper.classList.add('image-only');
+
+                        // Terapkan class untuk tampilan gambar yang bersih (tanpa padding/background)
+                        resultContent.classList.add('image-only');
                         
                         resultContent.innerHTML = `
                             <img src="${data.url}" alt="API Image" style="max-width: 100%; height: auto; margin: 0; display: block;">
@@ -794,14 +796,19 @@ footer {
 
                     } else {
                         
+                        // Tampilkan container Response
                         responseContainer.style.display = 'block';
                         
+                        // Hapus class image-only jika ada
+                        resultContent.classList.remove('image-only');
+                        
+                        // Update header Response dengan status
                         responseHeader.innerHTML = `
                             📦 Response (${data.status >= 200 && data.status < 300 ? 'OK' : 'ERROR'})
                             <i class="fa-solid fa-copy copy-btn" onclick="copyResultContent(this, '${uniqueId}')" title="Copy Response"></i>
                         `;
 
-                        contentWrapper.classList.remove('image-only');
+                        // Tampilkan JSON
                         resultContent.textContent = JSON.stringify(data.data, null, 2);
                         resultContent.style.color = 'var(--text-color)';
                     }
@@ -812,16 +819,17 @@ footer {
                 .catch(error => {
                     const responseContainer = document.getElementById(`response-container-${uniqueId}`);
                     const responseHeader = document.getElementById(`response-header-${uniqueId}`);
-                    const contentWrapper = document.getElementById(`content-wrapper-${uniqueId}`);
                     const resultContent = document.getElementById(`content-${uniqueId}`);
 
+                    // Tampilkan container Response untuk error
                     responseContainer.style.display = 'block';
+                    
                     responseHeader.innerHTML = `
                         📦 Response (ERROR)
                         <i class="fa-solid fa-copy copy-btn" onclick="copyResultContent(this, '${uniqueId}')" title="Copy Response"></i>
                     `;
                     
-                    contentWrapper.classList.remove('image-only');
+                    resultContent.classList.remove('image-only');
                     resultContent.textContent = `Error: ${error.message}`;
                     resultContent.style.color = 'var(--error-color)';
 
