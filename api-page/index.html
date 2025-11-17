@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GivyAPIs Documentation</title>
@@ -419,14 +419,26 @@ details[open] > .category-content {
     border: 1px dashed var(--accent-color);
 }
 
-.result-content {
+.response-content-wrapper {
     background: rgba(0, 0, 0, 0.5);
-    color: var(--text-color);
     padding: 12px;
     border-radius: var(--border-radius);
-    font-size: 0.8em;
+    border: 1px solid #444;
     max-height: 400px;
     overflow-y: auto;
+}
+
+.response-content-wrapper.image-only {
+    padding: 0;
+    background: transparent;
+    border: none;
+    max-height: none;
+    overflow-y: visible;
+}
+
+.result-content {
+    color: var(--text-color);
+    font-size: 0.8em;
     white-space: pre-wrap;
     word-break: break-word;
 }
@@ -732,15 +744,20 @@ footer {
             }
             
             resultDiv.style.display = 'block';
+            
             resultDiv.innerHTML = `
                 <div class="result-header">📡 Request URL:</div>
                 <div class="request-url">${url}</div>
                 
-                <div class="result-header">
-                    📦 Response
-                    <i class="fa-solid fa-copy copy-btn" onclick="copyResultContent(this, '${uniqueId}')" title="Copy Response"></i>
+                <div id="response-container-${uniqueId}">
+                    <div class="result-header" id="response-header-${uniqueId}">
+                        📦 Response
+                        <i class="fa-solid fa-copy copy-btn" onclick="copyResultContent(this, '${uniqueId}')" title="Copy Response"></i>
+                    </div>
+                    <div class="response-content-wrapper" id="content-wrapper-${uniqueId}">
+                        <div class="result-content" id="content-${uniqueId}">Loading...</div>
+                    </div>
                 </div>
-                <div class="result-content" id="content-${uniqueId}">Loading...</div>
             `;
             
             fetch(url)
@@ -760,36 +777,54 @@ footer {
                     return response.json().then(data => ({ isImage: false, data: data, status: response.status }));
                 })
                 .then(data => {
-                    const resultContent = resultDiv.querySelector('.result-content');
+                    const responseContainer = document.getElementById(`response-container-${uniqueId}`);
+                    const responseHeader = document.getElementById(`response-header-${uniqueId}`);
+                    const contentWrapper = document.getElementById(`content-wrapper-${uniqueId}`);
+                    const resultContent = document.getElementById(`content-${uniqueId}`);
                     
                     if (data.isImage) {
+                        
+                        responseContainer.style.display = 'none';
+                        
+                        contentWrapper.classList.add('image-only');
+                        
                         resultContent.innerHTML = `
-                            <div style="padding: 0; text-align: center;">
-                                <img src="${data.url}" alt="API Image" style="max-width: 100%; height: auto; margin: 0; border: none;">
-                            </div>
+                            <img src="${data.url}" alt="API Image" style="max-width: 100%; height: auto; margin: 0; display: block;">
                         `;
-                        const copyButton = resultDiv.querySelector('.result-header .copy-btn');
-                        if (copyButton) copyButton.style.display = 'none';
-
-                        const responseHeader = resultDiv.querySelector('.result-header');
-                        if (responseHeader) responseHeader.innerHTML = `📦 Response (${data.status} OK)`;
 
                     } else {
+                        
+                        responseContainer.style.display = 'block';
+                        
+                        responseHeader.innerHTML = `
+                            📦 Response (${data.status >= 200 && data.status < 300 ? 'OK' : 'ERROR'})
+                            <i class="fa-solid fa-copy copy-btn" onclick="copyResultContent(this, '${uniqueId}')" title="Copy Response"></i>
+                        `;
+
+                        contentWrapper.classList.remove('image-only');
                         resultContent.textContent = JSON.stringify(data.data, null, 2);
                         resultContent.style.color = 'var(--text-color)';
-                        const copyButton = resultDiv.querySelector('.result-header .copy-btn');
-                        if (copyButton) copyButton.style.display = 'inline';
-                        const responseHeader = resultDiv.querySelector('.result-header');
-                        if (responseHeader) responseHeader.innerHTML = `📦 Response <i class="fa-solid fa-copy copy-btn" onclick="copyResultContent(this, '${uniqueId}')" title="Copy Response"></i>`;
                     }
                     
                     btnElement.disabled = false;
                     btnElement.innerHTML = '<i class="fa-solid fa-play"></i> Execute';
                 })
                 .catch(error => {
-                    const resultContent = resultDiv.querySelector('.result-content');
+                    const responseContainer = document.getElementById(`response-container-${uniqueId}`);
+                    const responseHeader = document.getElementById(`response-header-${uniqueId}`);
+                    const contentWrapper = document.getElementById(`content-wrapper-${uniqueId}`);
+                    const resultContent = document.getElementById(`content-${uniqueId}`);
+
+                    responseContainer.style.display = 'block';
+                    responseHeader.innerHTML = `
+                        📦 Response (ERROR)
+                        <i class="fa-solid fa-copy copy-btn" onclick="copyResultContent(this, '${uniqueId}')" title="Copy Response"></i>
+                    `;
+                    
+                    contentWrapper.classList.remove('image-only');
                     resultContent.textContent = `Error: ${error.message}`;
                     resultContent.style.color = 'var(--error-color)';
+
                     btnElement.disabled = false;
                     btnElement.innerHTML = '<i class="fa-solid fa-play"></i> Execute';
                 });
