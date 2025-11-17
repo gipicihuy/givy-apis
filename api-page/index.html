@@ -166,26 +166,18 @@ details[open] summary .arrow {
 .category-content {
     overflow: hidden;
     border-top: 1px dashed rgba(104, 211, 145, 0.5);
-    will-change: opacity;
+    will-change: auto;
     transform: translateZ(0);
-}
-
-details:not([open]) > .category-content {
-    display: none;
+    height: 0;
+    opacity: 0;
+    transition: height 0s, opacity 0s;
 }
 
 details[open] > .category-content {
-    animation: fadeIn 0.25s ease-out;
+    height: auto;
+    opacity: 1;
     padding: 8px 20px 20px 20px;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    transition: opacity 0.2s ease-out;
 }
 
 .endpoint-group {
@@ -241,17 +233,18 @@ details[open] > .category-content {
     background: var(--card-bg);
     border-top: 1px dashed #444;
     margin: 0;
-    will-change: opacity;
+    will-change: auto;
     transform: translateZ(0);
-}
-
-.endpoint-group:not([open]) > .endpoint-card {
-    display: none;
+    height: 0;
+    opacity: 0;
+    transition: height 0s, opacity 0s;
 }
 
 .endpoint-group[open] > .endpoint-card {
-    animation: fadeIn 0.25s ease-out;
+    height: auto;
+    opacity: 1;
     padding: 10px 16px 16px 16px;
+    transition: opacity 0.2s ease-out;
 }
 
 .badge {
@@ -525,7 +518,7 @@ footer {
         const BASE_URL = window.location.origin;
 
         // ============================================
-        // ANTI-GLITCH: Tambah delay lebih lama
+        // FIX FINAL: Hapus display:none, pakai height+opacity
         // ============================================
         
         function setupDetailsAnimation(detailsElement) {
@@ -535,13 +528,12 @@ footer {
             summary.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                // Prevent rapid clicks yang bikin glitch
                 if (isProcessing) return;
                 isProcessing = true;
                 
                 const isCurrentlyOpen = detailsElement.hasAttribute('open');
 
-                // Auto-close ALL siblings di level yang sama
+                // Auto-close siblings
                 const parent = detailsElement.parentElement;
                 const allDetails = Array.from(parent.querySelectorAll(':scope > details'));
                 
@@ -549,32 +541,23 @@ footer {
                     detail.removeAttribute('open');
                 });
 
-                // Kalau tadi TUTUP, sekarang BUKA
                 if (!isCurrentlyOpen) {
-                    // Delay lebih lama untuk anti-glitch (50ms)
-                    setTimeout(() => {
+                    // Buka dengan slight delay
+                    requestAnimationFrame(() => {
                         detailsElement.setAttribute('open', '');
                         
-                        // Scroll hanya untuk category utama
+                        // Scroll untuk category saja
                         if (!detailsElement.classList.contains('endpoint-group')) {
                             setTimeout(() => {
-                                detailsElement.scrollIntoView({ 
-                                    behavior: 'smooth', 
-                                    block: 'start' 
-                                });
+                                const y = detailsElement.getBoundingClientRect().top + window.pageYOffset - 20;
+                                window.scrollTo({ top: y, behavior: 'smooth' });
                             }, 100);
                         }
                         
-                        // Release lock setelah animation selesai
-                        setTimeout(() => {
-                            isProcessing = false;
-                        }, 300);
-                    }, 50);
+                        setTimeout(() => { isProcessing = false; }, 250);
+                    });
                 } else {
-                    // Release lock immediately
-                    setTimeout(() => {
-                        isProcessing = false;
-                    }, 100);
+                    setTimeout(() => { isProcessing = false; }, 50);
                 }
             });
         }
