@@ -164,9 +164,19 @@ details[open] summary .arrow {
 }
 
 .category-content {
-    padding: 0 20px 0 20px;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border-top: 1px dashed rgba(104, 211, 145, 0.5);
+}
+
+.category-content > div {
     overflow: hidden;
+}
+
+details[open] > .category-content {
+    grid-template-rows: 1fr;
+    padding: 8px 20px 20px 20px;
 }
 
 .endpoint-group {
@@ -218,12 +228,21 @@ details[open] summary .arrow {
 }
 
 .endpoint-card {
-    border-left: none;
-    padding: 0 16px 0 16px;
-    margin: 0;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     background: var(--card-bg);
     border-top: 1px dashed #444;
+    margin: 0;
+}
+
+.endpoint-card > div {
     overflow: hidden;
+}
+
+.endpoint-group[open] > .endpoint-card {
+    grid-template-rows: 1fr;
+    padding: 10px 16px 16px 16px;
 }
 
 .badge {
@@ -495,241 +514,60 @@ footer {
 
     <script>
         const BASE_URL = window.location.origin;
-        const ANIMATION_DURATION = 400;
 
         // ============================================
-        // PERBAIKAN: Animation Manager dengan Queue
+        // SOLUSI SIMPLE: Gunakan CSS grid-template-rows
+        // Ini adalah cara PALING MULUS untuk animasi height
         // ============================================
-        class AnimationManager {
-            constructor() {
-                this.animatingElements = new Map();
-                this.animationQueue = [];
-            }
-
-            isAnimating(element) {
-                return this.animatingElements.has(element);
-            }
-
-            startAnimation(element, promise) {
-                this.animatingElements.set(element, promise);
-                promise.finally(() => {
-                    this.animatingElements.delete(element);
-                    this.processQueue();
-                });
-            }
-
-            queueAnimation(fn) {
-                this.animationQueue.push(fn);
-                if (this.animationQueue.length === 1) {
-                    this.processQueue();
-                }
-            }
-
-            processQueue() {
-                if (this.animationQueue.length === 0) return;
-                const next = this.animationQueue.shift();
-                if (next) next();
-            }
-
-            async cancelAnimation(element) {
-                if (this.animatingElements.has(element)) {
-                    await this.animatingElements.get(element);
-                }
-            }
-        }
-
-        const animationManager = new AnimationManager();
-
-        // ============================================
-        // PERBAIKAN: Batch DOM Read untuk menghindari reflow
-        // ============================================
-        function batchDOMRead(elements, readFn) {
-            const results = new Map();
-            elements.forEach(el => {
-                results.set(el, readFn(el));
-            });
-            return results;
-        }
-
-        // ============================================
-        // PERBAIKAN LEBIH LANJUT: Force GPU Acceleration & Will-Change
-        // ============================================
-        function prepareAnimation(content) {
-            content.style.willChange = 'height, padding-top, padding-bottom';
-            content.style.transform = 'translateZ(0)'; // Force GPU
-        }
-
-        function cleanupAnimation(content) {
-            content.style.willChange = '';
-            content.style.transform = '';
-        }
-
-        // ============================================
-        // PERBAIKAN: Toggle Animation dengan Promise
-        // ============================================
-        function toggleDetailsAnimation(detailsElement, contentSelector, duration = ANIMATION_DURATION, forceClose = false) {
-            // Cegah animasi ganda
-            if (animationManager.isAnimating(detailsElement)) {
-                return Promise.resolve();
-            }
-
-            const content = detailsElement.querySelector(contentSelector);
-            if (!content) return Promise.resolve();
-
-            const isOpening = !detailsElement.open && !forceClose;
-
-            const animationPromise = new Promise((resolve) => {
-                // Prepare untuk animasi smooth
-                prepareAnimation(content);
-
-                // Setup transition
-                content.style.transition = `height ${duration}ms cubic-bezier(0.4, 0, 0.2, 1), padding-top ${duration}ms cubic-bezier(0.4, 0, 0.2, 1), padding-bottom ${duration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
-
-                if (!isOpening) {
-                    // CLOSING
-                    if (!detailsElement.open) {
-                        detailsElement.setAttribute('open', '');
-                    }
-
-                    // Force reflow untuk memastikan state awal
-                    void content.offsetHeight;
-                    
-                    // Batch read
-                    const initialHeight = content.scrollHeight;
-                    
-                    // Batch write - set current state
-                    content.style.overflow = 'hidden';
-                    content.style.height = initialHeight + 'px';
-                    
-                    // Force reflow
-                    void content.offsetHeight;
-                    
-                    requestAnimationFrame(() => {
-                        content.style.height = '0px';
-                        content.style.paddingTop = '0px';
-                        content.style.paddingBottom = '0px';
-
-                        setTimeout(() => {
-                            detailsElement.removeAttribute('open');
-                            content.style.height = '';
-                            content.style.overflow = '';
-                            content.style.transition = '';
-                            content.style.paddingTop = '';
-                            content.style.paddingBottom = '';
-                            cleanupAnimation(content);
-                            resolve();
-                        }, duration);
-                    });
-                } else {
-                    // OPENING
-                    detailsElement.setAttribute('open', '');
-                    
-                    // Set initial state
-                    content.style.overflow = 'hidden';
-                    content.style.height = '0px';
-                    content.style.paddingTop = '0px';
-                    content.style.paddingBottom = '0px';
-                    
-                    // Force reflow
-                    void content.offsetHeight;
-                    
-                    // Batch read - ambil ukuran target
-                    const targetHeight = content.scrollHeight;
-                    const paddingConfig = contentSelector === '.category-content' 
-                        ? { top: '8px', bottom: '20px' }
-                        : { top: '10px', bottom: '16px' };
-
-                    requestAnimationFrame(() => {
-                        content.style.height = targetHeight + 'px';
-                        content.style.paddingTop = paddingConfig.top;
-                        content.style.paddingBottom = paddingConfig.bottom;
-
-                        setTimeout(() => {
-                            content.style.height = '';
-                            content.style.overflow = '';
-                            content.style.transition = '';
-                            cleanupAnimation(content);
-                            resolve();
-                        }, duration);
-                    });
-                }
-            });
-
-            animationManager.startAnimation(detailsElement, animationPromise);
-            return animationPromise;
-        }
-
-        // ============================================
-        // PERBAIKAN: Auto-close dengan Promise.all
-        // ============================================
-        async function autoCloseSiblings(detailsElement, contentSelector) {
-            const parentContainer = detailsElement.parentElement;
-            if (!parentContainer.id && !parentContainer.classList.contains('category-content')) {
-                return;
-            }
-
-            const siblings = Array.from(parentContainer.querySelectorAll(detailsElement.tagName));
-            const closingPromises = [];
-
-            siblings.forEach(sibling => {
-                if (sibling !== detailsElement && sibling.open) {
-                    const siblingSelector = sibling.classList.contains('endpoint-group') 
-                        ? '.endpoint-card' 
-                        : '.category-content';
-                    closingPromises.push(toggleDetailsAnimation(sibling, siblingSelector, ANIMATION_DURATION, true));
-                }
-            });
-
-            // Tunggu semua sibling selesai ditutup
-            await Promise.all(closingPromises);
-        }
-
-        // ============================================
-        // PERBAIKAN: Setup dengan debouncing
-        // ============================================
-        function setupDetailsAnimation(detailsElement, contentSelector, duration = ANIMATION_DURATION) {
+        
+        function setupDetailsAnimation(detailsElement, contentSelector) {
             const summary = detailsElement.querySelector('summary');
-            let isProcessing = false;
+            const content = detailsElement.querySelector(contentSelector);
+            
+            if (!content) return;
+            
+            // Tambahkan class untuk CSS animation
+            content.classList.add('animated-content');
+            
+            let isAnimating = false;
 
-            summary.addEventListener('click', async (e) => {
+            summary.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                // Cegah multiple clicks saat processing
-                if (isProcessing) return;
-                isProcessing = true;
+                if (isAnimating) return;
+                isAnimating = true;
 
                 const willOpen = !detailsElement.open;
 
-                try {
-                    if (willOpen) {
-                        // Tutup siblings dulu, tunggu selesai
-                        await autoCloseSiblings(detailsElement, contentSelector);
-                        
-                        // Baru buka elemen ini
-                        await toggleDetailsAnimation(detailsElement, contentSelector, duration);
-                        
-                        // Scroll setelah animasi benar-benar selesai
-                        requestAnimationFrame(() => {
-                            setTimeout(() => {
-                                const rect = detailsElement.getBoundingClientRect();
-                                const offset = window.pageYOffset + rect.top - 20;
-                                
-                                window.scrollTo({
-                                    top: offset,
-                                    behavior: 'smooth'
-                                });
-                            }, 100);
-                        });
-                    } else {
-                        // Tutup elemen ini
-                        await toggleDetailsAnimation(detailsElement, contentSelector, duration);
-                    }
-                } finally {
-                    // Release lock setelah semua selesai
+                if (willOpen) {
+                    // Auto-close siblings INSTANTLY (no animation)
+                    const parent = detailsElement.parentElement;
+                    const siblings = parent.querySelectorAll(detailsElement.tagName);
+                    
+                    siblings.forEach(sibling => {
+                        if (sibling !== detailsElement && sibling.open) {
+                            sibling.removeAttribute('open');
+                        }
+                    });
+
+                    // Buka dengan animasi
+                    detailsElement.setAttribute('open', '');
+                    
+                    // Scroll after opening
                     setTimeout(() => {
-                        isProcessing = false;
-                    }, 150);
+                        detailsElement.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    }, 100);
+                } else {
+                    // Tutup
+                    detailsElement.removeAttribute('open');
                 }
+
+                setTimeout(() => {
+                    isAnimating = false;
+                }, 400);
             });
         }
 
@@ -800,6 +638,7 @@ footer {
                                 <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
                             </summary>
                             <div class="category-content">
+                                <div>
                     `;
                     
                     cat.items.forEach((item, itemIndex) => {
@@ -821,7 +660,8 @@ footer {
                                     </div>
                                 </summary>
 
-                                <div class="endpoint-card"> 
+                                <div class="endpoint-card">
+                                    <div>
                                     <p class="endpoint-desc">${item.desc}</p>
                                     <div class="endpoint-path">${displayPath}</div>
                         `;
@@ -855,10 +695,11 @@ footer {
                             `;
                         }
                         
-                        html += `</div></details>`;
+                        html += `</div></div></details>`;
                     });
                     
                     html += `
+                                </div>
                             </div>
                         </details>
                     `;
