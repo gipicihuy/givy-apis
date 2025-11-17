@@ -764,21 +764,23 @@ footer {
                     
                     if (data.isImage) {
                         resultContent.innerHTML = `
-                            <div style="padding: 12px;">
-                                <div class="response-note" style="color:var(--secondary-color); margin-bottom: 10px;">API ini mengembalikan gambar (image/png). Status: ${data.status}</div>
-                                <img src="${data.url}" alt="API Image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid var(--secondary-color);">
-                                <div class="result-header" style="margin-top: 15px;">🔗 Link Gambar:</div>
-                                <a href="${data.url}" target="_blank" style="color: var(--accent-color); word-break: break-all;">${data.url}</a>
+                            <div style="padding: 0; text-align: center;">
+                                <img src="${data.url}" alt="API Image" style="max-width: 100%; height: auto; margin: 0; border: none;">
                             </div>
                         `;
                         const copyButton = resultDiv.querySelector('.result-header .copy-btn');
                         if (copyButton) copyButton.style.display = 'none';
+
+                        const responseHeader = resultDiv.querySelector('.result-header');
+                        if (responseHeader) responseHeader.innerHTML = `📦 Response (${data.status} OK)`;
 
                     } else {
                         resultContent.textContent = JSON.stringify(data.data, null, 2);
                         resultContent.style.color = 'var(--text-color)';
                         const copyButton = resultDiv.querySelector('.result-header .copy-btn');
                         if (copyButton) copyButton.style.display = 'inline';
+                        const responseHeader = resultDiv.querySelector('.result-header');
+                        if (responseHeader) responseHeader.innerHTML = `📦 Response <i class="fa-solid fa-copy copy-btn" onclick="copyResultContent(this, '${uniqueId}')" title="Copy Response"></i>`;
                     }
                     
                     btnElement.disabled = false;
