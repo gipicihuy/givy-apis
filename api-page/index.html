@@ -105,7 +105,7 @@ h1 {
 }
 
 .endpoints-header {
-    font-size: 1.6em;
+    font-size: 1.4em;
     color: var(--secondary-color);
     margin-bottom: 20px;
     font-weight: 700;
@@ -571,11 +571,10 @@ footer {
                         }, 300);
                     }, 50);
                 } else {
-                    // Perbaikan Glitch: Release lock diubah dari 100ms menjadi 300ms
-                    // untuk memberikan waktu penyelesaian animasi yang konsisten.
+                    // Release lock immediately
                     setTimeout(() => {
                         isProcessing = false;
-                    }, 300);
+                    }, 100);
                 }
             });
         }
