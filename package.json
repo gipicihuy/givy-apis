@@ -8,7 +8,7 @@
     "start": "node --no-deprecation index.js"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": "22.x"
   },
   "author": "GivyAPIs",
   "license": "MIT",
