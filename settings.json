@@ -99,6 +99,24 @@
       ]
     },
     {
+      "name": "Maker",
+      "icon": "fa-solid fa-image",
+      "description": "Utilities and converters",
+      "items": [
+        {
+          "name": "BRAT HTML to Image/Video",
+          "desc": "Convert HTML content into an image (PNG) or video (MP4/GIF).",
+          "path": "/tools/brat?text=",
+          "status": "ready",
+          "params": {
+            "text": "Text content to be rendered (required)",
+            "output": "Output format (png/gif, default: png)",
+            "model": "Template ID (default: 1)"
+          }
+        }
+      ]
+    },
+    {
       "name": "System",
       "icon": "fa-solid fa-gears",
       "description": "API system information & monitoring",
