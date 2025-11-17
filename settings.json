@@ -104,7 +104,7 @@
       "description": "Utilities and converters",
       "items": [
         {
-          "name": "Brat",
+          "name": "Brat ",
           "desc": "Convert HTML content into an image (PNG) or video (MP4/GIF).",
           "path": "/tools/brat?text=",
           "status": "ready",
