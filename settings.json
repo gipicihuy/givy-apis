@@ -34,6 +34,15 @@
           "params": {
             "url": "link spotify"
           }
+        },
+        {
+          "name": "Pinterest Downloader",
+          "desc": "Get direct download link (image/video) from a Pinterest pin URL.",
+          "path": "/download/pinterest?url=",
+          "status": "ready",
+          "params": {
+            "url": "Pinterest pin URL (e.g., https://pin.it/xxxxx)"
+          }
         }
       ]
     },
