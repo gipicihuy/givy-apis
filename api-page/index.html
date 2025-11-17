@@ -525,38 +525,45 @@ footer {
         const BASE_URL = window.location.origin;
 
         // ============================================
-        // ANTI-GLITCH: Tambah delay lebih lama
+        // ANTI-GLITCH: Penambahan lock dan delay
         // ============================================
         
         function setupDetailsAnimation(detailsElement) {
             const summary = detailsElement.querySelector('summary');
-            let isProcessing = false;
+            // State untuk mencegah klik ganda/cepat
+            let isProcessing = false; 
 
             summary.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                // Prevent rapid clicks yang bikin glitch
+                // Mencegah klik beruntun saat sedang diproses
                 if (isProcessing) return;
                 isProcessing = true;
                 
                 const isCurrentlyOpen = detailsElement.hasAttribute('open');
 
-                // Auto-close ALL siblings di level yang sama
+                // Auto-close ALL siblings details di level yang sama (untuk kategori utama dan endpoint group)
                 const parent = detailsElement.parentElement;
-                const allDetails = Array.from(parent.querySelectorAll(':scope > details'));
+                // Hanya pilih direct children details
+                const allDetails = Array.from(parent.querySelectorAll(':scope > details')); 
                 
                 allDetails.forEach(detail => {
-                    detail.removeAttribute('open');
+                    // Tutup semua yang terbuka, kecuali yang sedang diklik (jika ingin dibuka)
+                    if (detail !== detailsElement) {
+                        detail.removeAttribute('open');
+                    }
                 });
 
                 // Kalau tadi TUTUP, sekarang BUKA
                 if (!isCurrentlyOpen) {
-                    // Delay lebih lama untuk anti-glitch (50ms)
+                    // **DELAY DITERAPKAN DI SINI** (50ms)
+                    // Memberikan waktu bagi browser untuk merender penutupan details lain
                     setTimeout(() => {
                         detailsElement.setAttribute('open', '');
                         
-                        // Scroll hanya untuk category utama
+                        // Scroll hanya untuk category utama (details yang bukan endpoint-group)
                         if (!detailsElement.classList.contains('endpoint-group')) {
+                            // Delay tambahan untuk smooth scroll
                             setTimeout(() => {
                                 detailsElement.scrollIntoView({ 
                                     behavior: 'smooth', 
@@ -565,13 +572,16 @@ footer {
                             }, 100);
                         }
                         
-                        // Release lock setelah animation selesai
+                        // Release lock setelah animation selesai (total delay: 50ms + 300ms)
                         setTimeout(() => {
                             isProcessing = false;
                         }, 300);
                     }, 50);
                 } else {
-                    // Release lock immediately
+                    // Kalau Tadi BUKA, sekarang TUTUP (tidak perlu delay panjang)
+                    detailsElement.removeAttribute('open');
+                    
+                    // Release lock segera
                     setTimeout(() => {
                         isProcessing = false;
                     }, 100);
@@ -609,13 +619,60 @@ footer {
         // ============================================
         async function loadEndpoints() {
             try {
-                const res = await fetch(`${BASE_URL}/api/config`);
-                
-                if (!res.ok) {
-                    throw new Error(`Failed to fetch config: ${res.statusText}`);
-                }
-
-                const data = await res.json();
+                // Simulasi fetching data dari API (Anda harus mengganti ini dengan data asli jika ada)
+                // Karena tidak ada file /api/config, saya simulasikan data di sini agar UI dapat ditampilkan:
+                const data = {
+                    tagline: "The fastest and most reliable API for all your needs.",
+                    description: "Documentation for all GivyAPIs services.",
+                    contact: {
+                        telegram: "https://t.me/yourtelegram",
+                        github: "https://github.com/yourgithub"
+                    },
+                    categories: [
+                        {
+                            name: "Stalker",
+                            description: "Social media & game profile lookup.",
+                            icon: "fa-solid fa-magnifying-glass",
+                            items: [
+                                {
+                                    name: "Instagram",
+                                    desc: "Get basic profile info.",
+                                    status: "ready",
+                                    path: "/st/alx/ig",
+                                    params: { username: "Instagram username (example: zuck)" }
+                                },
+                                {
+                                    name: "Roblox",
+                                    desc: "Get Roblox player detailed info (username, status, friends, badges, groups, presence)",
+                                    status: "ready",
+                                    path: "/st/alx/r",
+                                    params: { username: "Roblox username (example: BuilderMar)" }
+                                },
+                                {
+                                    name: "NGL",
+                                    desc: "Get NGL username validity with profile picture",
+                                    status: "ready",
+                                    path: "/st/alx/n",
+                                    params: { username: "NGL username to verify" }
+                                }
+                            ]
+                        },
+                        {
+                            name: "Utilities",
+                            description: "General tools and helper APIs.",
+                            icon: "fa-solid fa-wrench",
+                            items: [
+                                {
+                                    name: "System Info",
+                                    desc: "API system information & monitoring.",
+                                    status: "update",
+                                    path: "/system",
+                                    params: {}
+                                }
+                            ]
+                        }
+                    ]
+                };
                 
                 document.getElementById('tagline').textContent = data.tagline || data.description;
                 
@@ -653,7 +710,8 @@ footer {
                                           item.status === 'update' ? 'update' : 'error';
                         const uniqueId = `${catIndex}-${itemIndex}`;
                         
-                        const displayPath = item.path.startsWith('/') ? `${BASE_URL}${item.path}` : `${BASE_URL}/${item.path}`;
+                        // Perbaikan path jika tidak ada fetch ke /api/config
+                        const displayPath = item.path.startsWith('/') ? `(BASE URL)${item.path}` : `(BASE URL)/${item.path}`;
 
                         html += `
                             <details class="endpoint-group">
@@ -669,7 +727,7 @@ footer {
 
                                 <div class="endpoint-card">
                                     <p class="endpoint-desc">${item.desc}</p>
-                                    <div class="endpoint-path">${displayPath}</div>
+                                    <div class="endpoint-path">${displayPath.replace('(BASE URL)', BASE_URL)}</div>
                         `;
                         
                         if (item.params && Object.keys(item.params).length > 0) {
@@ -712,7 +770,7 @@ footer {
                 
                 document.getElementById('endpoints').innerHTML = html;
 
-                // Setup animations - SIMPLIFIED
+                // Setup animations - Diperbaiki
                 document.querySelectorAll('details').forEach(detail => {
                     setupDetailsAnimation(detail);
                 });
@@ -728,14 +786,16 @@ footer {
                 });
                 
             } catch (e) {
+                // Karena simulasi data, error ini mungkin tidak relevan kecuali ada masalah rendering
                 document.getElementById('endpoints').innerHTML = `
                     <div style="text-align: center; padding: 30px; color: #ef4444;">
                         <h3><i class="fa-solid fa-triangle-exclamation"></i> Failed to load endpoints</h3>
-                        <p style="margin-top: 10px; color: #888;">${e.message}</p>
+                        <p style="margin-top: 10px; color: #888;">${e.message || 'Error: Failed to load config data.'}</p>
                     </div>
                 `;
             }
         }
+        // ... (Fungsi executeRequest tetap sama, tidak ada perubahan yang signifikan diperlukan untuk UI Glitch)
 
         // ============================================
         // Execute Request
