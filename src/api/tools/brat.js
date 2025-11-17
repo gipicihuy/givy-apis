@@ -2,18 +2,14 @@
 const axios = require("axios");
 
 // --- ASUMSI IMPORT: PASTIKAN FILE INI ADA ---
-// Hapus baris 'const apiConfig = require("../../configs/apiConfig");'
 const Html = require("../../data/html/brat/list"); 
 // ---------------------------------------------
 
-// Tentukan domain TARGET API EKSTERNAL yang Anda maksud
-// Ganti nilai ini jika base API orang tersebut bukan 'wudysoft.xyz'
-const EXTERNAL_BASE_DOMAIN = "api.givy.my.id"; 
-
 class HtmlToImg {
-    constructor() {
-        // URL kini di-*hardcode* ke domain target API eksternal
-        this.url = `https://${EXTERNAL_BASE_DOMAIN}/api/tools/html2img`; 
+    // Menerima baseHost secara dinamis dari request
+    constructor(baseHost) {
+        // Gunakan host yang diterima (misal: api.givy.my.id)
+        this.url = `https://${baseHost}/api/tools/html2img`; 
         this.headers = {
             "Content-Type": "application/json",
             "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Mobile Safari/537.36"
@@ -27,7 +23,8 @@ class HtmlToImg {
             });
             return response.data;
         } catch (error) {
-            console.error(`Error fetching buffer (${responseType}): ${error.message}`);
+            // Memberikan detail error yang lebih baik
+            console.error(`Error fetching buffer (${responseType}) dari URL: ${url}`, error.message); 
             throw error;
         }
     }
@@ -61,8 +58,12 @@ class HtmlToImg {
                 throw new Error("Layanan HTML2IMG eksternal tidak mengembalikan URL media yang valid.");
             }
         } catch (error) {
-            console.error("Error during API call to external service:", error.message);
-            throw error; 
+            // Menyertakan detail status code 404 dalam log error
+            const status = error.response ? error.response.status : error.code;
+            console.error(`Error during API call to external service (${fullUrl}): Status ${status} - ${error.message}`);
+            
+            // Re-throw error dengan status yang lebih jelas
+            throw new Error(`Request failed with status code ${status}`); 
         }
     }
 }
@@ -71,7 +72,6 @@ class HtmlToImg {
 // === MODUL EXPRESS ENDPOINT ===
 // ===================================
 module.exports = function (app) {
-    // Endpoint: /tools/brat
     app.get('/tools/brat', async (req, res) => {
         
         if (global.totalreq !== undefined) {
@@ -91,25 +91,28 @@ module.exports = function (app) {
             });
         }
         
-        const htmlToImg = new HtmlToImg();
+        // --- FIX UTAMA: MENDAPATKAN HOST DINAMIS ---
+        const currentHost = req.headers.host;
+        const htmlToImg = new HtmlToImg(currentHost);
 
         try {
             const imageUrl = await htmlToImg.generate({
                 ...params,
                 output: outputFormat
             });
-
+            // ... (sisa logic untuk mengambil buffer dan mengirim response)
             if (imageUrl) {
                 let buffer;
                 let contentType;
                 let filenameExtension;
 
-                // Tentukan Content-Type dan ekstensi berdasarkan format output
                 if (outputFormat === "gif") {
-                    buffer = await htmlToImg.getImageBuffer(imageUrl, "arraybuffer");
+                    // Menggunakan arraybuffer
+                    buffer = await htmlToImg.getImageBuffer(imageUrl, "arraybuffer"); 
                     contentType = "video/mp4"; 
                     filenameExtension = "mp4";
                 } else if (outputFormat === "png") {
+                    // Menggunakan arraybuffer
                     buffer = await htmlToImg.getImageBuffer(imageUrl, "arraybuffer");
                     contentType = "image/png";
                     filenameExtension = "png";
@@ -123,7 +126,6 @@ module.exports = function (app) {
                     });
                 }
 
-                // Header untuk mengirim data biner
                 res.setHeader("Content-Type", contentType);
                 res.setHeader("Content-Disposition", `inline; filename="brat-output.${filenameExtension}"`);
                 
@@ -151,7 +153,10 @@ module.exports = function (app) {
                 queueLog({ method: req.method, status: 500, url: req.originalUrl, duration: 0, error: errorMessage });
             }
             
-            res.status(500).json({
+            // Pastikan error 404 dari internal API juga dikirim ke user
+            const status = error.message.includes("status code") ? 500 : 500; // Jika tidak ada status, tetap 500
+            
+            res.status(status).json({
                 status: false,
                 message: errorMessage
             });
