@@ -5,7 +5,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GivyAPIs Documentation</title>
+    <title>GivyAPIs</title>
     <style>
 :root {
     --bg-color: #282c34;
@@ -166,6 +166,7 @@ details[open] summary .arrow {
 .category-content {
     overflow: hidden;
     border-top: 1px dashed rgba(104, 211, 145, 0.5);
+    opacity: 1;
 }
 
 details:not([open]) > .category-content {
@@ -175,6 +176,12 @@ details:not([open]) > .category-content {
 details[open] > .category-content {
     animation: slideDown 0.3s ease-out;
     padding: 8px 20px 20px 20px;
+}
+
+/* Fix flicker: Pastikan content tidak "loncat" */
+.category-content * {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 @keyframes slideDown {
@@ -241,6 +248,7 @@ details[open] > .category-content {
     background: var(--card-bg);
     border-top: 1px dashed #444;
     margin: 0;
+    opacity: 1;
 }
 
 .endpoint-group:not([open]) > .endpoint-card {
@@ -250,6 +258,12 @@ details[open] > .category-content {
 .endpoint-group[open] > .endpoint-card {
     animation: slideDown 0.3s ease-out;
     padding: 10px 16px 16px 16px;
+}
+
+/* Fix flicker: Pastikan content tidak "loncat" */
+.endpoint-card * {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 .badge {
@@ -528,13 +542,18 @@ footer {
         
         function setupDetailsAnimation(detailsElement) {
             const summary = detailsElement.querySelector('summary');
+            let isProcessing = false;
 
             summary.addEventListener('click', (e) => {
                 e.preventDefault();
                 
+                // Prevent rapid clicks yang bikin flicker
+                if (isProcessing) return;
+                isProcessing = true;
+                
                 const isCurrentlyOpen = detailsElement.hasAttribute('open');
 
-                // Auto-close ALL details (termasuk yang ini)
+                // Auto-close ALL siblings di level yang sama
                 const parent = detailsElement.parentElement;
                 const allDetails = Array.from(parent.querySelectorAll(':scope > details'));
                 
@@ -544,18 +563,28 @@ footer {
 
                 // Kalau tadi TUTUP, sekarang BUKA (dengan animation fresh)
                 if (!isCurrentlyOpen) {
-                    // TRICK: setTimeout 0 untuk force browser re-render
+                    // TRICK: setTimeout untuk force browser re-render dan trigger animation
                     setTimeout(() => {
                         detailsElement.setAttribute('open', '');
                         
-                        // Scroll
+                        // Scroll hanya untuk category utama (bukan endpoint)
+                        if (!detailsElement.classList.contains('endpoint-group')) {
+                            setTimeout(() => {
+                                detailsElement.scrollIntoView({ 
+                                    behavior: 'smooth', 
+                                    block: 'start' 
+                                });
+                            }, 150);
+                        }
+                        
+                        // Release lock
                         setTimeout(() => {
-                            detailsElement.scrollIntoView({ 
-                                behavior: 'smooth', 
-                                block: 'start' 
-                            });
-                        }, 150);
+                            isProcessing = false;
+                        }, 100);
                     }, 10);
+                } else {
+                    // Release lock immediately for close action
+                    isProcessing = false;
                 }
             });
         }
