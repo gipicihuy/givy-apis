@@ -1,108 +1,143 @@
 /* File: src/api/download/pinterest.js */
-const axios = require('axios');
+const axios = require("axios");
+const {
+    wrapper
+} = require("axios-cookiejar-support"); // PENTING: Perlu instalasi
+const {
+    CookieJar
+} = require("tough-cookie"); // PENTING: Perlu instalasi
+const cheerio = require("cheerio");
+const FormData = require("form-data"); // PENTING: Perlu instalasi
 
-// Fungsi IP Spoofing (dipertahankan dari kode Anda)
-const cukurukuk = () => {
-    return Array.from({length: 4}, () => Math.floor(Math.random() * 256)).join('.');
-};
-
-// Fungsi cek URL valid
-const ngecek = (url) => {
-    return url && url.includes('pinterest.com/pin/');
-};
-
-// Fungsi scraping utama
-const ngambil = async (url) => {
-    const results = {
-        status: "",
-        site: "",
-        title: "",
-        description: "",
-        image: "" // Ini akan menampung URL download akhir (gambar/video)
-    };
-
-    try {
-        if (!ngecek(url)) {
-            throw new Error("URL tidak valid. Harus berupa tautan pin Pinterest.");
-        }
-
-        const headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-            'X-Forwarded-For': cukurukuk(), // Spoofing IP
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Accept-Language': 'en-US,en;q=0.9'
-        };
-
-        const response = await axios.get(url, { headers });
-        
-        if (response.status !== 200) {
-            throw new Error(`Gagal mengambil data: HTTP Error ${response.status}`);
-        }
-
-        const html = response.data;
-        
-        const scriptRegex = /<script[^>]*>([\s\S]*?)<\/script>/gi;
-        let match;
-
-        while ((match = scriptRegex.exec(html)) !== null) {
-            const scriptContent = match[1];
-            
-            // 1. Mengambil Title
-            if (scriptContent.includes('gridTitle') && !results.title) {
-                const titleMatch = scriptContent.match(/"gridTitle":"([^"]+)"/);
-                if (titleMatch) results.title = titleMatch[1];
+class PinterestDownloader {
+    constructor() {
+        // Console.log dihilangkan untuk menghindari excessive logging di Vercel
+        const jar = new CookieJar();
+        this.client = wrapper(axios.create({
+            jar: jar,
+            responseType: "json",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
             }
-            
-            // 2. Mengambil Description
-            if (scriptContent.includes('seoTitle') && !results.description) {
-                const descMatch = scriptContent.match(/"seoTitle":"([^"]+)"/);
-                if (descMatch) results.description = descMatch[1];
-            }
-            
-            // 3. Mengambil URL Gambar (Original spec/size)
-            if (scriptContent.includes('imageSpec_orig') && !results.image) {
-                const imageMatch = scriptContent.match(/"imageSpec_orig":{.*?"url":"([^"]+)"/);
-                if (imageMatch) results.image = imageMatch[1].replace(/\\/g, '');
-            }
-            
-            // 4. Tambahan: Mengambil URL Video (jika pin adalah video)
-            if (scriptContent.includes('video_list') && !results.image) {
-                // Mencari URL video kualitas terbaik (biasanya hls atau hd)
-                const videoMatch = scriptContent.match(/"video_list":{.*?"videoSpec_hls":{.*?"url":"([^"]+)"/);
-                if (videoMatch) {
-                    results.image = videoMatch[1].replace(/\\/g, '');
-                } else {
-                    const videoMatchAlt = scriptContent.match(/"video_list":{.*?"videoSpec_hd":{.*?"url":"([^"]+)"/);
-                    if (videoMatchAlt) {
-                        results.image = videoMatchAlt[1].replace(/\\/g, '');
-                    }
-                }
-            }
-        }
-        
-        if (!results.image) {
-             throw new Error("Gagal mengekstrak URL gambar/video dari pin. Pin mungkin dihapus atau link tidak didukung.");
-        }
-
-        results.status = "200 OK";
-        
-        // Format hasil untuk API
-        return {
-            status: results.status,
-            site: results.site,
-            title: results.title || "No Title Found",
-            description: results.description || "No Description Found",
-            url_download: results.image, // Mengganti 'Image' menjadi 'url_download'
-            media_type: results.image.includes('.mp4') ? "video/mp4" : "image/jpeg"
-        };
-
-    } catch (error) {
-        return {
-            error: error.message || 'Terjadi kesalahan tidak terduga.',
-            status: "500 ERROR"
-        };
+        }));
+        this.baseUrl = "https://pindown.io";
     }
-};
+
+    async download({
+        url,
+        ...rest
+    }) {
+        try {
+            // 1. Ambil token keamanan dinamis dari halaman utama
+            const initialResponse = await this.client.get(this.baseUrl, {
+                headers: {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+                },
+                responseType: "text", 
+                timeout: 15000,
+                ...rest
+            });
+            const $initial = cheerio.load(initialResponse.data);
+            const hiddenInput = $initial('form#get_video input[type="hidden"]');
+            const tokenName = hiddenInput.attr("name");
+            const tokenValue = hiddenInput.attr("value");
+            
+            if (!tokenName || !tokenValue) {
+                throw new Error("Gagal mengambil token keamanan dari Pindown.io. Struktur website mungkin telah berganti.");
+            }
+
+            // 2. Kirim POST request dengan URL dan token
+            const form = new FormData();
+            form.append("url", url);
+            form.append(tokenName, tokenValue);
+
+            const actionResponse = await this.client.post(`${this.baseUrl}/action`, form, {
+                headers: {
+                    ...form.getHeaders(),
+                    Referer: this.baseUrl,
+                    Accept: "application/json, text/javascript, */*; q=0.01",
+                    Origin: this.baseUrl,
+                    "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36"
+                },
+                timeout: 15000
+            });
+
+            let htmlToParse;
+            if (actionResponse.data && actionResponse.data.success && typeof actionResponse.data.html === "string") {
+                htmlToParse = actionResponse.data.html;
+            } else {
+                 throw new Error("Respon dari Pindown.io tidak valid atau gagal diproses.");
+            }
+            
+            if (!htmlToParse) {
+                throw new Error("Konten HTML hasil tidak ditemukan.");
+            }
+
+            // 3. Ekstrak data dari hasil HTML
+            const $result = cheerio.load(htmlToParse);
+            const mediaContent = $result(".media-content");
+            const title = mediaContent.find("strong")?.text()?.trim() || "No title available";
+            const description = mediaContent.find(".video-des")?.text()?.trim() || "No description";
+            
+            const image = $result(".media-left .image img");
+            const thumbnail = image?.attr("src") || "No thumbnail available";
+            
+            const videoPreview = $result(".modal-content video");
+            const previewUrl = videoPreview?.attr("src") || null; 
+
+            const downloads = [];
+            $result(".download-link table tbody tr").each((i, elem) => {
+                const type = $result(elem).find(".video-quality")?.text()?.trim();
+                const link = $result(elem).find("a.button")?.attr("href");
+                if (type && link) {
+                    downloads.push({
+                        quality: type,
+                        url: link
+                    });
+                }
+            });
+
+            // Fallback untuk Gambar (jika tidak ada tabel video/downloads)
+            if (downloads.length === 0) {
+                 const directImageLink = $result('a.button[href*="cdn.pinimg.com"]')?.attr('href');
+                 if (directImageLink) {
+                     downloads.push({
+                         quality: "Original Image",
+                         url: directImageLink
+                     });
+                 }
+            }
+
+
+            if (downloads.length === 0) {
+                 throw new Error("Gagal mendapatkan tautan unduhan. Pin mungkin Carousel/Idea Pin yang tidak didukung, atau situs web memblokir IP Vercel.");
+            }
+
+            return {
+                title: title,
+                description: description,
+                thumbnail: thumbnail,
+                preview_url: previewUrl, 
+                media_count: downloads.length,
+                downloads: downloads,
+                ...rest
+            };
+            
+        } catch (error) {
+            let errorMessage = `Scraping gagal: ${error.message}`;
+            if (error.response && error.response.status === 403) {
+                errorMessage = "Gagal mengambil data. Pindown.io mungkin memblokir IP Vercel. Coba lagi atau gunakan IP lain.";
+            }
+
+            return {
+                error: "Failed to download media.",
+                message: errorMessage,
+                details: error.response?.data || null
+            };
+        }
+    }
+}
+
 
 // ===================================
 // === MODUL EXPRESS ENDPOINT ===
@@ -122,21 +157,23 @@ module.exports = function (app) {
             }
             return res.status(400).json({
                 status: false,
-                message: "Parameter 'url' wajib diisi. Contoh: /api/download/pinterest?url=https://pin.it/xxxxx"
+                message: "Parameter 'url' wajib diisi. Contoh: /download/pinterest?url=https://pin.it/xxxxx"
             });
         }
         
         try {
-            const result = await ngambil(url);
+            const api = new PinterestDownloader();
+            const response = await api.download({ url });
             
-            if (result.error) {
+            if (response.error) {
                 if (typeof queueLog === 'function') {
-                    queueLog({ method: req.method, status: 500, url: req.originalUrl, duration: 0, error: result.error });
+                    queueLog({ method: req.method, status: 500, url: req.originalUrl, duration: 0, error: response.message });
                 }
                 return res.status(500).json({
                     status: false,
                     creator: 'Givy',
-                    message: result.error
+                    message: response.message,
+                    details: response.details || null
                 });
             }
             
@@ -147,7 +184,7 @@ module.exports = function (app) {
             res.status(200).json({
                 status: true,
                 creator: 'Givy',
-                result: result
+                result: response
             });
             
         } catch (error) {
