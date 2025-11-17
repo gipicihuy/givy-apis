@@ -1,38 +1,51 @@
-/* File: src/api/tools/brat.js (Simple External Proxy Version - TANPA KOYEB) */
+/* File: src/api/tools/brat.js (Simple External Proxy Version - Single Parameter) */
 const axios = require("axios");
 
-// Variabel domain Koyeb tidak lagi diperlukan
+// Daftar URL API eksternal yang akan dicoba secara berurutan (fallback)
+const API_URLS = [
+    "https://brat.caliphdev.com/api/brat?text=",
+    "https://aqul-brat.hf.space/?text=",
+    "https://siputzx-bart.hf.space/?q=", // Perhatikan beberapa host menggunakan ?q=
+    "https://qyuunee-brat.hf.space/?q="
+];
 
-class BratService {
-    constructor(host = 1) {
-        // Daftar URL API eksternal yang dipertahankan
-        this.BASE_URLS = {
-            1: "https://brat.caliphdev.com/api/brat?text=",
-            // Host 2 dan 5 yang sebelumnya menggunakan Koyeb telah dihapus
-            2: "https://aqul-brat.hf.space/?text=",
-            3: "https://siputzx-bart.hf.space/?q=",
-            4: "https://qyuunee-brat.hf.space/?q="
-        };
-        this.totalHosts = Object.keys(this.BASE_URLS).length; // Sekarang totalnya adalah 4
+class BratProxy {
+    async fetchImageWithFallback(text) {
+        let lastError = null;
         
-        // Memastikan host berada dalam rentang yang valid (1-4)
-        const validHost = Math.min(Math.max(host, 1), this.totalHosts);
-        this.BASE_URL = this.BASE_URLS[validHost];
-    }
+        // Loop melalui semua URL yang tersedia
+        for (let i = 0; i < API_URLS.length; i++) {
+            const baseUrl = API_URLS[i];
+            
+            // Perlu disesuaikan karena ada host yang menggunakan "?q="
+            const queryParam = baseUrl.includes("?q=") ? "q" : "text"; 
+            const url = `${baseUrl}${encodeURIComponent(text)}`;
 
-    async fetchImage(text) {
-        const url = `${this.BASE_URL}${encodeURIComponent(text)}`;
-        try {
-            const response = await axios.get(url, {
-                timeout: 15000, 
-                responseType: "arraybuffer"
-            });
-            return Buffer.from(response.data);
-        } catch (error) {
-            const status = error.response ? error.response.status : 'NETWORK_ERROR';
-            console.error(`Error fetching image from host ${this.BASE_URL}: Status ${status} - ${error.message}`);
-            throw new Error(`Error fetching image from host ${this.BASE_URL} (Status ${status})`);
+            try {
+                const response = await axios.get(url, {
+                    timeout: 15000, 
+                    responseType: "arraybuffer"
+                });
+                
+                // Jika berhasil, kembalikan buffer dan hentikan loop
+                console.log(`Berhasil mengambil gambar dari Host ke-${i + 1}: ${url}`);
+                return {
+                    buffer: Buffer.from(response.data),
+                    hostIndex: i + 1
+                };
+            } catch (error) {
+                const status = error.response ? error.response.status : 'NETWORK_ERROR';
+                lastError = { message: error.message, status: status, host: i + 1 };
+                console.error(`Host ke-${i + 1} gagal (Status ${status}). Mencoba host berikutnya...`);
+                // Lanjut ke iterasi berikutnya (host fallback)
+            }
         }
+        
+        // Jika loop selesai dan tidak ada yang berhasil, lemparkan error terakhir
+        if (lastError) {
+            throw new Error(`Semua API BRAT gagal dihubungi. Error terakhir dari Host ${lastError.host}: Status ${lastError.status} - ${lastError.message}`);
+        }
+        throw new Error("Daftar API BRAT kosong atau tidak terjangkau.");
     }
 }
 
@@ -48,8 +61,8 @@ module.exports = function (app) {
 
         const params = req.query; 
         const text = params.text;
-        const host = params.host;
-
+        // Parameter 'host' diabaikan
+        
         if (!text) {
              if (typeof queueLog === 'function') {
                 queueLog({ method: req.method, status: 400, url: req.originalUrl, duration: 0, error: "Missing 'text' parameter" });
@@ -57,31 +70,22 @@ module.exports = function (app) {
             return res.status(400).json({
                 status: false,
                 creator: "Givy",
-                message: "Parameter 'text' wajib diisi. Contoh: /tools/brat?text=Selamat Datang&host=1"
+                message: "Parameter 'text' wajib diisi. Contoh: /tools/brat?text=Selamat Datang"
             });
         }
         
-        const hostInt = host ? parseInt(host) : 1;
-        const downloader = new BratService(hostInt);
-
-        // Pesan error diperbarui: Host sekarang hanya 1 sampai 4
-        if (hostInt < 1 || hostInt > downloader.totalHosts) {
-            return res.status(400).json({
-                status: false,
-                creator: "Givy",
-                message: `Host harus antara 1 dan ${downloader.totalHosts} (saat ini 4). Default: 1.`
-            });
-        }
+        const proxy = new BratProxy();
 
         try {
-            const imageBuffer = await downloader.fetchImage(text);
+            const { buffer: imageBuffer, hostIndex } = await proxy.fetchImageWithFallback(text);
             
             if (imageBuffer && imageBuffer.length > 0) {
+                // Mengirimkan buffer gambar PNG
                 res.setHeader("Content-Type", "image/png");
-                res.setHeader("Content-Disposition", `inline; filename="brat-proxy-host-${hostInt}.png"`);
+                res.setHeader("Content-Disposition", `inline; filename="brat-output-host-${hostIndex}.png"`);
 
                 if (typeof queueLog === 'function') {
-                    queueLog({ method: req.method, status: 200, url: req.originalUrl, duration: 0, info: `Sent image/png buffer from host ${hostInt}` }); 
+                    queueLog({ method: req.method, status: 200, url: req.originalUrl, duration: 0, info: `Sent image/png buffer via successful Host ${hostIndex}` }); 
                 }
 
                 return res.status(200).send(imageBuffer);
@@ -90,7 +94,7 @@ module.exports = function (app) {
             }
             
         } catch (error) {
-            const errorMessage = `BRAT Proxy Error: ${error.message}`;
+            const errorMessage = `BRAT API Error: ${error.message}`;
             console.error("Error API:", errorMessage);
             
             if (typeof queueLog === 'function') {
