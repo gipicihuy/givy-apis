@@ -5,7 +5,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GivyAPIs Documentation</title>
+    <title>GivyAPIs</title>
     <style>
 :root {
     --bg-color: #282c34;
@@ -516,18 +516,11 @@ footer {
         const BASE_URL = window.location.origin;
 
         // ============================================
-        // SOLUSI SIMPLE: Gunakan CSS grid-template-rows
-        // Ini adalah cara PALING MULUS untuk animasi height
+        // SOLUSI TERBAIK: CSS Grid + Manual State Management
         // ============================================
         
-        function setupDetailsAnimation(detailsElement, contentSelector) {
+        function setupDetailsAnimation(detailsElement) {
             const summary = detailsElement.querySelector('summary');
-            const content = detailsElement.querySelector(contentSelector);
-            
-            if (!content) return;
-            
-            // Tambahkan class untuk CSS animation
-            content.classList.add('animated-content');
             
             let isAnimating = false;
 
@@ -537,15 +530,15 @@ footer {
                 if (isAnimating) return;
                 isAnimating = true;
 
-                const willOpen = !detailsElement.open;
+                const willOpen = !detailsElement.hasAttribute('open');
 
                 if (willOpen) {
-                    // Auto-close siblings INSTANTLY (no animation)
+                    // Auto-close siblings INSTANTLY
                     const parent = detailsElement.parentElement;
                     const siblings = parent.querySelectorAll(detailsElement.tagName);
                     
                     siblings.forEach(sibling => {
-                        if (sibling !== detailsElement && sibling.open) {
+                        if (sibling !== detailsElement && sibling.hasAttribute('open')) {
                             sibling.removeAttribute('open');
                         }
                     });
@@ -553,13 +546,18 @@ footer {
                     // Buka dengan animasi
                     detailsElement.setAttribute('open', '');
                     
-                    // Scroll after opening
+                    // Scroll after opening animation
                     setTimeout(() => {
-                        detailsElement.scrollIntoView({ 
-                            behavior: 'smooth', 
-                            block: 'start' 
-                        });
-                    }, 100);
+                        const rect = detailsElement.getBoundingClientRect();
+                        const isInView = rect.top >= 0 && rect.top <= window.innerHeight * 0.3;
+                        
+                        if (!isInView) {
+                            window.scrollTo({
+                                top: window.pageYOffset + rect.top - 20,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }, 200);
                 } else {
                     // Tutup
                     detailsElement.removeAttribute('open');
@@ -567,7 +565,7 @@ footer {
 
                 setTimeout(() => {
                     isAnimating = false;
-                }, 400);
+                }, 450);
             });
         }
 
@@ -707,13 +705,9 @@ footer {
                 
                 document.getElementById('endpoints').innerHTML = html;
 
-                // Setup animations
-                document.querySelectorAll('#endpoints > details').forEach(detail => {
-                    setupDetailsAnimation(detail, '.category-content');
-                });
-
-                document.querySelectorAll('.endpoint-group').forEach(group => {
-                    setupDetailsAnimation(group, '.endpoint-card');
+                // Setup animations - SIMPLIFIED
+                document.querySelectorAll('details').forEach(detail => {
+                    setupDetailsAnimation(detail);
                 });
 
                 document.querySelectorAll('.execute-btn').forEach(btn => {
