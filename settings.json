@@ -36,7 +36,7 @@
           }
         },
         {
-          "name": "Pinterest Downloader",
+          "name": "Pinterest",
           "desc": "Get direct download link (image/video) from a Pinterest pin URL.",
           "path": "/download/pinterest?url=",
           "status": "ready",
