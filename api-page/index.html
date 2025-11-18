@@ -7,7 +7,7 @@
 <meta name="description" content="A fast, flexible API made for whatever you need.">
 <meta property="og:description" content="A fast, flexible API made for whatever you need.">
 <meta name="twitter:description" content="A fast, flexible API made for whatever you need.">
-<link rel="icon" href="/src/icon.png" type="image/png">
+<link rel="icon" href="/assets/icon.png" type="image/png">
 <meta property="og:image" content="https://i.pinimg.com/564x/b4/8b/92/b48b92091811cadb45be0bf4811675e9.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://i.pinimg.com/564x/b4/8b/92/b48b92091811cadb45be0bf4811675e9.jpg">
@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GivyAPIs Documentation</title>
+    <title>GivyAPIs</title>
     <style>
 :root {
     --bg-color: #282c34;
@@ -793,18 +793,38 @@ footer {
                         });
                     }
                     
-                    // Untuk JSON response
-                    if (!response.ok) {
-                        return response.text().then(text => {
-                            throw new Error(`HTTP Error ${response.status}: ${text.substring(0, 50)}...`);
-                        });
-                    }
-                    
-                    return response.json().then(data => ({ 
-                        isImage: false, 
-                        data: data, 
-                        status: response.status 
-                    }));
+                    // **PERBAIKAN KRUSIAL UNTUK ERROR HANDLING JSON**
+                    // 1. Baca response body sebagai TEKS terlebih dahulu
+                    return response.text().then(text => {
+                        let data = {};
+                        let isJson = false;
+                        let errorMessage = response.statusText; // Default message
+
+                        try {
+                            // Coba parse sebagai JSON
+                            data = JSON.parse(text); 
+                            isJson = true;
+                            // Gunakan message dari JSON (data.message, data.error, dll)
+                            errorMessage = data.message || data.error || JSON.stringify(data); 
+                        } catch (e) {
+                            // Jika gagal parse, gunakan teks mentah
+                            errorMessage = text;
+                        }
+
+                        if (!response.ok) {
+                            // 2. Jika status bukan 2xx (Error), lempar error dengan pesan dari JSON/Text
+                            // Batasi panjang pesan error untuk kebersihan UI dan hapus spasi berlebihan
+                            const finalErrorMessage = errorMessage.replace(/\s+/g, ' ').substring(0, 150).trim();
+                            throw new Error(`HTTP Error ${response.status}: ${finalErrorMessage}`);
+                        }
+                        
+                        // 3. Jika OK (2xx), kembalikan data
+                        return { 
+                            isImage: false, 
+                            data: isJson ? data : text, // Kembalikan data yang sudah di-parse, atau teks mentah jika bukan JSON
+                            status: response.status 
+                        };
+                    });
                 })
                 .then(data => {
                     const responseContainer = document.getElementById(`response-container-${uniqueId}`);
@@ -812,16 +832,11 @@ footer {
                     const resultContent = document.getElementById(`content-${uniqueId}`);
                     
                     if (data.isImage) {
-                        // PERBAIKAN: Tampilkan image dengan benar
+                        // Tampilkan image
                         console.log('Image detected, rendering...');
-                        
-                        // Sembunyikan header Response untuk image
                         responseHeader.style.display = 'none';
-                        
-                        // Terapkan class untuk tampilan gambar yang bersih
                         resultContent.classList.add('image-only');
                         
-                        // Buat object URL dari blob
                         const imageUrl = URL.createObjectURL(data.blob);
                         
                         resultContent.innerHTML = `
@@ -839,7 +854,10 @@ footer {
                             <i class="fa-solid fa-copy copy-btn" onclick="copyResultContent(this, '${uniqueId}')" title="Copy Response"></i>
                         `;
 
-                        resultContent.textContent = JSON.stringify(data.data, null, 2);
+                        // Jika data sudah dalam bentuk objek, stringify untuk tampilan
+                        const displayContent = typeof data.data === 'object' ? JSON.stringify(data.data, null, 2) : data.data;
+
+                        resultContent.textContent = displayContent;
                         resultContent.style.color = 'var(--text-color)';
                     }
                     
