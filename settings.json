@@ -88,6 +88,16 @@
           }
         },
         {
+                    "name": "Mobile Legends",
+                    "status": "ready",
+                    "desc": "Mencari Nickname Mobile Legends berdasarkan User ID dan Zone ID.",
+                    "path": "/stalk/ml",
+                    "params": {
+                        "userId": "User ID Mobile Legends (cth: 92666339)",
+                        "zoneId": "Zone ID Mobile Legends (cth: 2193)"
+                    }
+        },
+        {
           "name": "NGL",
           "desc": "Get NGL username validity with profile picture",
           "path": "/stalk/ngl?username=",
@@ -104,9 +114,18 @@
       "description": "Utilities and converters",
       "items": [
         {
-          "name": "Brat ",
+          "name": "Brat",
           "desc": "Convert HTML content into an image (PNG) or video (MP4/GIF).",
-          "path": "/tools/brat?text=",
+          "path": "/maker/brat?text=",
+          "status": "ready",
+          "params": {
+            "text": "text nya boskuh"
+          }
+        },
+                {
+          "name": "Brat Anime",
+          "desc": "Convert text to anime images",
+          "path": "/maker/bratanime?text=",
           "status": "ready",
           "params": {
             "text": "text nya boskuh"
