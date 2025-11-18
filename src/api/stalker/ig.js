@@ -1,95 +1,144 @@
-/* File: src/api/stalk/ig.js */
 const axios = require('axios');
+const fakeUserAgent = require('fake-useragent');
 
-// Fungsi untuk membuat IP palsu secara acak (membantu menghindari ban sederhana)
+// Fungsi untuk membuat IP acak
 function generateRandomIP() {
-    return Array.from({length: 4}, () => Math.floor(Math.random() * 256)).join('.');
+    return `1.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
 }
 
-// Fungsi untuk membuat set Cookie palsu (penting untuk endpoint API IG ini)
-function generateFakeCookies() {
-    const randomString = () => Math.random().toString(36).substring(2, 15);
-    const cookies = [
-        `ig_did=${randomString()}`,
-        `mid=${randomString()}`,
-        `csrftoken=${randomString()}`,
-        `sessionid=${randomString()}`
-    ];
-    return cookies.join('; ');
-}
-
-// Fungsi utama untuk mengambil data profil Instagram
-async function fetchInstagramProfile(username) {
-    const fake_ip = generateRandomIP();
-    
-    // Header yang meniru request dari browser untuk melewati deteksi bot
-    const headers = {
-        'X-Forwarded-For': fake_ip,
-        'X-Real-IP': fake_ip,
-        'X-Client-IP': fake_ip,
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-        'Accept': '*/*',
-        'Accept-Language': 'en-US,en;q=0.9',
-        'Referer': 'https://www.instagram.com/',
-        'X-IG-App-ID': '936619743392459', // ID Aplikasi Instagram Web
-        'X-Requested-With': 'XMLHttpRequest',
-        'Cookie': generateFakeCookies()
-    };
-    
+// Fungsi untuk membuat User-Agent acak
+function generateRandomUserAgent() {
     try {
-        const url = `https://www.instagram.com/api/v1/users/web_profile_info/?username=${username}`;
-        // Timeout 15 detik untuk menghindari request menggantung
-        const response = await axios.get(url, { headers, timeout: 15000 });
-        
-        // Cek jika data yang dikembalikan kosong atau gagal meskipun status 200
-        if (!response.data || response.data.status === 'fail' || !response.data.data.user) {
-            return { error: 'Gagal mengambil data. Mungkin username tidak ditemukan, akun privat, atau Instagram memblokir request.' };
-        }
-        
-        return response.data;
+        const ua = new fakeUserAgent();
+        return ua.random;
     } catch (error) {
-        // Tangani error Axios seperti timeout atau status non-200
-        return { error: error.message || 'Request ke Instagram gagal.' };
+        // Fallback Agents
+        const agents = [
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15',
+        ];
+        return agents[Math.floor(Math.random() * agents.length)];
     }
 }
 
-// ===================================
-// === MODUL EXPRESS ENDPOINT ===
-// ===================================
-module.exports = function (app) {
+// Fungsi untuk membersihkan username
+function cleanUsername(username) {
+    return username.replace(/^@/, '');
+}
+
+// Handler Express
+module.exports = function(app) {
+    const CREATOR_NAME = "Givy";
+    const APP_ID = '936619743392459'; 
+
     app.get('/stalk/ig', async (req, res) => {
-        const { username } = req.query; // Ambil parameter 'username' dari query URL
+        const { username } = req.query; // Hanya ambil username
         
         if (!username) {
             return res.status(400).json({
                 status: false,
-                message: "Parameter 'username' wajib diisi. Contoh: /stalk/ig?username=userig"
+                creator: CREATOR_NAME,
+                message: "Parameter 'username' harus disediakan"
             });
         }
+
+        const cleanUser = cleanUsername(username);
+        const url = `https://www.instagram.com/api/v1/users/web_profile_info/?username=${cleanUser}`;
         
+        const randomIP = generateRandomIP();
+        const userAgent = generateRandomUserAgent();
+
+        const headers = {
+            'User-Agent': userAgent,
+            'X-Forwarded-For': randomIP,
+            'X-Real-IP': randomIP,
+            'X-Client-IP': randomIP,
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Referer': `https://www.instagram.com/${cleanUser}/`,
+            'X-IG-App-ID': APP_ID,
+            'X-Requested-With': 'XMLHttpRequest',
+            'Origin': 'https://www.instagram.com',
+            'Connection': 'keep-alive',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-origin',
+            'DNT': '1',
+            'Sec-GPC': '1'
+        };
+
         try {
-            const profile = await fetchInstagramProfile(username);
-            
-            if (profile.error) {
-                // Jika fungsi scraping mengembalikan error
-                return res.status(500).json({
+            const response = await axios.get(url, {
+                headers: headers,
+                timeout: 10000,
+                // Kita izinkan status 404 (Not Found) atau 429 (Rate Limit) untuk ditangani di blok try
+                validateStatus: (status) => status >= 200 && status < 500 
+            });
+
+            if (response.status === 200) {
+                
+                // MENGEMBALIKAN DATA RAW/LENGKAP SEBAGAI DEFAULT
+                // Periksa jika respons memiliki struktur dasar yang diharapkan sebelum mengembalikan 200 OK
+                if (response.data && response.data.data && response.data.data.user) {
+                    return res.status(200).json({
+                        status: true,
+                        creator: CREATOR_NAME,
+                        message: "Instagram Stalk Success (Full Data)",
+                        result: response.data // <<< INI ADALAH DATA MENTAH LENGKAP
+                    });
+                } else {
+                    // Tangani kasus 200 OK tapi tidak ada data user (misalnya akun private atau edge case)
+                    const errorMsg = response.data?.message || `User '${username}' tidak ditemukan atau data tidak lengkap.`;
+                    
+                    return res.status(404).json({
+                        status: false,
+                        creator: CREATOR_NAME,
+                        message: errorMsg,
+                        details: response.data || null
+                    });
+                }
+            } else {
+                // Status selain 200 (seperti 404 dari Instagram)
+                const errorMsg = response.data?.message || `User '${username}' tidak ditemukan.`;
+                
+                return res.status(response.status).json({
                     status: false,
-                    creator: 'SeBerryLW',
-                    message: profile.error
+                    creator: CREATOR_NAME,
+                    message: errorMsg,
+                    details: response.data || null
                 });
             }
-            
-            // Sukses - kembalikan objek user yang berisi semua detail profil
-            res.json({
-                status: true,
-                creator: 'SeBerryLW',
-                result: profile.data.user
-            });
+
+
         } catch (error) {
-            // Tangani error yang tidak terduga
-            res.status(500).json({
+            // Error dari jaringan, 401, 429, atau 5xx
+            
+            let status = 500;
+            let message = "Terjadi kesalahan saat mengambil data Instagram.";
+
+            if (error.response) {
+                status = error.response.status;
+                const data = error.response.data;
+                
+                if (status === 401 || status === 403) {
+                    message = "Akses ditolak (401/403). Server Instagram memblokir request ini.";
+                } else if (status === 404) {
+                    message = `User '${username}' tidak ditemukan.`;
+                } else if (status === 429) {
+                    message = "Terlalu banyak permintaan (Rate Limit). Coba lagi nanti.";
+                } else {
+                    message = data.message || `Error ${status}: Gagal memproses data.`;
+                }
+            }
+            
+            console.error(`Instagram Stalk Error (${status}):`, error.message);
+
+            return res.status(status).json({
                 status: false,
-                message: error.message || 'Terjadi kesalahan internal pada server.'
+                creator: CREATOR_NAME,
+                message: message,
+                details: error.message
             });
         }
     });
