@@ -48,7 +48,7 @@
     },
     {
       "name": "Stalker",
-      "icon": "fa-solid fa-magnifying-glass",
+      "icon": "fa-solid fa-user-secret",
       "description": "Social media & game profile lookup",
       "items": [
         {
@@ -130,9 +130,51 @@
           "params": {
             "text": "text nya boskuh"
           }
+        },
+{
+          "name": "iPhone Quoted Chat",
+          "desc": "Generate iPhone-style quoted chat screenshot with customizable details",
+          "path": "/maker/iqc",
+          "status": "ready",
+          "params": {
+            "messageText": "Chat message text (wajib)",
+            "carrierName": "Carrier name (cth: AXIS, Telkomsel)",
+            "time": "Time display (cth: 11:26)",
+            "batteryPercentage": "Battery % (cth: 88)",
+            "signalStrength": "Signal bars 1-4 (cth: 4)",
+            "emojiStyle": "Emoji style (cth: apple)"
+          }
+        },
+        {
+          "name": "Blue Archive Logo",
+          "desc": "Generate Blue Archive style logo with custom left & right text",
+          "path": "/maker/ba-logo",
+          "status": "ready",
+          "params": {
+            "textL": "Left text (cth: faiz)",
+            "textR": "Right text (cth: peod)"
+          }
         }
       ]
     },
+    {
+  "name": "Tools",
+  "icon": "fa-solid fa-wrench",
+  "description": "Berbagai utility dan alat otomatisasi",
+  "items": [
+    {
+      "name": "NGL Spammer",
+      "desc": "enak buat iseng ke temen loh ya😋😈🤭",
+      "path": "/tools/spamngl",
+      "status": "ready",
+      "params": {
+        "username": "Username NGL target",
+        "message": "Pesan yang akan dikirim",
+        "count": "Jumlah pesan (Max 30)"
+         }
+        }
+       ]
+     },
     {
       "name": "System",
       "icon": "fa-solid fa-gears",
