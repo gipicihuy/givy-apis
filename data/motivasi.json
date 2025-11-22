@@ -1,0 +1,1844 @@
+{
+  "motivasi": [
+    {
+      "id": 1,
+      "teks": "Kesuksesan adalah hasil dari kerja keras dan ketekunan."
+    },
+    {
+      "id": 2,
+      "teks": "Belajar hari ini untuk masa depan yang lebih baik."
+    },
+    {
+      "id": 3,
+      "teks": "Pengetahuan adalah kekuatan, belajarlah setiap hari."
+    },
+    {
+      "id": 4,
+      "teks": "Jangan pernah berhenti belajar, karena hidup tidak pernah berhenti mengajar."
+    },
+    {
+      "id": 5,
+      "teks": "Setiap hari adalah kesempatan baru untuk belajar sesuatu yang baru."
+    },
+    {
+      "id": 6,
+      "teks": "Belajar bukanlah tentang menguasai segalanya, tetapi memahami hal-hal yang penting."
+    },
+    {
+      "id": 7,
+      "teks": "Pendidikan adalah paspor ke masa depan, karena besok milik mereka yang mempersiapkannya hari ini."
+    },
+    {
+      "id": 8,
+      "teks": "Kunci kesuksesan adalah belajar dari setiap kegagalan."
+    },
+    {
+      "id": 9,
+      "teks": "Masa depanmu dimulai dari apa yang kamu pelajari hari ini."
+    },
+    {
+      "id": 10,
+      "teks": "Investasi terbaik yang dapat kamu lakukan adalah investasi pada dirimu sendiri."
+    },
+    {
+      "id": 11,
+      "teks": "Berani mencoba adalah langkah pertama menuju keberhasilan."
+    },
+    {
+      "id": 12,
+      "teks": "Kegagalan adalah kesempatan untuk memulai lagi dengan lebih bijaksana."
+    },
+    {
+      "id": 13,
+      "teks": "Jangan pernah ragu untuk bertanya, karena dengan bertanya, kita akan belajar lebih banyak."
+    },
+    {
+      "id": 14,
+      "teks": "Ketika kamu berhenti belajar, kamu berhenti berkembang."
+    },
+    {
+      "id": 15,
+      "teks": "Belajar adalah proses yang tidak pernah berakhir."
+    },
+    {
+      "id": 16,
+      "teks": "Setiap buku adalah jendela ke dunia yang baru."
+    },
+    {
+      "id": 17,
+      "teks": "Semakin banyak kamu belajar, semakin banyak kamu tahu; semakin banyak kamu tahu, semakin besar potensimu."
+    },
+    {
+      "id": 18,
+      "teks": "Ilmu adalah harta yang tak ternilai, yang tidak akan pernah bisa dicuri."
+    },
+    {
+      "id": 19,
+      "teks": "Belajar adalah kunci untuk membuka pintu kesempatan."
+    },
+    {
+      "id": 20,
+      "teks": "Tetaplah merasa bodoh agar terus belajar dan tetaplah merasa lapar agar terus berusaha. (Steve Jobs)"
+    },
+    {
+      "id": 21,
+      "teks": "Terima masa lalu dan belajar darinya. Setiap pengalaman membentukmu menjadi individu yang unik."
+    },
+    {
+      "id": 22,
+      "teks": "Belajarlah dari kesalahan, tapi jangan pernah menjadikannya beban."
+    },
+    {
+      "id": 23,
+      "teks": "Jangan menyerah pada kritik, tetapi gunakanlah sebagai kesempatan untuk belajar dan berkembang."
+    },
+    {
+      "id": 24,
+      "teks": "Pendidikan bukan cuma pergi ke sekolah dan mendapatkan gelar. Tapi, juga soal memperluas pengetahuan dan menyerap ilmu kehidupan. – Shakuntala Devi"
+    },
+    {
+      "id": 25,
+      "teks": "Janganlah pernah menyerah ketika kamu masih mampu berusaha lagi. Tidak ada kata berakhir sampai kamu berhenti mencoba. – Brian Dyson"
+    },
+    {
+      "id": 26,
+      "teks": "Belajar adalah investasi terbaik untuk masa depan."
+    },
+    {
+      "id": 27,
+      "teks": "Plant hope, harvest dreams."
+    },
+    {
+      "id": 28,
+      "teks": "Pendidikan adalah tiket untuk masa depan yang lebih cerah."
+    },
+    {
+      "id": 29,
+      "teks": "Kesuksesan adalah hasil dari keberanian mencoba dan ketekunan tanpa henti."
+    },
+    {
+      "id": 30,
+      "teks": "Setiap hari adalah kesempatan baru untuk menulis kisah yang lebih baik."
+    },
+    {
+      "id": 31,
+      "teks": "Rise and shine, embrace the day!"
+    },
+    {
+      "id": 32,
+      "teks": "Kesempatan baru selalu ada bagi mereka yang mencari dan siap."
+    },
+    {
+      "id": 33,
+      "teks": "Kebaikan yang kecil bisa membawa perubahan yang besar."
+    },
+    {
+      "id": 34,
+      "teks": "Dream big, act bold."
+    },
+    {
+      "id": 35,
+      "teks": "Setiap hari adalah kesempatan untuk belajar hal baru."
+    },
+    {
+      "id": 36,
+      "teks": "Kehidupan adalah kanvas, catlah dengan warna-warna yang paling cerah."
+    },
+    {
+      "id": 37,
+      "teks": "Today is yours, conquer it with passion."
+    },
+    {
+      "id": 38,
+      "teks": "Seperti bintang di langit, biarkan impianmu menyinari malam yang gelap."
+    },
+    {
+      "id": 39,
+      "teks": "Dalam setiap kegagalan, ada kisah yang belum selesai. Jadi, teruslah menulis."
+    },
+    {
+      "id": 40,
+      "teks": "Unlock your potential, let knowledge be your compass."
+    },
+    {
+      "id": 41,
+      "teks": "Tidak ada rahasia sukses: jangan buang waktu untuk mencari mereka. Kesuksesan adalah hasil dari kesempurnaan, kerja keras, belajar dari kegagalan, kesetiaan kepada mereka yang bekerja untuk Anda, dan ketekunan. (Colin Powell)"
+    },
+    {
+      "id": 42,
+      "teks": "Tidak ada kesuksesan tanpa kerja keras. Tidak ada keberhasilan tanpa kebersamaan. Tidak ada kemudahan tanpa doa. (Ridwan Kamil)"
+    },
+    {
+      "id": 43,
+      "teks": "Bukan kemampuan yang memutuskan kesuksesan hidup orang. Namun kesungguhan dan tekad berusaha."
+    },
+    {
+      "id": 44,
+      "teks": "Bermimpilah setinggi-tingginya dan bekerja sekeras-kerasnya untuk segera mewujudkannya."
+    },
+    {
+      "id": 45,
+      "teks": "Kepuasan terletak pada usaha, bukan pada hasil. Berusaha dengan keras adalah kemenangan yang hakiki. – Mahatma Gandhi"
+    },
+    {
+      "id": 46,
+      "teks": "Banyak orang yang tidak bertindak karena takut gagal, padahal tidak bertindak adalah kegagalan yang jelas sudah terjadi."
+    },
+    {
+      "id": 47,
+      "teks": "Kesuksesan adalah hasil dari kerja keras, ketekunan, dan belajar dari kegagalan."
+    },
+    {
+      "id": 48,
+      "teks": "Tidak ada jalan pintas menuju kesuksesan, hanya kerja keras dan tekad."
+    },
+    {
+      "id": 49,
+      "teks": "Kesuksesan tidak diukur dari apa yang kita capai, tetapi dari rintangan yang kita atasi."
+    },
+    {
+      "id": 50,
+      "teks": "Kunci sukses adalah fokus pada tujuan, bukan pada hambatan."
+    },
+    {
+      "id": 51,
+      "teks": "Impian besar menghasilkan kesuksesan besar."
+    },
+    {
+      "id": 52,
+      "teks": "Usaha hari ini adalah keberhasilan esok hari."
+    },
+    {
+      "id": 53,
+      "teks": "Jangan takut gagal, karena kegagalan adalah batu loncatan menuju sukses."
+    },
+    {
+      "id": 54,
+      "teks": "Kesuksesan bukanlah akhir, kegagalan bukanlah fatal; yang penting adalah keberanian untuk terus maju."
+    },
+    {
+      "id": 55,
+      "teks": "Mimpi adalah benih kesuksesan; tanamlah dengan tekun dan siramilah dengan kerja keras."
+    },
+    {
+      "id": 56,
+      "teks": "Kesuksesan datang kepada mereka yang gigih dan tidak mudah menyerah."
+    },
+    {
+      "id": 57,
+      "teks": "Setiap pencapaian besar dimulai dengan keputusan untuk mencoba."
+    },
+    {
+      "id": 58,
+      "teks": "Kesuksesan adalah tentang menciptakan kesempatan, bukan menunggu kesempatan datang."
+    },
+    {
+      "id": 59,
+      "teks": "Untuk meraih kesuksesan, kita harus percaya pada diri sendiri dan kemampuan kita."
+    },
+    {
+      "id": 60,
+      "teks": "Kesuksesan adalah gabungan dari usaha kecil yang dilakukan setiap hari."
+    },
+    {
+      "id": 61,
+      "teks": "Tidak ada kesuksesan tanpa disiplin dan komitmen."
+    },
+    {
+      "id": 62,
+      "teks": "Kesuksesan bukanlah tentang memiliki banyak uang, tetapi tentang kebahagiaan dan kepuasan."
+    },
+    {
+      "id": 63,
+      "teks": "Kesuksesan sejati adalah ketika kita bisa membantu orang lain meraih sukses juga."
+    },
+    {
+      "id": 64,
+      "teks": "Kegigihan adalah jalan menuju kesuksesan; jangan pernah menyerah."
+    },
+    {
+      "id": 65,
+      "teks": "Kesuksesan adalah kemampuan untuk bangkit setiap kali kita jatuh."
+    },
+    {
+      "id": 66,
+      "teks": "Optimism is the faith that leads to achievement. Nothing can be done without hope and confidence."
+    },
+    {
+      "id": 67,
+      "teks": "Don’t look back with regret, look forward with hope."
+    },
+    {
+      "id": 68,
+      "teks": "Education is the most powerful weapon which you can use to change the world."
+    },
+    {
+      "id": 69,
+      "teks": "Life is a journey, not a destination."
+    },
+    {
+      "id": 70,
+      "teks": "Sometimes life doesn’t give you what you want, not because you don’t deserve it, but because you deserve so much more."
+    },
+    {
+      "id": 71,
+      "teks": "Do something today that your future self will thank you for."
+    },
+    {
+      "id": 72,
+      "teks": "Success is the result of hard work and perseverance."
+    },
+    {
+      "id": 73,
+      "teks": "Believe in yourself and all that you are."
+    },
+    {
+      "id": 74,
+      "teks": "Dream big, work hard, stay focused, and surround yourself with good people."
+    },
+    {
+      "id": 75,
+      "teks": "Every accomplishment starts with the decision to try."
+    },
+    {
+      "id": 76,
+      "teks": "Don’t watch the clock; do what it does. Keep going."
+    },
+    {
+      "id": 77,
+      "teks": "The only way to do great work is to love what you do."
+    },
+    {
+      "id": 78,
+      "teks": "Believe you can and you’re halfway there."
+    },
+    {
+      "id": 79,
+      "teks": "The future belongs to those who believe in the beauty of their dreams."
+    },
+    {
+      "id": 80,
+      "teks": "It always seems impossible until it’s done."
+    },
+    {
+      "id": 81,
+      "teks": "Success is not the key to happiness. Happiness is the key to success."
+    },
+    {
+      "id": 82,
+      "teks": "Don’t wait for an opportunity. Create it."
+    },
+    {
+      "id": 83,
+      "teks": "Your limitation—it’s only your imagination."
+    },
+    {
+      "id": 84,
+      "teks": "Push yourself, because no one else is going to do it for you."
+    },
+    {
+      "id": 85,
+      "teks": "The harder you work for something, the greater you’ll feel when you achieve it."
+    },
+    {
+      "id": 86,
+      "teks": "Success is not how high you have climbed, but how you make a positive difference to the world."
+    },
+    {
+      "id": 87,
+      "teks": "Your only limit is your mind."
+    },
+    {
+      "id": 88,
+      "teks": "Start where you are. Use what you have. Do what you can."
+    },
+    {
+      "id": 89,
+      "teks": "Dream it. Wish it. Do it."
+    },
+    {
+      "id": 90,
+      "teks": "Great things never come from comfort zones."
+    },
+    {
+      "id": 91,
+      "teks": "Jika hidup memberimu jeruk, buatlah jus jeruk, tapi jangan lupa tambahkan gula sedikit, agar lebih manis."
+    },
+    {
+      "id": 92,
+      "teks": "Jika kamu merasa bingung, ingatlah bahwa bahkan GPS pun kadang salah arah!"
+    },
+    {
+      "id": 93,
+      "teks": "Mimpi besar seperti pizza, kamu selalu bisa mendapatkannya, asalkan kamu mau membayar harganya."
+    },
+    {
+      "id": 94,
+      "teks": "Jika hidupmu bagaikan roller coaster, jangan lupa untuk menikmati pemandangan sambil berteriak!"
+    },
+    {
+      "id": 95,
+      "teks": "Jangan pernah menyerah pada impianmu, kecuali impianmu adalah menjadi unicorn. Karena itu terlalu sulit!"
+    },
+    {
+      "id": 96,
+      "teks": "Menabung adalah seperti berolahraga; kamu tahu kamu harus melakukannya, tapi terkadang ingin melewatinya dan makan pizza."
+    },
+    {
+      "id": 97,
+      "teks": "You are like a balloon – if you never let yourself go, you will never know how far you can rise!"
+    },
+    {
+      "id": 98,
+      "teks": "Be like a teapot – always warm and ready to make someone’s day!"
+    },
+    {
+      "id": 99,
+      "teks": "Life is like a camera, don’t forget to smile every time you look into it!"
+    },
+    {
+      "id": 100,
+      "teks": "Mistakes are part of life, like typing the wrong keywords in Google – sometimes they lead you to more interesting places!"
+    },
+    {
+      "id": 101,
+      "teks": "Ingatlah selalu bahwa situasimu saat ini bukanlah tujuan akhirmu. Yang terbaik belum datang."
+    },
+    {
+      "id": 102,
+      "teks": "Percaya diri adalah kunci utama menuju kesuksesan."
+    },
+    {
+      "id": 103,
+      "teks": "Terkadang hal terbaik yang dapat kamu lakukan adalah tidak berpikir, tidak bertanya-tanya, tidak membayangkan, tidak terobsesi. Bernapaslah dan yakinlah bahwa semuanya akan berjalan dengan baik."
+    },
+    {
+      "id": 104,
+      "teks": "Setiap tantangan adalah peluang untuk tumbuh dan belajar."
+    },
+    {
+      "id": 105,
+      "teks": "Jangan pernah biarkan situasi buruk memunculkan yang terburuk dalam dirimu. Pilih untuk tetap positif dan jadilah orang kuat yang Tuhan ciptakan untukmu!"
+    },
+    {
+      "id": 106,
+      "teks": "Terkadang ketika kamu berada di tempat yang gelap, kamu mengira kamu telah terkubur, padahal sebenarnya kamu telah ditanam."
+    },
+    {
+      "id": 107,
+      "teks": "Kegagalan adalah batu loncatan menuju kesuksesan."
+    },
+    {
+      "id": 108,
+      "teks": "Tidak masalah seberapa lambat kamu berjalan selama kamu tidak berhenti."
+    },
+    {
+      "id": 109,
+      "teks": "Ini juga akan berlalu. Dan kamu akan melihat kembali periode ini dalam hidupmu dan sangat senang karena kamu tidak pernah menyerah."
+    },
+    {
+      "id": 110,
+      "teks": "Berhentilah menyalahkan diri sendiri. Kamu sedang dalam proses, yang berarti kamu sampai di sana sedikit demi sedikit, tidak sekaligus."
+    },
+    {
+      "id": 111,
+      "teks": "Jangan takut untuk bermimpi besar dan mengejarnya."
+    },
+    {
+      "id": 112,
+      "teks": "Keberanian bukanlah ketiadaan ketakutan, tapi kemampuan untuk mengatasi ketakutan itu sendiri."
+    },
+    {
+      "id": 113,
+      "teks": "Berhenti mencari kesalahan pada dirimu sendiri, dan mulailah mencari solusi."
+    },
+    {
+      "id": 114,
+      "teks": "Kamu tidak dapat mengubah masa lalu, tapi kamu dapat membangun masa depanmu."
+    },
+    {
+      "id": 115,
+      "teks": "Keberanian adalah kekuatan untuk terus maju meskipun takut."
+    },
+    {
+      "id": 116,
+      "teks": "Kesuksesan adalah hasil dari kerja keras, ketekunan, dan belajar dari kegagalan."
+    },
+    {
+      "id": 117,
+      "teks": "Jangan pernah menyerah, karena hal-hal besar membutuhkan waktu."
+    },
+    {
+      "id": 118,
+      "teks": "Mimpi besar dimulai dari langkah kecil yang konsisten."
+    },
+    {
+      "id": 119,
+      "teks": "Ketika satu pintu tertutup, pintu lain terbuka. Tetaplah berusaha."
+    },
+    {
+      "id": 120,
+      "teks": "Setiap hari adalah kesempatan baru untuk menjadi versi terbaik dari dirimu."
+    },
+    {
+      "id": 121,
+      "teks": "Percayalah, rencana Allah selalu lebih baik dari rencanamu."
+    },
+    {
+      "id": 122,
+      "teks": "Bersabarlah, karena Allah bersama orang-orang yang sabar."
+    },
+    {
+      "id": 123,
+      "teks": "Segala sesuatu yang terjadi adalah atas izin Allah."
+    },
+    {
+      "id": 124,
+      "teks": "Jangan pernah berhenti berdoa, karena doa adalah senjata umat Muslim."
+    },
+    {
+      "id": 125,
+      "teks": "Jika Allah menjawab doamu, itu karena Dia mempercayaimu."
+    },
+    {
+      "id": 126,
+      "teks": "Kegagalan adalah ujian dari Allah untuk menguatkan imanmu."
+    },
+    {
+      "id": 127,
+      "teks": "Ingatlah Allah dalam setiap urusanmu, maka Dia akan mengingatmu."
+    },
+    {
+      "id": 128,
+      "teks": "Berdoalah seolah-olah segala sesuatu tergantung pada Allah, dan bekerjalah seolah-olah segala sesuatu tergantung padamu."
+    },
+    {
+      "id": 129,
+      "teks": "Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya."
+    },
+    {
+      "id": 130,
+      "teks": "Ketika kamu merasa sendirian, ingatlah bahwa Allah selalu bersamamu."
+    },
+    {
+      "id": 131,
+      "teks": "Sujud adalah cara terbaik untuk mendekatkan diri kepada Allah."
+    },
+    {
+      "id": 132,
+      "teks": "Hidup ini adalah ujian, dan setiap ujian adalah untuk meningkatkan derajatmu di sisi Allah."
+    },
+    {
+      "id": 133,
+      "teks": "Orang yang paling kaya adalah orang yang paling bersyukur kepada Allah."
+    },
+    {
+      "id": 134,
+      "teks": "Berusahalah sebaik mungkin, dan serahkan hasilnya kepada Allah."
+    },
+    {
+      "id": 135,
+      "teks": "Allah selalu memberikan yang terbaik bagi hamba-Nya yang bersabar."
+    },
+    {
+      "id": 136,
+      "teks": "Jangan pernah menyerah, karena rahmat Allah selalu ada."
+    },
+    {
+      "id": 137,
+      "teks": "Hidup ini sementara, jadi gunakanlah untuk berbuat baik dan beribadah kepada Allah."
+    },
+    {
+      "id": 138,
+      "teks": "Setiap kesulitan pasti ada kemudahan, percayalah pada janji Allah."
+    },
+    {
+      "id": 139,
+      "teks": "Tawakal adalah kunci keberhasilan dalam segala hal."
+    },
+    {
+      "id": 140,
+      "teks": "Allah tahu apa yang terbaik untukmu, bahkan lebih dari dirimu sendiri."
+    },
+    {
+      "id": 141,
+      "teks": "Jadilah seperti pohon kurma, semakin tinggi, semakin rendah hati."
+    },
+    {
+      "id": 142,
+      "teks": "Allah selalu punya cara untuk mengangkat derajat hamba-Nya yang taat."
+    },
+    {
+      "id": 143,
+      "teks": "Istiqamah dalam beribadah adalah kunci keberhasilan dunia dan akhirat."
+    },
+    {
+      "id": 144,
+      "teks": "Sesungguhnya setelah kesulitan ada kemudahan."
+    },
+    {
+      "id": 145,
+      "teks": "Hanya dengan mengingat Allah hati menjadi tenang."
+    },
+    {
+      "id": 146,
+      "teks": "Hal terpenting dalam hidup adalah belajar bagaimana memberikan cinta, dan membiarkannya masuk."
+    },
+    {
+      "id": 147,
+      "teks": "Cara untuk mencintai apapun adalah, dengan menyadari bahwa itu mungkin hilang."
+    },
+    {
+      "id": 148,
+      "teks": "Cinta adalah tuan yang hebat, itu mengajari kita untuk menjadi apa yang kita alami."
+    },
+    {
+      "id": 149,
+      "teks": "Lakukan apa yang kamu sukai, dan kamu akan menemukan cara untuk menyebarkannya ke dunia."
+    },
+    {
+      "id": 150,
+      "teks": "Cinta bukan sesuatu yang kamu rasakan, itu adalah sesuatu yang kamu lakukan."
+    },
+    {
+      "id": 151,
+      "teks": "Mencintai bukanlah tentang memberikan yang terbaik dalam kelebihan, tetapi memberikan yang terbaik dalam kekurangan."
+    },
+    {
+      "id": 152,
+      "teks": "Ketika kamu mencintai seseorang, kamu mencintai orang itu apa adanya, dan bukan seperti yang kamu inginkan."
+    },
+    {
+      "id": 153,
+      "teks": "Mungkin ketidaksempurnaan kita yang membuat kita begitu sempurna satu sama lain."
+    },
+    {
+      "id": 154,
+      "teks": "Kebahagiaan terbesar dalam hidup adalah keyakinan bahwa kita dicintai; dicintai untuk diri kita sendiri, atau lebih tepatnya dicintai terlepas dari diri kita sendiri."
+    },
+    {
+      "id": 155,
+      "teks": "Dicintai secara mendalam oleh seseorang memberimu kekuatan. Mencintai seseorang secara mendalam memberimu keberanian."
+    },
+    {
+      "id": 156,
+      "teks": "Cinta tidak berupa tatapan satu sama lain, tetapi memandang keluar bersama ke arah yang sama. – B.J Habibie"
+    },
+    {
+      "id": 157,
+      "teks": "Cinta adalah bahasa universal yang menghubungkan hati tanpa kata."
+    },
+    {
+      "id": 158,
+      "teks": "Sebuah keluarga penuh cinta adalah harta yang tak ternilai."
+    },
+    {
+      "id": 159,
+      "teks": "Teman sejati adalah mereka yang mencintaimu apa adanya."
+    },
+    {
+      "id": 160,
+      "teks": "Cinta keluarga adalah fondasi kuat yang mendukung kita dalam setiap langkah hidup."
+    },
+    {
+      "id": 161,
+      "teks": "Saudara adalah teman yang diberikan Tuhan untuk menemani perjalanan hidup kita."
+    },
+    {
+      "id": 162,
+      "teks": "Teman adalah keluarga yang kita pilih sendiri."
+    },
+    {
+      "id": 163,
+      "teks": "Cinta adalah ketika kebahagiaan orang lain menjadi kebahagiaanmu juga."
+    },
+    {
+      "id": 164,
+      "teks": "Keluarga adalah tempat cinta tak bersyarat tumbuh dan berkembang."
+    },
+    {
+      "id": 165,
+      "teks": "Saudara adalah hadiah berharga yang mengisi hidup dengan kenangan manis."
+    },
+    {
+      "id": 166,
+      "teks": "Cinta adalah jembatan yang menghubungkan hati yang berbeda."
+    },
+    {
+      "id": 167,
+      "teks": "Cinta membuat yang sulit menjadi mudah dan yang berat menjadi ringan."
+    },
+    {
+      "id": 168,
+      "teks": "Dalam cinta, kita menemukan kekuatan untuk mengatasi segala rintangan."
+    },
+    {
+      "id": 169,
+      "teks": "Keluarga adalah tempat kita belajar tentang cinta, pengorbanan, dan kebahagiaan sejati."
+    },
+    {
+      "id": 170,
+      "teks": "Cinta sejati adalah cinta yang terus tumbuh dan berkembang meski waktu berlalu."
+    },
+    {
+      "id": 171,
+      "teks": "Ketika hidup memberimu seratus alasan untuk menangis, tunjukkan pada hidup bahwa kamu punya seribu alasan untuk tersenyum."
+    },
+    {
+      "id": 172,
+      "teks": "Jangan pernah berharap bahwa jalan hidupmu akan seperti jalan hidup orang lain. Perjalanan hidup yang kamu miliki merupakan sesuatu yang unik, seperti dirimu."
+    },
+    {
+      "id": 173,
+      "teks": "Jangan biarkan masa lalu mencuri kebahagiaanmu saat ini. Hidup di saat ini adalah kunci."
+    },
+    {
+      "id": 174,
+      "teks": "Tidak peduli bagaimana kerasnya kehidupan yang kamu miliki di masa lalu, kamu selalu bisa memulainya kembali."
+    },
+    {
+      "id": 175,
+      "teks": "Berjalanlah jangan berlari, karena hidup adalah perjalanan dan bukannya pelarian."
+    },
+    {
+      "id": 176,
+      "teks": "Setiap hari adalah kesempatan baru untuk mengubah hidupmu menjadi lebih baik."
+    },
+    {
+      "id": 177,
+      "teks": "Hidup ini singkat, jadi lakukan apa yang membuatmu bahagia dan berada dengan orang-orang yang membuatmu tersenyum."
+    },
+    {
+      "id": 178,
+      "teks": "Nikmatilah hal-hal kecil yang ada dalam hidup, sebab suatu hari nanti kamu akan melihat ke belakang dan kemudian menyadari bahwa itu adalah hal-hal besar."
+    },
+    {
+      "id": 179,
+      "teks": "Hidup adalah petualangan yang penuh dengan kemungkinan tak terbatas. Jangan takut untuk menjalaninya sepenuh hati."
+    },
+    {
+      "id": 180,
+      "teks": "Terkadang kita diuji, bukan untuk menunjukan kelemahan yang kita miliki, akan tetapi untuk menemukan kekuatan yang sebenarnya kita miliki."
+    },
+    {
+      "id": 181,
+      "teks": "Ketika kamu fokus pada hal-hal baik dalam hidupmu, hal-hal baik itu akan semakin bertambah."
+    },
+    {
+      "id": 182,
+      "teks": "Tidak peduli hal apapun yang kamu alami, selalu ada cahaya diujung terowongan."
+    },
+    {
+      "id": 183,
+      "teks": "Hidup adalah cerminan dari pikiran dan tindakan kita. Pikiran positif, lakukan yang terbaik, dan hasilnya akan mengikuti."
+    },
+    {
+      "id": 184,
+      "teks": "Dalam belajar, jangan takut untuk membuat kesalahan. Kesalahan adalah pelajaran berharga dalam perjalanan hidup."
+    },
+    {
+      "id": 185,
+      "teks": "Tidak ada yang tidak mungkin. Batasan hanya ada dalam pikiran kita."
+    },
+    {
+      "id": 186,
+      "teks": "Setiap langkah kecil yang kamu ambil adalah pencapaian yang layak dirayakan."
+    },
+    {
+      "id": 187,
+      "teks": "Jangan bandingkan dirimu dengan orang lain. Fokus pada perjalanan unikmu sendiri."
+    },
+    {
+      "id": 188,
+      "teks": "Mencintai diri sendiri tidak berarti egois. Itu berarti kamu cukup peduli untuk memberikan yang terbaik untuk dirimu dan orang lain."
+    },
+    {
+      "id": 189,
+      "teks": "Kesulitan yang sebenarnya ialah mengatasi caramu berpikir mengenai diri kamu sendiri."
+    },
+    {
+      "id": 190,
+      "teks": "Luangkan waktu untuk dirimu sendiri. Ketika kamu bahagia, semuanya menjadi lebih baik."
+    },
+    {
+      "id": 191,
+      "teks": "Fokus pada dirimu sendiri tidak berarti mengabaikan orang lain, tapi memastikan kamu memiliki kekuatan untuk mendukung mereka."
+    },
+    {
+      "id": 192,
+      "teks": "Ketika kamu menghargai diri sendiri, kamu menginspirasi orang lain untuk melakukan hal yang sama."
+    },
+    {
+      "id": 193,
+      "teks": "Tidak perlu menjadi seseorang yang serba bisa, tekuni saja salah satu bidang yang paling kamu suka, kemudian jadilah seseorang yang hebat dengan bidang tersebut."
+    },
+    {
+      "id": 194,
+      "teks": "Tidak perlu menjadi sempurna untuk dapat menginspirasi orang lain. Biarkanlah orang lain terinspirasi dengan bagaimana cara diri kamu menangani ketidaksempurnaan tersebut."
+    },
+    {
+      "id": 195,
+      "teks": "Jadilah diri kamu sendiri, orang lain tidak perlu menyukai diri mu dan kamu tidak perlu peduli akan hal tersebut."
+    },
+    {
+      "id": 196,
+      "teks": "Bekerja keras untuk meraih impianmu sendiri, bukan untuk memenuhi harapan orang lain."
+    },
+    {
+      "id": 197,
+      "teks": "Setiap pencapaian, sekecil apapun, adalah tanda bahwa kamu bergerak maju."
+    },
+    {
+      "id": 198,
+      "teks": "Perjalanan menuju cinta diri adalah proses seumur hidup. Hargai setiap langkah di sepanjang jalan."
+    },
+    {
+      "id": 199,
+      "teks": "Kamu berhak mendapatkan cinta, penghargaan, dan perhatian dari dirimu sendiri."
+    },
+    {
+      "id": 200,
+      "teks": "Setiap hari adalah kesempatan baru untuk menjadi lebih baik daripada kemarin."
+    },
+    {
+      "id": 201,
+      "teks": "Berbahagialah karena setiap pagi adalah kesempatan untuk memulai dengan baik."
+    },
+    {
+      "id": 202,
+      "teks": "Selalu ada sesuatu yang baik dalam setiap hari. Temukan dan nikmati!"
+    },
+    {
+      "id": 203,
+      "teks": "Start each day with a grateful heart and a positive mindset."
+    },
+    {
+      "id": 204,
+      "teks": "Seize the day, make it amazing."
+    },
+    {
+      "id": 205,
+      "teks": "Setiap pagi adalah kesempatan untuk tumbuh dan berkembang secara pribadi."
+    },
+    {
+      "id": 206,
+      "teks": "Bangun dan bersinarlah. Hari ini adalah kesempatanmu untuk bersinar terang."
+    },
+    {
+      "id": 207,
+      "teks": "Bangunlah setiap pagi dengan pikiran bahwa sesuatu yang luar biasa akan terjadi."
+    },
+    {
+      "id": 208,
+      "teks": "Jangan hitung hari. Jadikan hari-hari ini berarti."
+    },
+    {
+      "id": 209,
+      "teks": "Baik hari itu untuk menulis, mendesain, atau melukis, latihan rutin pagi yang konsisten adalah pintu masuk menuju semuanya."
+    },
+    {
+      "id": 210,
+      "teks": "Today is a new beginning, make it count."
+    },
+    {
+      "id": 211,
+      "teks": "Hari ini adalah kesempatan baru untuk melakukan hal-hal hebat. Selamat pagi!"
+    },
+    {
+      "id": 212,
+      "teks": "Setiap pagi adalah babak baru. Mulailah dengan semangat dan keyakinan."
+    },
+    {
+      "id": 213,
+      "teks": "Leave yesterday’s worries behind, focus on today’s possibilities."
+    },
+    {
+      "id": 214,
+      "teks": "Hari ini adalah kesempatan untuk menjadi lebih baik dari kemarin. Manfaatkan setiap detiknya!"
+    },
+    {
+      "id": 215,
+      "teks": "Start your day with purpose, end it with pride."
+    },
+    {
+      "id": 216,
+      "teks": "Semangat adalah bahan bakar kesuksesan. Dengan semangat yang tinggi, kita bisa mengatasi segala rintangan."
+    },
+    {
+      "id": 217,
+      "teks": "Hidup ini singkat, buatlah setiap hari berarti dengan melakukan hal-hal yang membawa kebahagiaan dan kepuasan."
+    },
+    {
+      "id": 218,
+      "teks": "Kegagalan adalah peluang untuk memulai lagi dengan cerdas. – Henry Ford"
+    },
+    {
+      "id": 219,
+      "teks": "Setiap tantangan adalah peluang tersembunyi. Di balik setiap kesulitan, selalu ada peluang untuk tumbuh dan berkembang."
+    },
+    {
+      "id": 220,
+      "teks": "Ketika Anda merasa lelah, istirahatlah, bukan berhenti. – Banksy"
+    },
+    {
+      "id": 221,
+      "teks": "Kebaikan adalah investasi terbaik. Setiap tindakan baik yang kita lakukan akan kembali kepada kita dengan cara yang tak terduga."
+    },
+    {
+      "id": 222,
+      "teks": "Berpikirlah seperti orang yang sukses, dan kesuksesan akan datang padamu.- Dale Carnegie"
+    },
+    {
+      "id": 223,
+      "teks": "Kesuksesan adalah perjalanan, bukan tujuan. Nikmati setiap prosesnya dan belajar dari setiap pengalaman."
+    },
+    {
+      "id": 224,
+      "teks": "Keberanian adalah langkah pertama menuju kehebatan. Tanpa keberanian, kita takkan pernah tahu potensi sejati yang kita miliki."
+    },
+    {
+      "id": 225,
+      "teks": "Hidup ini singkat, buatlah setiap hari berarti dengan melakukan hal-hal yang membawa kebahagiaan dan kepuasan."
+    },
+    {
+      "id": 226,
+      "teks": "Jangan takut melangkah keluar dari zona nyaman Anda, itu tempat di mana keajaiban terjadi.- Neil Armstrong"
+    },
+    {
+      "id": 227,
+      "teks": "Mimpi besar dimulai dengan langkah kecil. Setiap langkah maju, betapapun kecilnya, membawa kita lebih dekat ke tujuan."
+    },
+    {
+      "id": 228,
+      "teks": "Bermimpi tanpa tindakan adalah sia-sia. Impian menjadi nyata hanya ketika kita berani mengambil langkah nyata untuk mewujudkannya."
+    },
+    {
+      "id": 229,
+      "teks": "Jadilah versi terbaik dari dirimu sendiri. Jangan berusaha menjadi orang lain, karena kamu unik dan istimewa."
+    },
+    {
+      "id": 230,
+      "teks": "Setiap kegagalan memberi kita pelajaran berharga untuk meraih impian."
+    },
+    {
+      "id": 231,
+      "teks": "Jalan keluar terbaik adalah selalu melaluinya."
+    },
+    {
+      "id": 232,
+      "teks": "Semakin besar rintangan, semakin besar pula kemuliaan dalam mengatasinya."
+    },
+    {
+      "id": 233,
+      "teks": "Kegagalan adalah keberhasilan dalam kemajuan."
+    },
+    {
+      "id": 234,
+      "teks": "Dia yang bisa bersabar bisa mendapatkan apa yang dia mau."
+    },
+    {
+      "id": 235,
+      "teks": "Alam tidak terburu-buru, namun semuanya tercapai."
+    },
+    {
+      "id": 236,
+      "teks": "Yang terkuat dari semua prajurit adalah dua hal ini, waktu dan kesabaran."
+    },
+    {
+      "id": 237,
+      "teks": "Kesabaran bukan sesuatu yang pasif, sebaliknya, ia aktif, ia adalah kekuatan."
+    },
+    {
+      "id": 238,
+      "teks": "Mengapa tidak mengambil risiko? Di situlah letak buahnya."
+    },
+    {
+      "id": 239,
+      "teks": "Kebaikan adalah satu hal yang tidak bisa diberikan begitu saja."
+    },
+    {
+      "id": 240,
+      "teks": "Cobalah menjadi pelangi di awan orang lain."
+    },
+    {
+      "id": 241,
+      "teks": "Kebahagiaan bukan datang secara kebetulan, tapi karena pilihan."
+    },
+    {
+      "id": 242,
+      "teks": "Jika kamu tidak menyukai jalan yang kamu lalui, mulailah membuat jalan lain."
+    },
+    {
+      "id": 243,
+      "teks": "Jalan buntu hanya tempat yang bagus untuk berbalik."
+    },
+    {
+      "id": 244,
+      "teks": "Pesimis membawa pada kelemahan, optimis membawa pada kekuatan."
+    },
+    {
+      "id": 245,
+      "teks": "Katakan sesuatu yang positif, kamu akan melihat sesuatu yang positif."
+    },
+    {
+      "id": 246,
+      "teks": "Pilihlah untuk bersikap optimis, itu akan terasa lebih baik."
+    },
+    {
+      "id": 247,
+      "teks": "Optimisme adalah magnet kebahagiaan."
+    },
+    {
+      "id": 248,
+      "teks": "Kunci hidup saat keadaan menjadi sulit adalah terus bergerak maju."
+    },
+    {
+      "id": 249,
+      "teks": "Jadilah dirimu sendiri dan orang-orang akan menyukaimu."
+    },
+    {
+      "id": 250,
+      "teks": "Jalani hidup semaksimal mungkin, dan fokuslah pada hal yang positif."
+    },
+    {
+      "id": 251,
+      "teks": "Orang yang mengecilkan mimpimu seringkali sudah berhenti berjuang dengan mimpinya sendiri."
+    },
+    {
+      "id": 252,
+      "teks": "Kamu punya kekuatan untuk membuat perbedaan, manfaatkan sebaik mungkin."
+    },
+    {
+      "id": 253,
+      "teks": "Mulailah dari yang kamu lihat sekarang, perjalanan selanjutnya akan terbuka sendiri."
+    },
+    {
+      "id": 254,
+      "teks": "Syukur tidak menjadikan hidup sempurna, tapi membuat kita merasa cukup."
+    },
+    {
+      "id": 255,
+      "teks": "Alih-alih fokus pada kesulitan, syukurilah keindahan yang menyertainya."
+    },
+    {
+      "id": 256,
+      "teks": "Setiap keputusan kecil hari ini adalah batu pijakan masa depanmu."
+    },
+    {
+      "id": 257,
+      "teks": "Kesulitan memberi warna, perjuangan memberi makna."
+    },
+    {
+      "id": 258,
+      "teks": "Kesulitan adalah guru terbaik untuk membentuk kemampuan."
+    },
+    {
+      "id": 259,
+      "teks": "Dalam hidup, hanya sikap dan kerja kerasmu yang benar-benar bisa kamu atur dan kendalikan."
+    },
+    {
+      "id": 260,
+      "teks": "Keunggulan lahir dari kebiasaan, bukan dari usaha sesekali."
+    },
+    {
+      "id": 261,
+      "teks": "Kegagalan kadang menyembunyikan peluang besar."
+    },
+    {
+      "id": 262,
+      "teks": "Langkah kecil yang konsisten lebih kuat dari niat besar tanpa aksi."
+    },
+    {
+      "id": 263,
+      "teks": "Bahagia itu pilihan, bukan hasil keadaan."
+    },
+    {
+      "id": 264,
+      "teks": "Jangan takut menjadikan dirimu sendiri sebagai prioritas."
+    },
+    {
+      "id": 265,
+      "teks": "Kadang kamu bukan terkubur, tapi sedang ditanam untuk tumbuh."
+    },
+    {
+      "id": 266,
+      "teks": "Seni hidup adalah menikmati sedikit dan bertahan banyak."
+    },
+    {
+      "id": 267,
+      "teks": "Cintai dirimu sendiri dan terus melangkah maju."
+    },
+    {
+      "id": 268,
+      "teks": "Berikan kesempatan pada dirimu untuk belajar dari awal karena tidak ada yang langsung sempurna saat pertama kali mencoba."
+    },
+    {
+      "id": 269,
+      "teks": "Pemimpin sejati tahu jalan dan membimbing orang lain."
+    },
+    {
+      "id": 270,
+      "teks": "Kita sering lupa bersyukur atas hal kecil yang berharga."
+    },
+    {
+      "id": 271,
+      "teks": "Hidup seperti bersepeda, untuk seimbang harus terus bergerak."
+    },
+    {
+      "id": 272,
+      "teks": "Tidak semua hari baik, tapi ada kebaikan di setiap hari."
+    },
+    {
+      "id": 273,
+      "teks": "Sejauh mana kamu bisa menepati janji sangat dipengaruhi oleh ketulusan dan kejujuran hatimu."
+    },
+    {
+      "id": 274,
+      "teks": "Nikmati perjalanan dan terus tingkatkan dirimu."
+    },
+    {
+      "id": 275,
+      "teks": "Bertanggung jawab atas kebahagiaan sendiri, jangan tergantung orang lain."
+    },
+    {
+      "id": 276,
+      "teks": "Orang yang bersinar dari dalam tidak butuh sorotan."
+    },
+    {
+      "id": 277,
+      "teks": "Tidak semua masalah bisa diselesaikan, tapi perubahan tidak akan terjadi jika kita tidak berani menghadapi masalah tersebut."
+    },
+    {
+      "id": 278,
+      "teks": "Selalu cari sisi positif saat menghadapi kesulitan."
+    },
+    {
+      "id": 279,
+      "teks": "Saat jalan hidup menanjak, tetap jaga pikiran tetap tenang."
+    },
+    {
+      "id": 280,
+      "teks": "Jadilah lebih kuat dari alasan untuk menyerah."
+    },
+    {
+      "id": 281,
+      "teks": "Syukur membuka jalan keluar dari penilaian negatif."
+    },
+    {
+      "id": 282,
+      "teks": "Aku jarang mengambil risiko, tapi satu hal yang aku yakin untuk diandalkan adalah kemampuan dan diriku sendiri."
+    },
+    {
+      "id": 283,
+      "teks": "Kamu tak bisa menjadi orang lain di masa depan tanpa mulai dari sekarang."
+    },
+    {
+      "id": 284,
+      "teks": "Hambatan terbesar adalah dirimu sendiri, mulailah dari situ."
+    },
+    {
+      "id": 285,
+      "teks": "Hal yang paling memuaskan biasanya tampak mustahil dulu."
+    },
+    {
+      "id": 286,
+      "teks": "Dengan mulai memperhatikan dirimu sendiri, kamu akan merasa lebih sehat, tampil lebih prima, dan menarik hal-hal positif. Semua itu diawali dari dirimu sendiri."
+    },
+    {
+      "id": 287,
+      "teks": "Khawatir hanya mencuri kedamaian hari ini, bukan menyelesaikan masalah esok."
+    },
+    {
+      "id": 288,
+      "teks": "Bangunlah setiap pagi dengan tekad agar tidur dengan puas."
+    },
+    {
+      "id": 289,
+      "teks": "Rencana, peta, dan keberanian adalah kunci menuju tujuan."
+    },
+    {
+      "id": 290,
+      "teks": "Gunakan senyuman untuk mengubah dunia, jangan biarkan dunia mengubah senyummu."
+    },
+    {
+      "id": 291,
+      "teks": "Perubahan diri lebih penting daripada perubahan tempat."
+    },
+    {
+      "id": 292,
+      "teks": "Jangan takut gagal, tapi takut tak mencoba sama sekali."
+    },
+    {
+      "id": 293,
+      "teks": "Kisah sukses adalah adaptasi dan perubahan yang terus-menerus."
+    },
+    {
+      "id": 294,
+      "teks": "Sukses bukan tujuan, tapi hasil dari proses."
+    },
+    {
+      "id": 295,
+      "teks": "Rahasia maju adalah memulai."
+    },
+    {
+      "id": 296,
+      "teks": "Prestasi terbesar datang dari membantu orang lain."
+    },
+    {
+      "id": 297,
+      "teks": "Pahlawan bukanlah sosok luar biasa, melainkan orang biasa yang mampu terus berjuang walau tantangan sangat besar."
+    },
+    {
+      "id": 298,
+      "teks": "Tetap yakin bahwa hal baik sedang dalam perjalanan untuk datang padamu."
+    },
+    {
+      "id": 299,
+      "teks": "Beranilah melepas hal-hal yang sudah baik agar kamu bisa mencapai sesuatu yang luar biasa."
+    },
+    {
+      "id": 300,
+      "teks": "Kamu harus memilih antara menghadapi kesulitan disiplin atau menanggung rasa sesal di kemudian hari."
+    },
+    {
+      "id": 301,
+      "teks": "Semua mimpi bisa menjadi kenyataan, jika punya keberanian untuk mengejarnya."
+    },
+    {
+      "id": 302,
+      "teks": "Masa depan adalah milik mereka yang percaya pada keindahan mimpinya"
+    },
+    {
+      "id": 303,
+      "teks": "Mimpi menjadi kenyataan. Tanpa kemungkinan itu, alam tidak mendorong kita untuk mewujudkannya."
+    },
+    {
+      "id": 304,
+      "teks": "Bermimpilah seolah-olah kamu akan hidup selamanya. Hidup seolah-olah kamu akan mati hari ini."
+    },
+    {
+      "id": 305,
+      "teks": "Ada orang yang melihat sesuatu bagaimana adanya dan bertanya mengapa. Aku memimpikan sesuatu yang tidak pernah terjadi dan bertanya mengapa tidak?"
+    },
+    {
+      "id": 306,
+      "teks": "Mari ciptakan masa depan kita sekarang, dan mari wujudkan mimpi kita di masa depan."
+    },
+    {
+      "id": 307,
+      "teks": "Tunjukkan kepadaku seseorang yang tidak pernah melakukan kesalahan dan aku akan menunjukkan padamu seseorang yang tidak pernah meraih banyak hal."
+    },
+    {
+      "id": 308,
+      "teks": "Kegagalan adalah bumbu yang memberikan cita rasa pada kesuksesan."
+    },
+    {
+      "id": 309,
+      "teks": "Sukses berarti melakukan yang terbaik dengan apa yang kita miliki."
+    },
+    {
+      "id": 310,
+      "teks": "Sukses adalah melakukan, bukan mendapatkan. Mencoba, bukan menang."
+    },
+    {
+      "id": 311,
+      "teks": "Sukses adalah standar pribadi, meraih yang tertinggi dalam diri kita, menjadi yang terbaik yang kita bisa."
+    },
+    {
+      "id": 312,
+      "teks": "Saya ingin menyelesaikan tugas yang besar dan mulia, namun tugas utama saya adalah menyelesaikan tugas-tugas kecil seolah-olah tugas itu besar dan mulia."
+    },
+    {
+      "id": 313,
+      "teks": "Seseorang dikatakan sukses jika ia bangun pagi hari dan tidur malam hari, dan di sela-sela waktu tersebut ia melakukan apa yang ingin dilakukan."
+    },
+    {
+      "id": 314,
+      "teks": "Pada saat harus mengambil keputusan, hal terbaik yang bisa kamu lakukan adalah melakukan hal yang benar, hal terbaik berikutnya adalah hal yang salah, dan hal terburuk yang bisa kamu lakukan adalah tidak melakukan apa pun."
+    },
+    {
+      "id": 315,
+      "teks": "Para amatir duduk dan menunggu inspirasi, sedangkan kami hanya bangun dan mulai bekerja."
+    },
+    {
+      "id": 316,
+      "teks": "Kamu tidak akan pernah membajak ladang jika hanya memikirkannya."
+    },
+    {
+      "id": 317,
+      "teks": "Ambil langkah pertama dalam iman. Kamu tidak perlu melihat seluruh anak tangga, cukup ambil langkah pertama."
+    },
+    {
+      "id": 318,
+      "teks": "Jangan menunggu, waktunya tidak akan pernah tepat."
+    },
+    {
+      "id": 319,
+      "teks": "Kekuatan tidak datang kemenangan. Perjuanganmu mengembangkan kekuatanmu."
+    },
+    {
+      "id": 320,
+      "teks": "Saat kamu melewati kesulitan dan memutuskan untuk tidak menyerah, itulah kekuatanmu."
+    },
+    {
+      "id": 321,
+      "teks": "Selalu ubah situasi negatif menjadi situasi positif."
+    },
+    {
+      "id": 322,
+      "teks": "Hidup itu seperti sepeda. Untuk menjaga keseimbangan, kamu harus terus bergerak."
+    },
+    {
+      "id": 323,
+      "teks": "Hari yang paling sia-sia adalah hari tanpa tawa."
+    },
+    {
+      "id": 324,
+      "teks": "Jadilah perubahan yang ingin kamu lihat di dunia."
+    },
+    {
+      "id": 325,
+      "teks": "Kesuksesan adalah jatuh sembilan kali dan bangkit sepuluh kali."
+    },
+    {
+      "id": 326,
+      "teks": "Kamu adalah hal terbaik yang pernah ada."
+    },
+    {
+      "id": 327,
+      "teks": "Bahkan, keajaiban pun butuh sedikit waktu."
+    },
+    {
+      "id": 328,
+      "teks": "Teruslah berenang."
+    },
+    {
+      "id": 329,
+      "teks": "Kebenaran lebih penting dari fakta."
+    },
+    {
+      "id": 330,
+      "teks": "Bersikaplah ingin tahu banyak hal."
+    },
+    {
+      "id": 331,
+      "teks": "Berani dan jadilah yang terbaik."
+    },
+    {
+      "id": 332,
+      "teks": "Jangan biarkan rasa takut menghantui kamu."
+    },
+    {
+      "id": 333,
+      "teks": "Keberuntungan terjadi ketika persiapan bertemu dengan peluang."
+    },
+    {
+      "id": 334,
+      "teks": "Tidak ada kesalahan, yang ada hanya peluang."
+    },
+    {
+      "id": 335,
+      "teks": "Lakukan satu hal setiap hari yang membuat kamu takut."
+    },
+    {
+      "id": 336,
+      "teks": "Hidup ini singkat, dan ada untuk dijalani."
+    },
+    {
+      "id": 337,
+      "teks": "Begitu memilih harapan, segalanya mungkin terjadi."
+    },
+    {
+      "id": 338,
+      "teks": "Perbuatan besar terbentuk dari perbuatan kecil."
+    },
+    {
+      "id": 339,
+      "teks": "Menang bukan segalanya, tapi keinginan untuk menang adalah segalanya."
+    },
+    {
+      "id": 340,
+      "teks": "Karakter adalah kekuatan."
+    },
+    {
+      "id": 341,
+      "teks": "Kekuatan sebenarnya terlihat dari cara kamu bangkit setelah gagal."
+    },
+    {
+      "id": 342,
+      "teks": "Jadilah dirimu sendiri dan capailah kesuksesan dengan cara yang kamu pilih."
+    },
+    {
+      "id": 343,
+      "teks": "Langkah kecil setiap hari akan membawa hasil besar."
+    },
+    {
+      "id": 344,
+      "teks": "Kejar kualitas, bukan sekadar hasil instan."
+    },
+    {
+      "id": 345,
+      "teks": "Belajar adalah hadiah, bukan beban."
+    },
+    {
+      "id": 346,
+      "teks": "Pemimpin sejati menginspirasi perubahan dan pertumbuhan."
+    },
+    {
+      "id": 347,
+      "teks": "Menemukan jati diri adalah petualangan yang penuh tantangan dan keberanian."
+    },
+    {
+      "id": 348,
+      "teks": "Percaya dan fokus pada tujuan, meski jalannya sulit."
+    },
+    {
+      "id": 349,
+      "teks": "Pikiran bukan wadah untuk diisi, tapi api yang harus dinyalakan."
+    },
+    {
+      "id": 350,
+      "teks": "Ketekunan dan percaya diri adalah kunci sukses."
+    },
+    {
+      "id": 351,
+      "teks": "Kebahagiaan kecil menumpuk menjadi besar."
+    },
+    {
+      "id": 352,
+      "teks": "Kemenangan bukan hanya posisi teratas, tapi perbaikan diri."
+    },
+    {
+      "id": 353,
+      "teks": "Energi positif muncul dari antusiasme."
+    },
+    {
+      "id": 354,
+      "teks": "Optimisme membawa pada pencapaian."
+    },
+    {
+      "id": 355,
+      "teks": "Hitung berkahmu, maka hidupmu berubah."
+    },
+    {
+      "id": 356,
+      "teks": "Lebih baik mengganti kapal daripada menambal perahu bocor terus-menerus."
+    },
+    {
+      "id": 357,
+      "teks": "Mengenal diri adalah awal kebijaksanaan."
+    },
+    {
+      "id": 358,
+      "teks": "Pikiran tenang adalah senjata melawan tantangan."
+    },
+    {
+      "id": 359,
+      "teks": "Masa depan milik yang percaya pada keindahan mimpinya."
+    },
+    {
+      "id": 360,
+      "teks": "Penyebab kegagalan sering karena ingin hasil instan."
+    },
+    {
+      "id": 361,
+      "teks": "Bersyukur adalah pilihan untuk bahagia."
+    },
+    {
+      "id": 362,
+      "teks": "Harapan berarti percaya pada kemungkinan dan perubahan."
+    },
+    {
+      "id": 363,
+      "teks": "Syukur terbaik ditunjukkan lewat perbuatan, bukan sekadar ucapan."
+    },
+    {
+      "id": 364,
+      "teks": "Kebiasaan kecil yang konsisten menciptakan hasil luar biasa."
+    },
+    {
+      "id": 365,
+      "teks": "Hidup penuh cerita dan kejutan yang menunggu untuk dijalani."
+    },
+    {
+      "id": 366,
+      "teks": "Kesuksesan datang pada yang berani mencoba."
+    },
+    {
+      "id": 367,
+      "teks": "Kamu dilahirkan untuk mengubah hidup seseorang, jangan sia-siakan."
+    },
+    {
+      "id": 368,
+      "teks": "Lihat sejauh yang bisa kau lihat, lalu teruslah melangkah."
+    },
+    {
+      "id": 369,
+      "teks": "Kadang keberhasilanmu muncul dari kontribusimu dalam kesuksesan orang lain."
+    },
+    {
+      "id": 370,
+      "teks": "Rasa syukur adalah tanda jiwa mulia."
+    },
+    {
+      "id": 371,
+      "teks": "Tampilkan versi terbaik dari dirimu hingga tak ada yang bisa mengacuhkan."
+    },
+    {
+      "id": 372,
+      "teks": "Jadilah cahaya yang menampakkan makna tersembunyi dalam dunia ini."
+    },
+    {
+      "id": 373,
+      "teks": "Tantangan membuat hidup menarik, melewatinya memberi makna."
+    },
+    {
+      "id": 374,
+      "teks": "Laut tenang tak melahirkan pelaut handal."
+    },
+    {
+      "id": 375,
+      "teks": "Kualitas adalah kebiasaan, bukan tindakan sesaat."
+    },
+    {
+      "id": 376,
+      "teks": "Kesempatan sering datang dalam bentuk kesulitan."
+    },
+    {
+      "id": 377,
+      "teks": "Juara sejati diukur dari cara bangkit saat jatuh."
+    },
+    {
+      "id": 378,
+      "teks": "Hidup bukan tentang di mana kamu berdiri, tapi ke mana arahmu."
+    },
+    {
+      "id": 379,
+      "teks": "Definisikan sukses menurutmu sendiri."
+    },
+    {
+      "id": 380,
+      "teks": "Jangan hanya lihat duri dalam mawar, biarkan keindahannya menginspirasimu."
+    },
+    {
+      "id": 381,
+      "teks": "Sukses adalah hasil dari usaha kecil yang konsisten."
+    },
+    {
+      "id": 382,
+      "teks": "Kehidupan selalu memberi peluang, tinggal bagaimana kamu menyambutnya."
+    },
+    {
+      "id": 383,
+      "teks": "Pemimpin hebat menginspirasi orang lain jadi lebih baik."
+    },
+    {
+      "id": 384,
+      "teks": "Keberanian sejati adalah saat kamu memilih jalanmu sendiri tanpa takut dinilai."
+    },
+    {
+      "id": 385,
+      "teks": "Pegang visi dan percaya pada prosesnya."
+    },
+    {
+      "id": 386,
+      "teks": "Menjadi otentik adalah hadiah terbesar yang bisa kamu berikan pada diri sendiri."
+    },
+    {
+      "id": 387,
+      "teks": "Jangan selalu tunggu inspirasi dari orang lain, inspirasikan dirimu sendiri."
+    },
+    {
+      "id": 388,
+      "teks": "Saat kamu tahu arah dan jati dirimu, hal kecil tidak lagi mudah menjatuhkanmu."
+    },
+    {
+      "id": 389,
+      "teks": "Menari bukan soal tujuan akhir, tapi menikmati setiap langkahnya."
+    },
+    {
+      "id": 390,
+      "teks": "Jangan menyerah, bisa jadi disitulah titik balik keberhasilanmu dimulai."
+    },
+    {
+      "id": 391,
+      "teks": "Jangan biarkan hari kemarin mengambil alih sebagian besar hari ini."
+    },
+    {
+      "id": 392,
+      "teks": "Bersikaplah gigih dan jangan pernah putus asa."
+    },
+    {
+      "id": 393,
+      "teks": "Ketika berusaha untuk menjadi lebih baik dari diri sendiri, segala sesuatu di sekitar juga akan menjadi lebih baik."
+    },
+    {
+      "id": 394,
+      "teks": "Percaya dan bertindaklah seolah-olah tidak mungkin gagal."
+    },
+    {
+      "id": 395,
+      "teks": "Ada banyak hal hebat dalam hidup, mengapa berkutat pada hal yang negatif?"
+    },
+    {
+      "id": 396,
+      "teks": "Selalu ingat bahwa kamu benar-benar unik. Sama seperti orang lain."
+    },
+    {
+      "id": 397,
+      "teks": "Masalah adalah kesempatan bagi kamu untuk melakukan yang terbaik."
+    },
+    {
+      "id": 398,
+      "teks": "Hidup tidak harus sempurna untuk menjadi luar biasa."
+    },
+    {
+      "id": 399,
+      "teks": "Jalan keluar terbaik adalah melaluinya."
+    },
+    {
+      "id": 400,
+      "teks": "Jangan takut untuk melepaskan hal-hal baik demi meraih hal-hal hebat."
+    },
+    {
+      "id": 401,
+      "teks": "Cintailah hidup yang kamu jalani. Jalani hidup yang kamu cintai."
+    },
+    {
+      "id": 402,
+      "teks": "Kamu akan menghadapi banyak kekalahan dalam hidup, tetapi jangan pernah biarkan dirimu dikalahkan."
+    },
+    {
+      "id": 403,
+      "teks": "Masa depan adalah milik mereka yang percaya pada keindahan mimpinya."
+    },
+    {
+      "id": 404,
+      "teks": "Hidup memang penuh lika-liku. Kamu harus bertahan dan terus maju."
+    },
+    {
+      "id": 405,
+      "teks": "Kamu akan kehilangan 100 persen peluang dalam tembakan yang tidak dilakukan."
+    },
+    {
+      "id": 406,
+      "teks": "Hidup adalah pelajaran panjang tentang kerendahan hati."
+    },
+    {
+      "id": 407,
+      "teks": "Kamu menentukan hidupmu sendiri. Jangan biarkan orang lain yang menulis naskahnya."
+    },
+    {
+      "id": 408,
+      "teks": "Kesalahan adalah fakta kehidupan. Respons terhadap kesalahanlah yang penting."
+    },
+    {
+      "id": 409,
+      "teks": "Hidup tidak memiliki batasan, kecuali batasan yang kamu buat sendiri."
+    },
+    {
+      "id": 410,
+      "teks": "Hidup adalah rangkaian pelajaran yang harus dijalani agar dapat dipahami."
+    },
+    {
+      "id": 411,
+      "teks": "Intuisi dan keyakinan diri akan membimbingmu menemukan jalan yang tepat."
+    },
+    {
+      "id": 412,
+      "teks": "Keteguhan dalam mengejar mimpi adalah kunci meraih kemenangan."
+    },
+    {
+      "id": 413,
+      "teks": "Jangan sampai harapan yang berlebihan membuatmu melewatkan kebaikan yang sudah ada."
+    },
+    {
+      "id": 414,
+      "teks": "Percaya pada mimpi membuka pintu menuju masa depan yang gemilang."
+    },
+    {
+      "id": 415,
+      "teks": "Jadilah sumber kebahagiaan bagi dirimu sendiri di mana pun kamu berada."
+    },
+    {
+      "id": 416,
+      "teks": "Menghadapi ketakutan adalah langkah pertama menyingkirkan rintangan terbesar."
+    },
+    {
+      "id": 417,
+      "teks": "Menjadi diri sendiri adalah keberanian terbesar dalam hidup."
+    },
+    {
+      "id": 418,
+      "teks": "Perubahan sejati berasal dari usaha yang konsisten dan sungguh-sungguh."
+    },
+    {
+      "id": 419,
+      "teks": "Jalan yang benar akan terbuka saat kamu temukan jawabannya dari dalam hati."
+    },
+    {
+      "id": 420,
+      "teks": "Pemenang sejati adalah mereka yang terus bermimpi dan tak pernah menyerah."
+    },
+    {
+      "id": 421,
+      "teks": "Jangan lewatkan peluang hanya karena mengharapkan hasil yang terlalu sempurna."
+    },
+    {
+      "id": 422,
+      "teks": "Di mana pun kamu berada, bawa sinar positifmu bersama."
+    },
+    {
+      "id": 423,
+      "teks": "Saat kamu berani menghadapi ketakutan, hal yang sulit pun terasa lebih ringan."
+    },
+    {
+      "id": 424,
+      "teks": "Jangan biarkan orang lain mendefinisikan siapa dirimu."
+    },
+    {
+      "id": 425,
+      "teks": "Hasil dari kerja keras bukan hanya apa yang kamu raih, tapi juga siapa dirimu sesudahnya."
+    },
+    {
+      "id": 426,
+      "teks": "Biasakanlah memberikan usaha terbaik dalam segala hal yang kamu lakukan."
+    },
+    {
+      "id": 427,
+      "teks": "Tidak semua masalah bisa kita ubah, tapi perubahan tidak akan terjadi tanpa keberanian menghadapi."
+    },
+    {
+      "id": 428,
+      "teks": "Dunia yang kita ciptakan bermula dari cara kita berpikir, ubahlah cara berpikirmu untuk mengubah dunia."
+    },
+    {
+      "id": 429,
+      "teks": "Tindakan baik tidak hanya menguatkan diri sendiri tapi juga menginspirasi orang lain untuk bertindak."
+    },
+    {
+      "id": 430,
+      "teks": "Kadang keberanian terbesar adalah tetap bertahan dan hadir sepenuh hati."
+    },
+    {
+      "id": 431,
+      "teks": "Kunci kelimpahan ada pada pikiran yang terbuka menghadapi segala keterbatasan."
+    },
+    {
+      "id": 432,
+      "teks": "Pikiran yang tenang adalah senjata ampuh dalam menghadapi tantangan hidup."
+    },
+    {
+      "id": 433,
+      "teks": "Seringkali kita meragukan diri sendiri karena membandingkan sisi tersembunyi dengan pencapaian orang lain."
+    },
+    {
+      "id": 434,
+      "teks": "Perjuangan hari ini adalah fondasi kekuatan untuk hari esok."
+    },
+    {
+      "id": 435,
+      "teks": "Jangan terlalu sibuk membangun tembok, ingatlah juga pentingnya membangun jembatan."
+    },
+    {
+      "id": 436,
+      "teks": "Penyebab utama kegagalan adalah mengutamakan kesenangan sesaat daripada tujuan jangka panjang."
+    },
+    {
+      "id": 437,
+      "teks": "Imbalan terbesar dari kerja keras adalah transformasi diri, bukan hanya hasil materi."
+    },
+    {
+      "id": 438,
+      "teks": "Meski tak semua hal bisa diubah, menghadapi masalah adalah langkah awal perubahan."
+    },
+    {
+      "id": 439,
+      "teks": "Pilihlah dengan bijak apa dan siapa yang layak mendapatkan perhatian dan energimu."
+    },
+    {
+      "id": 440,
+      "teks": "Berpikir kreatif bukan soal keluar dari kotak, tapi menyadari bahwa kotak itu mungkin tidak ada."
+    },
+    {
+      "id": 441,
+      "teks": "Pada akhirnya, lakukan yang benar walaupun jalannya berat dan penuh tantangan."
+    },
+    {
+      "id": 442,
+      "teks": "Mengungkapkan kebenaran dirimu adalah kekuatan terbesar yang kamu miliki."
+    },
+    {
+      "id": 443,
+      "teks": "Titik buntu bisa menjadi awal terbaik untuk perubahan dan memulai kembali."
+    },
+    {
+      "id": 444,
+      "teks": "Syukuri apa yang ada sambil terus berjuang meraih impian."
+    },
+    {
+      "id": 445,
+      "teks": "Keindahan tidak hanya terletak pada apa yang terdengar, tapi juga pada keheningan yang menyertainya."
+    },
+    {
+      "id": 446,
+      "teks": "Bersyukurlah atas apa yang kamu miliki dan buka hati untuk berbagi saat waktunya tepat."
+    },
+    {
+      "id": 447,
+      "teks": "Hidup tidak selalu mulus, kegagalan adalah guru terbaik untuk berkembang."
+    },
+    {
+      "id": 448,
+      "teks": "Imajinasi memberimu kekuatan untuk melampaui batasan."
+    },
+    {
+      "id": 449,
+      "teks": "Kerja keras untuk hal yang kamu cintai memberi semangat, bukan beban."
+    },
+    {
+      "id": 450,
+      "teks": "Percayalah karena kamu siap menghadapi risiko, bukan karena segalanya terasa aman."
+    },
+    {
+      "id": 451,
+      "teks": "Kompromi terbaik terjadi saat semua pihak memberikan kontribusi, bukan hanya menyerah."
+    },
+    {
+      "id": 452,
+      "teks": "Selalu berusahalah menjadi lebih baik dari yang orang harapkan."
+    },
+    {
+      "id": 453,
+      "teks": "Jadikan memberi yang terbaik sebagai kebiasaan yang melekat dalam dirimu."
+    },
+    {
+      "id": 454,
+      "teks": "Waktu bukan sekadar penting, tapi satu-satunya hal yang benar-benar kita miliki."
+    },
+    {
+      "id": 455,
+      "teks": "Jika kamu bisa memberikan yang terbaik dan merasa bahagia, kamu sudah lebih maju dari banyak orang."
+    },
+    {
+      "id": 456,
+      "teks": "Jangan terlalu memusingkan hal-hal kecil yang tak berarti."
+    },
+    {
+      "id": 457,
+      "teks": "Berilah tanpa mengharap balasan, dan terimalah tanpa menyimpan dendam."
+    },
+    {
+      "id": 458,
+      "teks": "Ketika kamu sadar akan nilai dirimu, alam semesta akan membuka jalan bagi kamu."
+    },
+    {
+      "id": 459,
+      "teks": "Jangan hanya berdiri dan ragu, coba meluncur ke bawah dan ambil peluang itu."
+    },
+    {
+      "id": 460,
+      "teks": "Bahkan orang hebat sekalipun pernah memulai dari nol. Jangan takut untuk melangkah pertama kali."
+    }
+  ]
+}
