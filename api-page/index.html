@@ -64,6 +64,24 @@ h1 {
     color: var(--secondary-color);
     margin-bottom: 8px;
     text-shadow: 0 0 5px var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Jarak antara gambar dan teks */
+}
+
+/* **CSS UNTUK GAMBAR KUSTOM** */
+h1 img {
+    /* Ukuran disesuaikan agar sama dengan font size roket */
+    width: 1.2em;
+    height: 1.2em;
+    /* Menghilangkan border-radius untuk membuatnya KOTAK */
+    border-radius: 0; 
+    object-fit: contain; 
+    /* Menghilangkan box-shadow/border */
+    box-shadow: none;
+    border: none;
+    vertical-align: middle; 
 }
 
 .tagline {
@@ -516,7 +534,7 @@ footer {
 <body>
     <div class="container">
         <header>
-            <h1><i class="fa-solid fa-rocket"></i> GivyAPIs</h1>
+            <h1><img src="/assets/foto.jpg" alt="Logo GivyAPIs"> GivyAPIs</h1>
             <p class="tagline" id="tagline">Loading...</p>
             <div class="contact-links" id="contactLinks"></div>
         </header>
@@ -601,6 +619,8 @@ footer {
 
         async function loadEndpoints() {
             try {
+                // **CATATAN PENTING: Anda harus memiliki file `/api/config` yang bisa diakses**
+                // File ini berisi JSON konfigurasi endpoint Anda.
                 const res = await fetch(`${BASE_URL}/api/config`);
                 
                 if (!res.ok) {
@@ -626,13 +646,14 @@ footer {
                 data.categories.forEach((cat, catIndex) => {
                     const iconClass = cat.icon || 'fa-solid fa-folder-open';
                     const desc = cat.description || '';
+                    const itemCount = cat.items.length;
                     
                     html += `
                         <details id="category-${catIndex}">
                             <summary>
                                 <span class="icon"><i class="${iconClass}"></i></span>
                                 <div style="flex: 1;">
-                                    <div>${cat.name}</div>
+                                    <div>${cat.name} <span style="color: var(--accent-color); font-weight: bold;">(${itemCount})</span></div>
                                     <div class="category-desc">${desc}</div>
                                 </div>
                                 <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
@@ -642,7 +663,7 @@ footer {
                     
                     cat.items.forEach((item, itemIndex) => {
                         const badgeClass = item.status === 'ready' ? 'ready' : 
-                                          item.status === 'update' ? 'update' : 'error';
+                                             item.status === 'update' ? 'update' : 'error';
                         const uniqueId = `${catIndex}-${itemIndex}`;
                         
                         const displayPath = item.path.startsWith('/') ? `${BASE_URL}${item.path}` : `${BASE_URL}/${item.path}`;
@@ -773,7 +794,6 @@ footer {
                 .then(response => {
                     const contentType = response.headers.get("Content-Type");
                     
-                    // PERBAIKAN: Deteksi content type image
                     if (contentType && contentType.startsWith("image/")) {
                         // Return blob untuk image
                         return response.blob().then(blob => {
@@ -786,35 +806,27 @@ footer {
                         });
                     }
                     
-                    // **PERBAIKAN KRUSIAL UNTUK ERROR HANDLING JSON**
-                    // 1. Baca response body sebagai TEKS terlebih dahulu
                     return response.text().then(text => {
                         let data = {};
                         let isJson = false;
-                        let errorMessage = response.statusText; // Default message
+                        let errorMessage = response.statusText;
 
                         try {
-                            // Coba parse sebagai JSON
                             data = JSON.parse(text); 
                             isJson = true;
-                            // Gunakan message dari JSON (data.message, data.error, dll)
                             errorMessage = data.message || data.error || JSON.stringify(data); 
                         } catch (e) {
-                            // Jika gagal parse, gunakan teks mentah
                             errorMessage = text;
                         }
 
                         if (!response.ok) {
-                            // 2. Jika status bukan 2xx (Error), lempar error dengan pesan dari JSON/Text
-                            // Batasi panjang pesan error untuk kebersihan UI dan hapus spasi berlebihan
                             const finalErrorMessage = errorMessage.replace(/\s+/g, ' ').substring(0, 150).trim();
                             throw new Error(`HTTP Error ${response.status}: ${finalErrorMessage}`);
                         }
                         
-                        // 3. Jika OK (2xx), kembalikan data
                         return { 
                             isImage: false, 
-                            data: isJson ? data : text, // Kembalikan data yang sudah di-parse, atau teks mentah jika bukan JSON
+                            data: isJson ? data : text,
                             status: response.status 
                         };
                     });
@@ -825,7 +837,6 @@ footer {
                     const resultContent = document.getElementById(`content-${uniqueId}`);
                     
                     if (data.isImage) {
-                        // Tampilkan image
                         console.log('Image detected, rendering...');
                         responseHeader.style.display = 'none';
                         resultContent.classList.add('image-only');
@@ -837,7 +848,6 @@ footer {
                         `;
                         
                     } else {
-                        // Tampilkan JSON response
                         responseContainer.style.display = 'block';
                         responseHeader.style.display = 'flex';
                         resultContent.classList.remove('image-only');
@@ -847,7 +857,6 @@ footer {
                             <i class="fa-solid fa-copy copy-btn" onclick="copyResultContent(this, '${uniqueId}')" title="Copy Response"></i>
                         `;
 
-                        // Jika data sudah dalam bentuk objek, stringify untuk tampilan
                         const displayContent = typeof data.data === 'object' ? JSON.stringify(data.data, null, 2) : data.data;
 
                         resultContent.textContent = displayContent;
@@ -873,13 +882,14 @@ footer {
                     resultContent.classList.remove('image-only');
                     resultContent.textContent = `Error: ${error.message}`;
                     resultContent.style.color = 'var(--error-color)';
-
+                    
                     btnElement.disabled = false;
                     btnElement.innerHTML = '<i class="fa-solid fa-play"></i> Execute';
                 });
         }
+        
+        window.onload = loadEndpoints;
 
-        loadEndpoints();
     </script>
 </body>
 </html>
