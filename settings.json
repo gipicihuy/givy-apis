@@ -88,14 +88,14 @@
           }
         },
         {
-                    "name": "Mobile Legends",
-                    "status": "ready",
-                    "desc": "Mencari Nickname Mobile Legends berdasarkan User ID dan Zone ID.",
-                    "path": "/stalk/ml",
-                    "params": {
-                        "userId": "User ID Mobile Legends (cth: 92666339)",
-                        "zoneId": "Zone ID Mobile Legends (cth: 2193)"
-                    }
+          "name": "Mobile Legends",
+          "status": "ready",
+          "desc": "Mencari Nickname Mobile Legends berdasarkan User ID dan Zone ID.",
+          "path": "/stalk/ml",
+          "params": {
+            "userId": "User ID Mobile Legends (cth: 92666339)",
+            "zoneId": "Zone ID Mobile Legends (cth: 2193)"
+          }
         },
         {
           "name": "NGL",
@@ -122,7 +122,7 @@
             "text": "text nya boskuh"
           }
         },
-                {
+        {
           "name": "Brat Anime",
           "desc": "Convert text to anime images",
           "path": "/maker/bratanime?text=",
@@ -131,7 +131,7 @@
             "text": "text nya boskuh"
           }
         },
-{
+        {
           "name": "iPhone Quoted Chat",
           "desc": "Generate iPhone-style quoted chat screenshot with customizable details",
           "path": "/maker/iqc",
@@ -158,23 +158,48 @@
       ]
     },
     {
-  "name": "Tools",
-  "icon": "fa-solid fa-wrench",
-  "description": "Berbagai utility dan alat otomatisasi",
-  "items": [
+      "name": "Search",
+      "icon": "fa-solid fa-magnifying-glass",
+      "description": "Cari info musik, lirik, dan konten lainnya",
+      "items": [
+        {
+          "name": "What Music",
+          "desc": "Cari lirik lagu berdasarkan kata kunci atau judul",
+          "path": "/search/lyrics?query=",
+          "status": "ready",
+          "params": {
+            "query": "Kata kunci lagu (cth: do you ever feel)"
+          }
+        },
+{
+  "name": "Roblox Script",
+  "desc": "Cari script game Roblox (loadstring) dari scriptsroblox.net",
+  "path": "/search/scroblox?query=",
+  "status": "ready",
+  "params": {
+    "query": "Nama map Roblox (contoh: Blox Fruits)"
+  }
+}
+        ]
+        },
     {
-      "name": "NGL Spammer",
-      "desc": "enak buat iseng ke temen loh ya😋😈🤭",
-      "path": "/tools/spamngl",
-      "status": "ready",
-      "params": {
-        "username": "Username NGL target",
-        "message": "Pesan yang akan dikirim",
-        "count": "Jumlah pesan (Max 30)"
-         }
+      "name": "Tools",
+      "icon": "fa-solid fa-wrench",
+      "description": "Berbagai utility dan alat otomatisasi",
+      "items": [
+        {
+          "name": "NGL Spammer",
+          "desc": "enak buat iseng ke temen loh ya😋😈🤭",
+          "path": "/tools/spamngl",
+          "status": "ready",
+          "params": {
+            "username": "Username NGL target",
+            "message": "Pesan yang akan dikirim",
+            "count": "Jumlah pesan (Max 30)"
+          }
         }
-       ]
-     },
+      ]
+    },
     {
       "name": "System",
       "icon": "fa-solid fa-gears",
