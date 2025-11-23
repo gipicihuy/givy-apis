@@ -1,0 +1,284 @@
+{
+  "name": "GivyAPIs",
+  "version": "v1.0",
+  "description": "Simple, Fast, & Scalable REST API",
+  "tagline": "A fast, flexible API made for whatever you need!",
+  "contact": {
+    "telegram": "https://t.me/givyo",
+    "github": "https://github.com/gipicihuy"
+  },
+  "apiSettings": {
+    "creator": "Givy",
+    "apikey": ["givy-key-2025"]
+  },
+  "categories": [
+    {
+      "name": "Downloader",
+      "icon": "fa-solid fa-download",
+      "description": "Untuk download dri berbagai platform ygy",
+      "items": [
+        {
+          "name": "Tiktok",
+          "desc": "Unduh video dari tiktok😋",
+          "path": "/download/tiktok?url=",
+          "status": "ready",
+          "params": {
+            "url": "link vt"
+          }
+        },
+        {
+          "name": "Spotify",
+          "desc": "Unduh musik dri spotify😋",
+          "path": "/download/spotify?url=",
+          "status": "ready",
+          "params": {
+            "url": "link spotify"
+          }
+        },
+        {
+          "name": "Pinterest",
+          "desc": "Get direct download link (image/video) from a Pinterest pin URL.",
+          "path": "/download/pinterest?url=",
+          "status": "ready",
+          "params": {
+            "url": "Pin url (https://pin.it/xxx)"
+          }
+        },
+             {
+          "name": "Capcut",
+          "desc": "Get capcut video from url",
+          "path": "/download/capcut?url=",
+          "status": "ready",
+          "params": {
+            "url": "Cangcut url"
+          }
+        },
+        {
+          "name": "Mediafire",
+          "desc": "Get the direct download link from the mediafire URL.",
+          "path": "/download/mediafire?url=",
+          "status": "ready",
+          "params": {
+            "url": "https://www.mediafire.com/xxx"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stalker",
+      "icon": "fa-solid fa-user-secret",
+      "description": "Social media & game profile lookup",
+      "items": [
+        {
+          "name": "Tiktok",
+          "desc": "Get TikTok profile info (stats, bio, avatars, privacy settings).",
+          "path": "/stalker/tiktok?username=",
+          "status": "ready",
+          "params": {
+            "username": "TikTok username (without @)"
+          }
+        },
+        {
+          "name": "Instagram",
+          "desc": "Get Instagram profile info (username, followers, bio, posts, etc)",
+          "path": "/stalk/ig?username=",
+          "status": "ready",
+          "params": {
+            "username": "Instagram username (without @)"
+          }
+        },
+        {
+          "name": "Free Fire",
+          "desc": "Get Free Fire player info (nickname, server, last scan time)",
+          "path": "/stalk/ff?playerid=",
+          "status": "ready",
+          "params": {
+            "playerid": "Free Fire Player ID (example: 1234567890)"
+          }
+        },
+        {
+          "name": "Roblox",
+          "desc": "Get Roblox player detailed info (username, status, friends, badges, groups, presence)",
+          "path": "/stalk/roblox?username=",
+          "status": "ready",
+          "params": {
+            "username": "Roblox username (example: BuilderMan)"
+          }
+        },
+        {
+          "name": "Mobile Legends",
+          "status": "ready",
+          "desc": "Mencari Nickname Mobile Legends berdasarkan User ID dan Zone ID.",
+          "path": "/stalk/ml",
+          "params": {
+            "userId": "User ID Mobile Legends (cth: 92666339)",
+            "zoneId": "Zone ID Mobile Legends (cth: 2193)"
+          }
+        },
+        {
+          "name": "NGL",
+          "desc": "Get NGL username validity with profile picture",
+          "path": "/stalk/ngl?username=",
+          "status": "ready",
+          "params": {
+            "username": "NGL username to verify"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Maker",
+      "icon": "fa-solid fa-image",
+      "description": "Utilities and converters",
+      "items": [
+        {
+          "name": "Brat",
+          "desc": "Convert HTML content into an image (PNG) or video (MP4/GIF).",
+          "path": "/maker/brat?text=",
+          "status": "ready",
+          "params": {
+            "text": "text nya boskuh"
+          }
+        },
+        {
+          "name": "Brat Anime",
+          "desc": "Convert text to anime images",
+          "path": "/maker/bratanime?text=",
+          "status": "ready",
+          "params": {
+            "text": "text nya boskuh"
+          }
+        },
+        {
+          "name": "iPhone Quoted Chat",
+          "desc": "Generate iPhone-style quoted chat screenshot with customizable details",
+          "path": "/maker/iqc",
+          "status": "ready",
+          "params": {
+            "messageText": "Chat message text (wajib)",
+            "carrierName": "Carrier name (cth: AXIS, Telkomsel)",
+            "time": "Time display (cth: 11:26)",
+            "batteryPercentage": "Battery % (cth: 88)",
+            "signalStrength": "Signal bars 1-4 (cth: 4)",
+            "emojiStyle": "Emoji style (cth: apple)"
+          }
+        },
+        {
+          "name": "Blue Archive Logo",
+          "desc": "Generate Blue Archive style logo with custom left & right text",
+          "path": "/maker/ba-logo",
+          "status": "ready",
+          "params": {
+            "textL": "Left text (cth: faiz)",
+            "textR": "Right text (cth: peod)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "icon": "fa-solid fa-magnifying-glass",
+      "description": "Cari info musik, lirik, dan konten lainnya",
+      "items": [
+        {
+          "name": "What Music",
+          "desc": "Cari lirik lagu berdasarkan kata kunci atau judul",
+          "path": "/search/lyrics?query=",
+          "status": "ready",
+          "params": {
+            "query": "Kata kunci lagu (cth: do you ever feel)"
+          }
+        },
+       {
+       "name": "Roblox Script",
+       "desc": "Cari script game Roblox (loadstring) dari scriptsroblox.net",
+       "path": "/search/scroblox?query=",
+       "status": "ready",
+       "params": {
+       "query": "Nama map Roblox (contoh: Blox Fruits)"
+       }
+      },
+      {
+      "name": "Device",
+      "desc": "Cari spesifikasi lengkap hp apa ajah😎",
+      "path": "/search/device?query=",
+      "status": "ready",
+      "params": {
+        "query": "(cth: iphone 18 pro max)"
+             }
+           }
+         ]
+       },
+            {
+      "name": "Random",
+      "icon": "fa-solid fa-random",
+      "description": "Apa aja dah",
+      "items": [
+        {
+          "name": "Random Puisi",
+          "desc": "dapetin puisi acak loh ya",
+          "path": "/random/puisi",
+          "status": "ready"
+    },
+    {
+      "name": "Random Pantun",
+      "desc": "dapetin pantun apa ajah",
+      "path": "/random/pantun",
+      "status": "ready"
+         },
+         {
+      "name": "Random Blue Archive",
+      "desc": "Foto blue archive random kesukaan faiz si peod😹😋🤭",
+      "path": "/random/ba",
+      "status": "ready"
+    },
+    {
+      "name": "Random Motivasi",
+      "desc": "Dapetin motivasi afa ajah😎🔥",
+      "path": "/random/motivasi",
+      "status": "ready"
+    },
+    {
+      "name": "Random Ambativasi",
+      "desc": "Dapetin motivasi jomok apa ajah🤭",
+      "path": "/random/ambativasi",
+      "status": "ready",
+      "params": {
+        "id": "ID (opsional)"
+      }
+     }
+   ]
+ },
+    {
+      "name": "Tools",
+      "icon": "fa-solid fa-wrench",
+      "description": "Berbagai utility dan alat otomatisasi",
+      "items": [
+        {
+          "name": "NGL Spammer",
+          "desc": "enak buat iseng ke temen loh ya😋😈🤭",
+          "path": "/tools/spamngl",
+          "status": "ready",
+          "params": {
+            "username": "Username NGL target",
+            "message": "Pesan yang akan dikirim",
+            "count": "Jumlah pesan (Max 30)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "System",
+      "icon": "fa-solid fa-gears",
+      "description": "API system information & monitoring",
+      "items": [
+        {
+          "name": "API Status",
+          "desc": "Check API health, total requests, total features, and uptime",
+          "path": "/api/status",
+          "status": "ready"
+        }
+      ]
+    }
+  ]
+}

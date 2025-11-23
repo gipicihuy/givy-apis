@@ -1,0 +1,12 @@
+{
+  "apps": [
+    {
+      "name": "CloudflareTunnel",
+      "script": "/usr/local/bin/cloudflared",
+      "args": "tunnel run givy-apis-tunnel",
+      "cwd": "/root/.cloudflared",
+      "autorestart": true,
+      "exec_mode": "fork"
+    }
+  ]
+}

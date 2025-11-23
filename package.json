@@ -1,0 +1,50 @@
+{
+  "name": "givy-apis",
+  "version": "1.0.0",
+  "description": "A simple and customizable API documentation interface built and maintained by GivyAPIs.",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node --no-deprecation index.js"
+  },
+  "engines": {
+    "node": "22.x"
+  },
+  "author": "GivyAPIs",
+  "license": "MIT",
+  "dependencies": {
+    "@fongsidev/scraper": "^1.0.2-4.2",
+    "@rynn-k/proxy-agent": "latest",
+    "@supabase/supabase-js": "2.49.4",
+    "@vercel/analytics": "latest",
+    "@vreden/youtube_scraper": "^1.2.5",
+    "async-g-i-s": "^1.5.5",
+    "axios": "^1.6.8",
+    "axios-cookiejar-support": "^2.0.2",
+    "body-parser": "^1.20.3",
+    "chalk": "^4.1.2",
+    "cheerio": "^1.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "fake-useragent": "^1.0.1",
+    "fetch": "^1.1.0",
+    "file-type": "^16.5.3",
+    "form-data": "^4.0.1",
+    "groq-sdk": "^0.9.1",
+    "https-proxy-agent": "latest",
+    "image-size": "latest",
+    "jimp": "^0.16.1",
+    "moment-timezone": "^0.5.34",
+    "multer": "latest",
+    "node": "^25.2.0",
+    "node-fetch": "^2.6.1",
+    "node-upload-images": "^1.0.1",
+    "nodemon": "^3.1.9",
+    "ocr-space-api-wrapper": "^2.3.2",
+    "pdfkit": "0.17.1",
+    "qrcode": "^1.5.4",
+    "qs": "^6.14.0",
+    "tough-cookie": "^4.1.4",
+    "yt-search": "^2.12.1"
+  }
+}
