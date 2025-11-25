@@ -62,12 +62,21 @@ app.use(cors());
 const settingsPath = path.join(__dirname, './settings.json');
 const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf-8'));
 global.apikey = settings.apiSettings.apikey;
+global.totalreq = 0; // Initialize total requests counter
+global.totalEndpoints = 0; // Initialize total endpoints counter
+
+// Exclude paths dari request counter (monitoring, assets, dll)
+const excludePaths = ['/api/monitoring', '/api/config', '/monitoring', '/dashboard', '/assets'];
 
 // Custom Log + Wrap res.json + Batch log semua response
 app.use((req, res, next) => {
     console.log(chalk.bgHex('#FFFF99').hex('#333').bold(` Request Route: ${req.path} `));
-    // NOTE: global.totalreq mungkin perlu didefinisikan di awal jika belum ada
-    global.totalreq = (global.totalreq || 0) + 1; 
+    
+    // Jangan hitung request ke monitoring endpoints
+    const isExcluded = excludePaths.some(path => req.path.startsWith(path));
+    if (!isExcluded) {
+        global.totalreq = (global.totalreq || 0) + 1;
+    }
 
     const start = Date.now();
     const originalJson = res.json;
@@ -128,12 +137,25 @@ fs.readdirSync(apiFolder).forEach((subfolder) => {
     }
 });
 
+// Set global totalEndpoints setelah semua routes loaded
+global.totalEndpoints = totalRoutes;
+
 console.log(chalk.bgHex('#90EE90').hex('#333').bold(' Load Complete! ✓ '));
 console.log(chalk.bgHex('#90EE90').hex('#333').bold(` Total Routes Loaded: ${totalRoutes} `));
 
 // Index route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'api-page', 'index.html'));
+});
+
+// Monitoring page route
+app.get('/monitoring', (req, res) => {
+    res.sendFile(path.join(__dirname, 'api-page', 'monitoring.html'));
+});
+
+// Dashboard page route
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'api-page', 'monitoring.html'));
 });
 
 // Error handler 404 & 500 + batch log

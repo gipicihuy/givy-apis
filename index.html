@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="https://i.ibb.co.com/zWBtwJd2/b48b92091811cadb45be0bf4811675e9.jpg" type="image/jpeg">
+<link rel="apple-touch-icon" href="https://i.ibb.co.com/zWBtwJd2/b48b92091811cadb45be0bf4811675e9.jpg">
+<meta property="og:image" content="https://i.ibb.co.com/zWBtwJd2/b48b92091811cadb45be0bf4811675e9.jpg">
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GivyAPIs</title>
+    <style>
+:root {
+    --bg-color: #282c34;
+    --text-color: #abb2bf;
+    --accent-color: #68d391;
+    --secondary-color: #e5c07b;
+    --error-color: #e06c75;
+    --card-bg: #21252b;
+    --border-radius: 0px;
+    --box-shadow-color: rgba(104, 211, 145, 0.2);
+    --hover-color-dark-blue: rgba(0, 100, 140, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Ubuntu Mono', monospace;
+    background-color: var(--bg-color);
+    min-height: 100vh;
+    padding: 20px;
+    color: var(--text-color);
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+header, details, summary, .contact-links a, .execute-btn, .endpoint-group, .endpoint-group summary {
+    transition: all 0.3s ease-in-out;
+}
+
+header {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px var(--box-shadow-color);
+    margin-bottom: 24px;
+    text-align: center;
+    border: 1px solid var(--accent-color);
+}
+
+h1 {
+    font-size: 2.5em;
+    color: var(--secondary-color);
+    margin-bottom: 8px;
+    text-shadow: 0 0 5px var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Jarak antara gambar dan teks */
+}
+
+/* **CSS UNTUK GAMBAR KUSTOM** */
+h1 img {
+    /* Ukuran disesuaikan agar sama dengan font size roket */
+    width: 1.2em;
+    height: 1.2em;
+    /* Menghilangkan border-radius untuk membuatnya KOTAK */
+    border-radius: 0; 
+    object-fit: contain; 
+    /* Menghilangkan box-shadow/border */
+    box-shadow: none;
+    border: none;
+    vertical-align: middle; 
+}
+
+.tagline {
+    color: var(--text-color);
+    font-size: 1.1em;
+    margin-bottom: 16px;
+}
+
+.contact-links {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.contact-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--accent-color);
+    color: var(--bg-color);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-size: 0.9em;
+    font-weight: bold;
+    border: 1px solid var(--accent-color);
+}
+
+.contact-links a:hover {
+    background: var(--bg-color);
+    color: var(--accent-color);
+    transform: none;
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+.endpoints-container {
+    background: var(--card-bg);
+    padding: 24px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px var(--box-shadow-color);
+}
+
+.endpoints-header {
+    font-size: 1.4em;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+details {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    margin-bottom: 12px;
+    border: 1px solid var(--accent-color);
+    transition: all 0.3s ease-in-out;
+}
+
+details[open] {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px var(--box-shadow-color);
+}
+
+summary {
+    padding: 16px 20px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    user-select: none;
+    border-radius: var(--border-radius);
+}
+
+summary:hover {
+    background: var(--hover-color-dark-blue);
+}
+
+summary .icon {
+    font-size: 1.4em;
+    flex-shrink: 0;
+}
+
+summary .arrow {
+    margin-left: auto;
+    font-size: 0.8em;
+    transition: transform 0.3s ease-in-out;
+}
+
+details[open] summary .arrow {
+    transform: rotate(90deg);
+}
+
+.category-desc {
+    color: #888;
+    font-size: 0.85em;
+    font-weight: 400;
+    margin-top: 2px;
+}
+
+.category-content {
+    overflow: hidden;
+    border-top: 1px dashed rgba(104, 211, 145, 0.5);
+    will-change: auto;
+    transform: translateZ(0);
+    height: 0;
+    opacity: 0;
+    transition: height 0s, opacity 0s;
+}
+
+details[open] > .category-content {
+    height: auto;
+    opacity: 1;
+    padding: 8px 20px 20px 20px;
+    transition: opacity 0.2s ease-out;
+}
+
+.endpoint-group {
+    background: var(--card-bg);
+    border: 1px solid #444;
+    border-radius: var(--border-radius);
+    margin-bottom: 8px;
+    margin-top: 5px;
+    border-left: 4px solid var(--secondary-color);
+}
+
+.endpoint-group:hover {
+    box-shadow: 0 0 5px rgba(229, 192, 123, 0.2);
+}
+
+.endpoint-group summary {
+    padding: 12px 16px;
+    font-size: 1em;
+    font-weight: 400;
+    color: var(--text-color);
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+}
+
+.endpoint-group summary:hover {
+    background: var(--hover-color-dark-blue);
+}
+
+.endpoint-group summary > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.endpoint-group summary .endpoint-title-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.endpoint-group summary .endpoint-title {
+    color: var(--secondary-color);
+    font-weight: 700;
+}
+
+.endpoint-group[open] > .endpoint-summary .arrow {
+    transform: rotate(90deg);
+}
+
+.endpoint-card {
+    overflow: hidden;
+    background: var(--card-bg);
+    border-top: 1px dashed #444;
+    margin: 0;
+    will-change: auto;
+    transform: translateZ(0);
+    height: 0;
+    opacity: 0;
+    transition: height 0s, opacity 0s;
+}
+
+.endpoint-group[open] > .endpoint-card {
+    height: auto;
+    opacity: 1;
+    padding: 10px 16px 16px 16px;
+    transition: opacity 0.2s ease-out;
+}
+
+.badge {
+    background: #10b981;
+    color: var(--bg-color);
+    padding: 4px 10px;
+    border-radius: var(--border-radius);
+    font-size: 0.65em;
+    font-weight: bold;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    border: 1px solid #10b981;
+}
+
+.badge.ready {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.badge.update {
+    background: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.badge.error {
+    background: var(--error-color);
+    border-color: var(--error-color);
+}
+
+.endpoint-desc {
+    color: var(--text-color);
+    line-height: 1.5;
+    margin-bottom: 10px;
+    font-size: 0.92em;
+}
+
+.endpoint-path {
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--accent-color);
+    padding: 10px 12px;
+    border-radius: var(--border-radius);
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    overflow-x: auto;
+    white-space: nowrap;
+    border: 1px dashed var(--accent-color);
+}
+
+.params-section {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed #444;
+}
+
+.params-title {
+    font-size: 0.75em;
+    color: var(--secondary-color);
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.param-item {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 6px 10px;
+    border-radius: var(--border-radius);
+    margin-bottom: 6px;
+    font-size: 0.85em;
+    border-left: 2px solid var(--secondary-color);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.param-item strong {
+    color: var(--secondary-color);
+    font-weight: bold;
+    min-width: 100px;
+}
+
+.param-item input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #444;
+    color: var(--text-color);
+    padding: 6px 10px;
+    border-radius: var(--border-radius);
+    font-family: 'Ubuntu Mono', monospace;
+    font-size: 0.9em;
+}
+
+.param-item input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 5px var(--box-shadow-color);
+}
+
+.execute-btn {
+    background: var(--accent-color);
+    color: var(--bg-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-family: 'Ubuntu Mono', monospace;
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-top: 12px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.execute-btn:hover {
+    background: var(--bg-color);
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+.execute-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.result-section {
+    margin-top: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px;
+    border-radius: var(--border-radius);
+    border: 1px solid #444;
+    display: none;
+}
+
+.result-header {
+    font-size: 0.75em;
+    color: var(--secondary-color);
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.copy-btn {
+    cursor: pointer;
+    color: var(--secondary-color);
+    font-size: 1.2em;
+    padding: 0 5px;
+}
+
+.copy-btn:hover {
+    color: var(--accent-color);
+}
+
+.copy-btn.success {
+    color: #48bb78 !important;
+}
+
+.request-url {
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--accent-color);
+    padding: 8px;
+    border-radius: var(--border-radius);
+    font-size: 0.8em;
+    word-break: break-all;
+    margin-bottom: 10px;
+    border: 1px dashed var(--accent-color);
+}
+
+.response-container {
+    margin-top: 10px;
+}
+
+.result-content {
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--text-color);
+    padding: 12px;
+    border-radius: var(--border-radius);
+    font-size: 0.8em;
+    max-height: 400px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.result-content.image-only {
+    padding: 0;
+    background: transparent;
+    border-radius: var(--border-radius);
+    max-height: none;
+    overflow-y: visible;
+}
+
+.result-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--border-radius);
+}
+
+footer {
+    text-align: center;
+    color: #999;
+    margin-top: 32px;
+    padding: 16px;
+    font-size: 0.95em;
+    border-top: 1px dashed #666;
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    gap: 16px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(104, 211, 145, 0.3);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2em;
+    }
+    
+    .endpoints-container {
+        padding: 16px;
+    }
+    
+    summary {
+        font-size: 1.1em;
+        padding: 14px 16px;
+    }
+    
+    .param-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .param-item strong {
+        min-width: auto;
+    }
+    
+    .param-item input {
+        width: 100%;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><img src="/assets/foto.jpg" alt="Logo GivyAPIs"> GivyAPIs</h1>
+            <p class="tagline" id="tagline">Loading...</p>
+            <div class="contact-links" id="contactLinks"></div>
+        </header>
+        
+        <div class="endpoints-container">
+            <h2 class="endpoints-header"><i class="fa-solid fa-book"></i> API Endpoints <span id="totalEndpoints" style="color: var(--secondary-color);">(-)</span></h2>
+            <div id="endpoints">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p class="loading-text"><i class="fa-solid fa-hourglass-half"></i> Loading endpoints...</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer id="footer">
+            <p>© 2025 GivyAPIs</p>
+        </footer>
+    </div>
+
+    <script>
+        const BASE_URL = window.location.origin;
+
+        function setupDetailsAnimation(detailsElement) {
+            const summary = detailsElement.querySelector('summary');
+            let isProcessing = false;
+
+            summary.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                if (isProcessing) return;
+                isProcessing = true;
+                
+                const isCurrentlyOpen = detailsElement.hasAttribute('open');
+
+                const parent = detailsElement.parentElement;
+                const allDetails = Array.from(parent.querySelectorAll(':scope > details'));
+                
+                allDetails.forEach(detail => {
+                    detail.removeAttribute('open');
+                });
+
+                if (!isCurrentlyOpen) {
+                    requestAnimationFrame(() => {
+                        detailsElement.setAttribute('open', '');
+                        
+                        if (!detailsElement.classList.contains('endpoint-group')) {
+                            setTimeout(() => {
+                                const y = detailsElement.getBoundingClientRect().top + window.pageYOffset - 20;
+                                window.scrollTo({ top: y, behavior: 'smooth' });
+                            }, 100);
+                        }
+                        
+                        setTimeout(() => { isProcessing = false; }, 250);
+                    });
+                } else {
+                    setTimeout(() => { isProcessing = false; }, 50);
+                }
+            });
+        }
+
+        function copyResultContent(btnElement, uniqueId) {
+            const contentElement = document.getElementById(`content-${uniqueId}`);
+            const content = contentElement.textContent;
+
+            if (!content || content.startsWith('Loading...') || content.startsWith('Error:')) {
+                alert('Tidak ada JSON response yang valid untuk disalin.');
+                return;
+            }
+
+            navigator.clipboard.writeText(content).then(() => {
+                const originalIconClass = btnElement.className;
+                btnElement.className = 'fa-solid fa-check copy-btn success';
+                
+                setTimeout(() => {
+                    btnElement.className = originalIconClass;
+                }, 1500);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert('Gagal menyalin teks. Silakan salin secara manual.');
+            });
+        }
+
+        async function loadEndpoints() {
+            try {
+                // **CATATAN PENTING: Anda harus memiliki file `/api/config` yang bisa diakses**
+                // File ini berisi JSON konfigurasi endpoint Anda.
+                const res = await fetch(`${BASE_URL}/api/config`);
+                
+                if (!res.ok) {
+                    throw new Error(`Failed to fetch config: ${res.statusText}`);
+                }
+
+                const data = await res.json();
+                
+                document.getElementById('tagline').textContent = data.tagline || data.description;
+                
+                if (data.contact) {
+                    let contactHTML = '';
+                    if (data.contact.telegram) {
+                        contactHTML += `<a href="${data.contact.telegram}" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a>`;
+                    }
+                    if (data.contact.github) {
+                        contactHTML += `<a href="${data.contact.github}" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>`;
+                    }
+                    document.getElementById('contactLinks').innerHTML = contactHTML;
+                }
+                
+                // Hitung total endpoint
+                let totalEndpointCount = 0;
+                data.categories.forEach((cat) => {
+                    totalEndpointCount += cat.items.length;
+                });
+                
+                // Tampilkan total endpoint
+                document.getElementById('totalEndpoints').textContent = `(${totalEndpointCount})`;
+                
+                let html = '';
+                data.categories.forEach((cat, catIndex) => {
+                    const iconClass = cat.icon || 'fa-solid fa-folder-open';
+                    const desc = cat.description || '';
+                    const itemCount = cat.items.length;
+                    
+                    html += `
+                        <details id="category-${catIndex}">
+                            <summary>
+                                <span class="icon"><i class="${iconClass}"></i></span>
+                                <div style="flex: 1;">
+                                    <div>${cat.name} <span style="color: var(--accent-color); font-weight: bold;">(${itemCount})</span></div>
+                                    <div class="category-desc">${desc}</div>
+                                </div>
+                                <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                            </summary>
+                            <div class="category-content">
+                    `;
+                    
+                    cat.items.forEach((item, itemIndex) => {
+                        const badgeClass = item.status === 'ready' ? 'ready' : 
+                                             item.status === 'update' ? 'update' : 'error';
+                        const uniqueId = `${catIndex}-${itemIndex}`;
+                        
+                        const displayPath = item.path.startsWith('/') ? `${BASE_URL}${item.path}` : `${BASE_URL}/${item.path}`;
+
+                        html += `
+                            <details class="endpoint-group">
+                                <summary class="endpoint-summary">
+                                    <div>
+                                        <div class="endpoint-title-group">
+                                            <div class="endpoint-title">${item.name}</div>
+                                            <span class="badge ${badgeClass}">${item.status}</span>
+                                        </div>
+                                        <span class="arrow" style="font-size: 0.8em;"><i class="fa-solid fa-chevron-right"></i></span>
+                                    </div>
+                                </summary>
+
+                                <div class="endpoint-card">
+                                    <p class="endpoint-desc">${item.desc}</p>
+                                    <div class="endpoint-path">${displayPath}</div>
+                        `;
+                        
+                        if (item.params && Object.keys(item.params).length > 0) {
+                            html += `
+                                <div class="params-section">
+                                    <div class="params-title">Parameters:</div>
+                            `;
+                            Object.entries(item.params).forEach(([key, value]) => {
+                                html += `
+                                    <div class="param-item">
+                                        <strong>${key}:</strong>
+                                        <input type="text" id="input-${uniqueId}-${key}" placeholder="${value}">
+                                    </div>
+                                `;
+                            });
+                            html += `
+                                <button class="execute-btn" data-path="${item.path}" data-id="${uniqueId}" data-params='${JSON.stringify(Object.keys(item.params))}'>
+                                    <i class="fa-solid fa-play"></i> Execute
+                                </button>
+                                <div class="result-section" id="result-${uniqueId}"></div>
+                            `;
+                            html += `</div>`;
+                        } else {
+                            html += `
+                                <button class="execute-btn" data-path="${item.path}" data-id="${uniqueId}" data-params='[]'>
+                                    <i class="fa-solid fa-play"></i> Execute
+                                </button>
+                                <div class="result-section" id="result-${uniqueId}"></div>
+                            `;
+                        }
+                        
+                        html += `</div></details>`;
+                    });
+                    
+                    html += `
+                            </div>
+                        </details>
+                    `;
+                });
+                
+                document.getElementById('endpoints').innerHTML = html;
+
+                document.querySelectorAll('details').forEach(detail => {
+                    setupDetailsAnimation(detail);
+                });
+
+                document.querySelectorAll('.execute-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const path = this.getAttribute('data-path');
+                        const uniqueId = this.getAttribute('data-id');
+                        const paramKeys = JSON.parse(this.getAttribute('data-params'));
+                        
+                        executeRequest(path, uniqueId, paramKeys, this);
+                    });
+                });
+                
+            } catch (e) {
+                document.getElementById('endpoints').innerHTML = `
+                    <div style="text-align: center; padding: 30px; color: #ef4444;">
+                        <h3><i class="fa-solid fa-triangle-exclamation"></i> Failed to load endpoints</h3>
+                        <p style="margin-top: 10px; color: #888;">${e.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function executeRequest(path, uniqueId, paramKeys, btnElement) {
+            const resultDiv = document.getElementById(`result-${uniqueId}`);
+            
+            btnElement.disabled = true;
+            btnElement.innerHTML = '<i class="fa-solid fa-hourglass-half"></i> Loading...';
+            
+            const cleanedPath = path.split('?')[0];
+            let url = BASE_URL + cleanedPath;
+
+            const queryParams = new URLSearchParams();
+            
+            paramKeys.forEach(key => {
+                const inputElement = document.getElementById(`input-${uniqueId}-${key}`);
+                if (inputElement) {
+                    const inputValue = inputElement.value.trim();
+                    if (inputValue) {
+                        queryParams.append(key, inputValue);
+                    }
+                }
+            });
+            
+            if (queryParams.toString()) {
+                url += '?' + queryParams.toString();
+            }
+            
+            resultDiv.style.display = 'block';
+
+            // Show Request URL
+            resultDiv.innerHTML = `
+                <div class="result-header">📡 Request URL:</div>
+                <div class="request-url">${url}</div>
+                
+                <div class="response-container" id="response-container-${uniqueId}">
+                    <div class="result-header" id="response-header-${uniqueId}">
+                        📦 Response
+                        <i class="fa-solid fa-copy copy-btn" onclick="copyResultContent(this, '${uniqueId}')" title="Copy Response"></i>
+                    </div>
+                    <div class="result-content" id="content-${uniqueId}">Loading...</div>
+                </div>
+            `;
+            
+            fetch(url)
+                .then(response => {
+                    const contentType = response.headers.get("Content-Type");
+                    
+                    if (contentType && contentType.startsWith("image/")) {
+                        // Return blob untuk image
+                        return response.blob().then(blob => {
+                            return {
+                                isImage: true,
+                                blob: blob,
+                                url: url,
+                                status: response.status
+                            };
+                        });
+                    }
+                    
+                    return response.text().then(text => {
+                        let data = {};
+                        let isJson = false;
+                        let errorMessage = response.statusText;
+
+                        try {
+                            data = JSON.parse(text); 
+                            isJson = true;
+                            errorMessage = data.message || data.error || JSON.stringify(data); 
+                        } catch (e) {
+                            errorMessage = text;
+                        }
+
+                        if (!response.ok) {
+                            const finalErrorMessage = errorMessage.replace(/\s+/g, ' ').substring(0, 150).trim();
+                            throw new Error(`HTTP Error ${response.status}: ${finalErrorMessage}`);
+                        }
+                        
+                        return { 
+                            isImage: false, 
+                            data: isJson ? data : text,
+                            status: response.status 
+                        };
+                    });
+                })
+                .then(data => {
+                    const responseContainer = document.getElementById(`response-container-${uniqueId}`);
+                    const responseHeader = document.getElementById(`response-header-${uniqueId}`);
+                    const resultContent = document.getElementById(`content-${uniqueId}`);
+                    
+                    if (data.isImage) {
+                        console.log('Image detected, rendering...');
+                        responseHeader.style.display = 'none';
+                        resultContent.classList.add('image-only');
+                        
+                        const imageUrl = URL.createObjectURL(data.blob);
+                        
+                        resultContent.innerHTML = `
+                            <img src="${imageUrl}" alt="API Response Image" style="max-width: 100%; height: auto; margin: 0; display: block; border-radius: 4px;">
+                        `;
+                        
+                    } else {
+                        responseContainer.style.display = 'block';
+                        responseHeader.style.display = 'flex';
+                        resultContent.classList.remove('image-only');
+                        
+                        responseHeader.innerHTML = `
+                            📦 Response (${data.status >= 200 && data.status < 300 ? 'OK' : 'ERROR'})
+                            <i class="fa-solid fa-copy copy-btn" onclick="copyResultContent(this, '${uniqueId}')" title="Copy Response"></i>
+                        `;
+
+                        const displayContent = typeof data.data === 'object' ? JSON.stringify(data.data, null, 2) : data.data;
+
+                        resultContent.textContent = displayContent;
+                        resultContent.style.color = 'var(--text-color)';
+                    }
+                    
+                    btnElement.disabled = false;
+                    btnElement.innerHTML = '<i class="fa-solid fa-play"></i> Execute';
+                })
+                .catch(error => {
+                    const responseContainer = document.getElementById(`response-container-${uniqueId}`);
+                    const responseHeader = document.getElementById(`response-header-${uniqueId}`);
+                    const resultContent = document.getElementById(`content-${uniqueId}`);
+
+                    responseContainer.style.display = 'block';
+                    responseHeader.style.display = 'flex';
+                    
+                    responseHeader.innerHTML = `
+                        📦 Response (ERROR)
+                        <i class="fa-solid fa-copy copy-btn" onclick="copyResultContent(this, '${uniqueId}')" title="Copy Response"></i>
+                    `;
+                    
+                    resultContent.classList.remove('image-only');
+                    resultContent.textContent = `Error: ${error.message}`;
+                    resultContent.style.color = 'var(--error-color)';
+                    
+                    btnElement.disabled = false;
+                    btnElement.innerHTML = '<i class="fa-solid fa-play"></i> Execute';
+                });
+        }
+        
+        window.onload = loadEndpoints;
+
+    </script>
+</body>
+</html>
