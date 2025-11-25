@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GivyAPIs Monitoring</title>
+    <!-- Font dan Icon yang sama dengan API Docs Anda -->
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* Variabel CSS dari API Docs Anda */
+        :root {
+            --bg-color: #282c34;
+            --text-color: #abb2bf;
+            --accent-color: #68d391; /* Hijau */
+            --secondary-color: #e5c07b; /* Kuning/Krem */
+            --error-color: #e06c75;
+            --card-bg: #21252b;
+            --border-radius: 0px; /* Sudut Tajam */
+            --box-shadow-color: rgba(104, 211, 145, 0.2);
+            --hover-color-dark-blue: rgba(0, 100, 140, 0.3);
+            --info-bg: rgba(104, 211, 145, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Ubuntu Mono', monospace;
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- Header Style (Sama dengan API Docs) --- */
+        header {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px var(--box-shadow-color);
+            margin-bottom: 24px;
+            text-align: center;
+            border: 1px solid var(--accent-color);
+        }
+
+        h1 {
+            font-size: 2.2em;
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+            text-shadow: 0 0 5px var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0px; /* Gap diset nol */
+        }
+        
+        h1 i {
+            margin-right: -30px; 
+        }
+
+        .tagline {
+            color: var(--accent-color);
+            font-size: 1.1em;
+        }
+
+        /* --- Card Styles --- */
+        .grid {
+            display: grid;
+            gap: 16px; /* 16px = 1rem */
+        }
+        .grid-cols-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+        .grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .gap-4 { gap: 16px; }
+        .mb-8 { margin-bottom: 32px; }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            border: 1px solid #444; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px var(--box-shadow-color);
+        }
+
+        .stat-card .icon-circle {
+            padding: 12px;
+            border-radius: var(--border-radius);
+            color: var(--bg-color);
+            font-size: 1.5em;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .stat-card .value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-top: 5px;
+            word-break: break-all;
+        }
+
+        .stat-card .label {
+            color: var(--text-color);
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .main-card {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 0 10px var(--box-shadow-color);
+        }
+
+        /* --- Resource & Status List Styles --- */
+        .progress-bar-container {
+            height: 8px;
+            background-color: #383d46;
+            border-radius: var(--border-radius);
+            margin-top: 5px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: var(--border-radius);
+            transition: width 0.3s ease;
+        }
+        
+        .status-item {
+            background: var(--info-bg);
+            border-left: 2px solid var(--accent-color);
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+            border-radius: var(--border-radius);
+        }
+
+        .status-value {
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+        
+        /* --- Chart Styles (Sudah diperbaiki) --- */
+        .bars {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 4px;
+            height: 150px;
+            padding-bottom: 5px;
+        }
+
+        .bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--accent-color), #48bb78); 
+            border-radius: 2px 2px 0 0;
+            min-height: 2px;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .bar-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translate(-50%, -5px);
+            background: var(--secondary-color);
+            color: var(--card-bg);
+            padding: 2px 6px;
+            border-radius: 2px;
+            font-size: 0.7em;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.1s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        
+        .bar:hover .bar-tooltip {
+            opacity: 1;
+        }
+
+        /* --- Utility CSS agar mirip Tailwind/Flexbox --- */
+        .flex { display: flex; }
+        .justify-between { justify-content: space-between; }
+        .items-center { align-items: center; }
+        .mb-6 { margin-bottom: 24px; }
+        .mb-1 { margin-bottom: 4px; }
+        .mt-5 { margin-top: 20px; }
+        .text-center { text-align: center; }
+        .font-bold { font-weight: 700; }
+        .text-sm { font-size: 0.875em; }
+        .text-xs { font-size: 0.75em; }
+        .space-y-3 > * + * { margin-top: 12px; }
+        .opacity-80 { opacity: 0.8; }
+        .w-full { width: 100%; }
+
+        @media (max-width: 768px) {
+            .grid-cols-3, .grid-cols-2 {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+            }
+            .grid-cols-3 > div:nth-child(2), .grid-cols-3 > div:nth-child(3) {
+                margin-top: 0;
+            }
+            .stat-card .value {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body class="text-white">
+    <div class="container">
+        
+        <!-- HEADER -->
+        <header>
+            <h1>
+                <i class="fa-solid fa-gauge-high"></i> GivyAPIs Monitoring
+            </h1>
+            <p class="tagline">Server & API Status</p>
+        </header>
+
+        <!-- LAST UPDATE (Tombol Refresh Dihapus) -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="text-color text-sm"><i class="fa-solid fa-clock"></i> Last update (Real-time): <span id="lastUpdate" style="color: var(--secondary-color); font-weight: 700;">--:--:--</span></div>
+            <!-- Area kosong karena tombol Refresh dihapus -->
+            <div></div>
+        </div>
+
+        <!-- STATS GRID -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
+            
+            <!-- Total Endpoints -->
+            <div class="stat-card">
+                <div>
+                    <p class="label">Total Endpoints</p>
+                    <div class="value" id="endpoints">0</div>
+                </div>
+                <div class="icon-circle" style="background: #3b82f6;">
+                    <i class="fa-solid fa-plug"></i>
+                </div>
+            </div>
+
+            <!-- Total Requests -->
+            <div class="stat-card">
+                <div>
+                    <p class="label">Total Requests</p>
+                    <div class="value" id="requests">0</div>
+                </div>
+                <div class="icon-circle" style="background: var(--accent-color);">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+            </div>
+
+            <!-- Server Uptime -->
+            <div class="stat-card">
+                <div>
+                    <p class="label">Server Uptime</p>
+                    <div class="value" id="uptime" style="font-size: 1.5em;">0d 0h 0m 0s</div>
+                </div>
+                <div class="icon-circle" style="background: #a855f7;">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- RESOURCE USAGE & RESPONSE TIME CARD -->
+        <div class="main-card mb-8">
+            <h2 style="font-size: 1.4em; color: var(--secondary-color); margin-bottom: 20px;"><i class="fa-solid fa-server"></i> Server Resource Usage</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                <!-- Memory Usage -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <p class="label"><i class="fa-solid fa-memory"></i> Memory Usage</p>
+                        <div class="font-bold" style="color: var(--secondary-color); font-size: 1.25em;"><span id="memPercent">0</span>%</div>
+                    </div>
+                    <p class="text-color text-xs opacity-80 mb-1" id="memSize">0 MB / 0 MB</p>
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" id="memBar" style="width: 0%; background: linear-gradient(to right, #f59e0b, #dc2626);"></div>
+                    </div>
+                </div>
+
+                <!-- CPU Usage -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <p class="label"><i class="fa-solid fa-microchip"></i> CPU Usage</p>
+                        <!-- PENTING: ID ini akan diisi oleh data 'cpuUsage' yang akurat dari monitoring.js -->
+                        <div class="font-bold" style="color: var(--secondary-color); font-size: 1.25em;"><span id="cpuPercent">0</span>%</div>
+                    </div>
+                    <p class="text-color text-xs opacity-80 mb-1">Server Core Load</p>
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" id="cpuBar" style="width: 0%; background: linear-gradient(to right, #8b5cf6, #6366f1);"></div>
+                    </div>
+                </div>
+
+                <!-- Avg Latency (Sebelumnya Avg Response Time) -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <p class="label"><i class="fa-solid fa-bolt"></i> Avg Latency</p>
+                        <div class="font-bold" style="color: var(--secondary-color); font-size: 1.25em;"><span id="responseTime">0</span>ms</div>
+                    </div>
+                    <p class="text-color text-xs opacity-80 mb-1">API Latency</p>
+                    <div class="mt-5">
+                         <span style="color: var(--accent-color); font-weight: 700;"><i class="fa-solid fa-circle-check"></i> Optimal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHART CARD -->
+        <div class="main-card mb-8">
+            <h2 style="font-size: 1.4em; color: var(--secondary-color); margin-bottom: 20px;"><i class="fa-solid fa-chart-line"></i> Request Distribution (Last 24h)</h2>
+            <div class="bars" id="chart"></div>
+            <p class="text-xs text-color opacity-70 text-center mt-4">Request count per hour</p>
+        </div>
+
+        <!-- STATUS TABLES -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            
+            <!-- System Status -->
+            <div class="main-card" style="padding: 20px;">
+                <h2 style="font-size: 1.2em; color: var(--secondary-color); margin-bottom: 15px;"><i class="fa-solid fa-desktop"></i> System Information</h2>
+                <div class="space-y-3">
+                    <div class="status-item">
+                        <span class="text-color">Server Status</span>
+                        <span class="status-value" style="color: var(--accent-color);">ONLINE <i class="fa-solid fa-circle-check"></i></span>
+                    </div>
+                    <div class="status-item">
+                        <span class="text-color">OS Type</span>
+                        <span class="status-value" id="osType">-</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="text-color">Platform</span>
+                        <span class="status-value" id="platform">-</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="text-color">Node Version</span>
+                        <span class="status-value" id="nodeVersion">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Information (Sebelumnya API Key Metrics) -->
+            <div class="main-card" style="padding: 20px;">
+                <h2 style="font-size: 1.2em; color: var(--secondary-color); margin-bottom: 15px;"><i class="fa-solid fa-info-circle"></i> API Information</h2>
+                <div class="space-y-3">
+                    <div class="status-item">
+                        <span class="text-color">Total Endpoints</span>
+                        <span class="status-value" id="infoEndpoints">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="text-color">Total Requests</span>
+                        <span class="status-value" id="infoRequests">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="text-color">Uptime</span>
+                        <span class="status-value" id="infoUptime">0d 0h 0m 0s</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="text-color">Avg Latency</span>
+                        <span class="status-value"><span id="responseTimeInfo">0</span>ms</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer id="footer" style="margin-top: 32px; padding: 16px; font-size: 0.95em; border-top: 1px dashed var(--secondary-color); text-align: center;">
+        <p>© 2025 GivyAPIs | Monitoring</p>
+    </footer>
+
+    <script>
+        const BASE_URL = window.location.origin;
+
+        // Global variable untuk menyimpan uptime dalam detik
+        let serverUptimeSeconds = 0;
+
+        // Fungsi Helper untuk parsing string uptime (e.g., "0d 0h 0m 30s") ke total detik
+        function parseUptimeToSeconds(uptimeStr) {
+            let totalSeconds = 0;
+            if (!uptimeStr) return 0;
+            // Mencocokkan pola seperti "1d", "5h", "20m", "45s"
+            const parts = uptimeStr.match(/(\d+)(d|h|m|s)/g);
+            if (!parts) return 0;
+
+            parts.forEach(part => {
+                const value = parseInt(part.slice(0, -1));
+                const unit = part.slice(-1);
+                switch (unit) {
+                    case 'd': totalSeconds += value * 86400; break;
+                    case 'h': totalSeconds += value * 3600; break;
+                    case 'm': totalSeconds += value * 60; break;
+                    case 's': totalSeconds += value; break;
+                }
+            });
+            return totalSeconds;
+        }
+
+        // Fungsi Helper untuk memformat total detik kembali ke string "Xd Xh Xm Xs"
+        function formatSecondsToUptime(totalSeconds) {
+            const d = Math.floor(totalSeconds / 86400);
+            const h = Math.floor((totalSeconds % 86400) / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            const s = totalSeconds % 60;
+            return `${d}d ${h}h ${m}m ${s}s`;
+        }
+
+        // --- UPTIME TICKER (Berjalan setiap 1 detik) ---
+        function updateUptimeDisplay() {
+            serverUptimeSeconds++;
+            const uptimeStr = formatSecondsToUptime(serverUptimeSeconds);
+            document.getElementById('uptime').textContent = uptimeStr;
+            document.getElementById('infoUptime').textContent = uptimeStr;
+        }
+
+        // Fungsi untuk mengupdate waktu update lokal (real-time feeling)
+        function updateLastUpdateTicker() {
+            const now = new Date();
+            document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('id-ID');
+        }
+
+        // --- FETCH DATA (Berjalan setiap 3 detik) ---
+        async function fetchMonitoringData() {
+            try {
+                // Asumsi: Endpoint Monitoring Anda tetap di /api/monitoring
+                const response = await fetch(`${BASE_URL}/api/monitoring`);
+                const data = await response.json();
+
+                if (data.status) {
+                    const mon = data.monitoring;
+                    
+                    // 1. Update Uptime Global Counter (HANYA RESET/INIT)
+                    // Parsin data dari server dan reset/init counter lokal
+                    serverUptimeSeconds = parseUptimeToSeconds(mon.uptime);
+                    // Langsung update display agar tidak ada delay saat inisiasi
+                    updateUptimeDisplay(); 
+
+                    // 2. Update Stats lainnya
+                    document.getElementById('endpoints').textContent = mon.totalEndpoints || '0';
+                    document.getElementById('requests').textContent = mon.totalRequests || '0';
+                    // #uptime dan #infoUptime sudah dihandle oleh updateUptimeDisplay
+
+                    // 3. Update resource usage
+                    const memPercent = mon.memoryPercent || 0;
+                    document.getElementById('memPercent').textContent = memPercent;
+                    document.getElementById('memSize').textContent = `${mon.memoryUsed || '0 MB'} / ${mon.memoryTotal || '0 MB'}`;
+                    document.getElementById('memBar').style.width = `${memPercent}%`;
+                    
+                    // CPU USAGE - Mengambil nilai akurat yang sudah dihitung di backend
+                    const cpuUsage = mon.cpuUsage || 0;
+                    document.getElementById('cpuPercent').textContent = cpuUsage;
+                    document.getElementById('cpuBar').style.width = `${cpuUsage}%`;
+                    
+                    document.getElementById('responseTime').textContent = mon.responseTime || 0;
+                    document.getElementById('responseTimeInfo').textContent = mon.responseTime || '0'; 
+
+                    // 4. Update info panel lainnya
+                    document.getElementById('infoEndpoints').textContent = mon.totalEndpoints || '0';
+                    document.getElementById('infoRequests').textContent = mon.totalRequests || '0';
+
+                    // 5. Update system info
+                    document.getElementById('osType').textContent = mon.osType || 'N/A';
+                    document.getElementById('platform').textContent = mon.platform || 'N/A';
+                    document.getElementById('nodeVersion').textContent = mon.nodeVersion || 'N/A';
+                } else {
+                    document.getElementById('lastUpdate').textContent = 'Error fetching data';
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById('lastUpdate').textContent = 'SERVER ERROR';
+            }
+        }
+
+        // Fungsi untuk membuat Chart (Mock Data)
+        function generateChart() {
+            const chart = document.getElementById('chart');
+            chart.innerHTML = '';
+            
+            // Generate data random untuk chart 24 jam terakhir (mock data)
+            const maxRequests = 150; 
+            for (let i = 0; i < 24; i++) {
+                const requests = Math.floor(Math.random() * (maxRequests - 30)) + 30; // Min 30 requests
+                const height = (requests / maxRequests) * 100;
+
+                const hour = new Date();
+                hour.setHours(hour.getHours() - (23 - i));
+                
+                const bar = document.createElement('div');
+                bar.className = 'bar relative group';
+                bar.style.height = `${height}%`;
+                
+                // Tambahkan label/tooltip
+                const tooltip = document.createElement('span');
+                tooltip.className = 'bar-tooltip';
+                tooltip.textContent = `${requests} req (${hour.getHours()}:00)`;
+                bar.appendChild(tooltip);
+
+                chart.appendChild(bar);
+            }
+        }
+
+        // --- Inisialisasi Interval ---
+        setInterval(fetchMonitoringData, 3000); // Fetch data server setiap 3 detik (update data)
+        setInterval(updateLastUpdateTicker, 1000); // Update jam lokal setiap 1 detik
+        setInterval(updateUptimeDisplay, 1000); // Ticker Uptime Server setiap 1 detik
+
+        // Initial load
+        fetchMonitoringData();
+        generateChart();
+    </script>
+</body>
+</html>
