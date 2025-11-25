@@ -1,5 +1,6 @@
 const axios = require('axios');
 const CREATOR_NAME = "Givy";
+// URL untuk daftar gambar (asumsi tetap sama)
 const IMAGE_LIST_URL = 'https://raw.githubusercontent.com/rynxzyy/blue-archive-r-img/refs/heads/main/links.json';
 
 class BlueArchive {
@@ -44,7 +45,7 @@ class BlueArchive {
         const contentType = imageResponse.headers['content-type'] || 'image/jpeg';
         const buffer = Buffer.from(imageResponse.data);
         
-        // Validasi buffer (seperti di contoh BRAT)
+        // Validasi buffer
         if (buffer.length < 100) {
             throw new Error(`Buffer gambar terlalu kecil (${buffer.length} bytes). URL: ${randomUrl}`);
         }
@@ -60,6 +61,7 @@ class BlueArchive {
 // === MODUL EXPRESS ENDPOINT ===
 // ===================================
 module.exports = function (app) {
+    // Endpoint yang mengirimkan gambar Blue Archive secara acak
     app.get('/random/ba', async (req, res) => {
         const startTime = Date.now();
         const proxy = new BlueArchive();
@@ -74,11 +76,21 @@ module.exports = function (app) {
             
             console.log(`✅ Mengirim image (${imageBuffer.length} bytes) dengan Content-Type: ${contentType}`);
             
-            // Set headers untuk image response
+            // ===================================
+            // === SOLUSI PERBAIKAN CACHING ===
+            // ===================================
+            // Header ini memaksa browser dan proxy untuk TIDAK menyimpan (cache) respons.
+            // Ini memastikan gambar baru akan selalu dimuat saat endpoint diakses.
+            res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate'); 
+            res.setHeader('Pragma', 'no-cache');
+            res.setHeader('Expires', '0'); 
+            
+            // Set Content-Type dan Content-Length
             res.setHeader("Content-Type", contentType);
             res.setHeader("Content-Length", imageBuffer.length);
+
+            // Header tambahan
             res.setHeader("Content-Disposition", `inline; filename="bluearchive-${Date.now()}.${contentType.split('/')[1] || 'png'}"`);
-            res.setHeader("Cache-Control", "public, max-age=3600"); // Cache selama 1 jam
             res.setHeader("X-Creator", CREATOR_NAME);
             
             // Kirim buffer sebagai response

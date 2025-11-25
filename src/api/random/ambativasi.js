@@ -1,12 +1,33 @@
 const axios = require('axios');
 const CREATOR_NAME = "Givy";
 
-// URL DATASET AMBATIVASI DARI GITHUB (Gunakan format yang disederhanakan)
+// URL DATASET AMBATIVASI DARI GITHUB
 const DATASET_URL = 'https://raw.githubusercontent.com/gipicihuy/givy/refs/heads/main/ambativasi.json'; 
 
 // Cache untuk menyimpan data
 let cachedAmbativasiData = [];
 let isInitialized = false;
+
+// ===================================
+// === FUNGSI UTILITY ===
+// ===================================
+
+/**
+ * Mendapatkan kutipan ambativasi acak.
+ */
+function getRandomAmbativasi() {
+    if (cachedAmbativasiData.length === 0) return null;
+    const randomIndex = Math.floor(Math.random() * cachedAmbativasiData.length);
+    return cachedAmbativasiData[randomIndex];
+}
+
+/**
+ * Mendapatkan kutipan ambativasi berdasarkan ID.
+ */
+function getAmbativasiById(id) {
+    if (cachedAmbativasiData.length === 0) return null;
+    return cachedAmbativasiData.find(data => data.id === id) || null;
+}
 
 
 /**
@@ -14,9 +35,11 @@ let isInitialized = false;
  */
 async function loadRemoteData() {
     try {
-        console.log(`[AMBATIVASI] Mencoba memuat data dari Host: ${DATASET_URL}`);
+        // PERBAIKAN CACHING: Tambahkan query parameter unik untuk memaksa GitHub CDN memuat ulang data.
+        const uniqueUrl = `${DATASET_URL}?v=${Date.now()}`; 
+        console.log(`[AMBATIVASI] Mencoba memuat data dari Host: ${uniqueUrl}`);
         
-        const response = await axios.get(DATASET_URL, { timeout: 15000 });
+        const response = await axios.get(uniqueUrl, { timeout: 15000 });
         const rawData = response.data;
 
         let motivasiArray = null;
@@ -36,63 +59,37 @@ async function loadRemoteData() {
 
         // Filter dan simpan data yang memiliki properti 'text'
         cachedAmbativasiData = motivasiArray.filter(item => item && item.text);
-        
+
         isInitialized = true;
-        
-        if (cachedAmbativasiData.length === 0) {
-             throw new Error("Data berhasil diakses, tetapi tidak ada kutipan yang valid ditemukan.");
-        }
-        
-        console.log(`[AMBATIVASI] Total ${cachedAmbativasiData.length} kutipan dimuat ke memori dari Host.`);
-        return true;
+        console.log(`[AMBATIVASI] Data berhasil dimuat. Total: ${cachedAmbativasiData.length} kutipan.`);
 
     } catch (error) {
-        // Log error yang lebih detail untuk diagnosis
-        const status = error.response ? `Status ${error.response.status}` : 'NETWORK_ERROR';
-        console.error(`[AMBATIVASI ERROR] Gagal memuat dataset dari Host. Detail: ${error.message} (${status})`);
-        
-        isInitialized = true;
-        cachedAmbativasiData = [];
-        return false;
+        isInitialized = false;
+        console.error(`[AMBATIVASI] GAGAL memuat data dari GitHub: ${error.message}`);
+        // Jika gagal, data cache akan tetap kosong/lama, tetapi server tidak akan crash.
     }
 }
 
-// Panggil saat modul dimuat (Cold Start)
-loadRemoteData();
 
-
-function getAmbativasiById(id) {
-    // Cari kutipan berdasarkan ID
-    return cachedAmbativasiData.find(item => item.id === id);
-}
-
-function getRandomAmbativasi() {
-    // Pilih kutipan secara acak
-    const randomIndex = Math.floor(Math.random() * cachedAmbativasiData.length); 
-    return cachedAmbativasiData[randomIndex];
-}
-
-// Handler Express
-module.exports = function(app) {
-    
-    // Endpoint: GET /random/ambativasi
+// ===================================
+// === MODUL EXPRESS ENDPOINT ===
+// ===================================
+module.exports = function (app) {
     app.get('/random/ambativasi', async (req, res) => {
-        const { id } = req.query; 
+        const { id } = req.query;
 
-        if (!isInitialized || cachedAmbativasiData.length === 0) {
-            // Coba muat ulang jika ada kegagalan saat cold start
-            if (!isInitialized) {
-                 await loadRemoteData(); 
-            }
-             
-            if (cachedAmbativasiData.length === 0) {
-                // Pesan Error yang diubah agar lebih informatif
-                return res.status(503).json({
-                    status: false,
-                    creator: CREATOR_NAME,
-                    message: "Layanan Ambativasi Belum Siap. Dataset gagal dimuat dari GitHub. Cek log server untuk detail."
-                });
-            }
+        // Inisialisasi hanya jika belum (atau jika gagal sebelumnya)
+        if (!isInitialized) {
+            await loadRemoteData();
+        }
+        
+        // Cek jika data masih kosong setelah pemuatan
+        if (cachedAmbativasiData.length === 0) {
+            return res.status(503).json({
+                status: false,
+                creator: CREATOR_NAME,
+                message: "Layanan Ambativasi Belum Siap. Dataset gagal dimuat dari GitHub. Cek log server untuk detail."
+            });
         }
         
         let selectedData = null;
@@ -122,6 +119,7 @@ module.exports = function(app) {
                 by: selectedData.by || 'Anonim'
             });
         } else {
+            // Ini seharusnya tidak terjadi jika cachedAmbativasiData.length > 0
             return res.status(500).json({
                 status: false,
                 creator: CREATOR_NAME,
