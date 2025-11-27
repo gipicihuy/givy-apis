@@ -13,13 +13,13 @@
 :root {
     --bg-color: #282c34;
     --text-color: #abb2bf;
-    --accent-color: #F2DE05;
-    --secondary-color: #F2DE05;
+    --accent-color: #68d391;
+    --secondary-color: #e5c07b;
     --error-color: #e06c75;
     --card-bg: #21252b;
     --border-radius: 0px;
-    --box-shadow-color: rgba(242, 222, 5, 0.2);
-    --hover-color-dark-blue: rgba(242, 222, 5, 0.15);
+    --box-shadow-color: rgba(104, 211, 145, 0.2);
+    --hover-color-dark-blue: rgba(0, 100, 140, 0.3);
 }
 
 * {
@@ -61,20 +61,24 @@ header {
 
 h1 {
     font-size: 2.5em;
-    color: #68d391;
+    color: var(--secondary-color);
     margin-bottom: 8px;
-    text-shadow: 0 0 5px #68d391;
+    text-shadow: 0 0 5px var(--secondary-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 10px; /* Jarak antara gambar dan teks */
 }
 
+/* **CSS UNTUK GAMBAR KUSTOM** */
 h1 img {
+    /* Ukuran disesuaikan agar sama dengan font size roket */
     width: 1.2em;
     height: 1.2em;
+    /* Menghilangkan border-radius untuk membuatnya KOTAK */
     border-radius: 0; 
     object-fit: contain; 
+    /* Menghilangkan box-shadow/border */
     box-shadow: none;
     border: none;
     vertical-align: middle; 
@@ -98,19 +102,20 @@ h1 img {
     align-items: center;
     gap: 6px;
     padding: 8px 16px;
-    background: #68d391;
+    background: var(--accent-color);
     color: var(--bg-color);
     text-decoration: none;
     border-radius: var(--border-radius);
     font-size: 0.9em;
     font-weight: bold;
+    border: 1px solid var(--accent-color);
 }
 
 .contact-links a:hover {
     background: var(--bg-color);
-    color: #68d391;
+    color: var(--accent-color);
     transform: none;
-    box-shadow: 0 0 10px #68d391;
+    box-shadow: 0 0 10px var(--accent-color);
 }
 
 .endpoints-container {
@@ -122,7 +127,7 @@ h1 img {
 
 .endpoints-header {
     font-size: 1.4em;
-    color: #68d391;
+    color: var(--secondary-color);
     margin-bottom: 20px;
     font-weight: 700;
 }
@@ -181,7 +186,7 @@ details[open] summary .arrow {
 
 .category-content {
     overflow: hidden;
-    border-top: 1px dashed rgba(242, 222, 5, 0.5);
+    border-top: 1px dashed rgba(104, 211, 145, 0.5);
     will-change: auto;
     transform: translateZ(0);
     height: 0;
@@ -206,7 +211,7 @@ details[open] > .category-content {
 }
 
 .endpoint-group:hover {
-    box-shadow: 0 0 5px rgba(242, 222, 5, 0.2);
+    box-shadow: 0 0 5px rgba(229, 192, 123, 0.2);
 }
 
 .endpoint-group summary {
@@ -276,15 +281,13 @@ details[open] > .category-content {
 }
 
 .badge.ready {
-    background: #68d391;
-    border-color: #68d391;
-    color: var(--bg-color);
+    background: var(--accent-color);
+    border-color: var(--accent-color);
 }
 
 .badge.update {
     background: var(--secondary-color);
     border-color: var(--secondary-color);
-    color: var(--bg-color);
 }
 
 .badge.error {
@@ -489,7 +492,7 @@ footer {
 .spinner {
     width: 40px;
     height: 40px;
-    border: 4px solid rgba(242, 222, 5, 0.3);
+    border: 4px solid rgba(104, 211, 145, 0.3);
     border-top-color: var(--accent-color);
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -537,7 +540,7 @@ footer {
         </header>
         
         <div class="endpoints-container">
-            <h2 class="endpoints-header"><i class="fa-solid fa-book"></i> API Endpoints <span id="totalEndpoints" style="color: #68d391;">(-)</span></h2>
+            <h2 class="endpoints-header"><i class="fa-solid fa-book"></i> API Endpoints <span id="totalEndpoints" style="color: var(--secondary-color);">(-)</span></h2>
             <div id="endpoints">
                 <div class="loading">
                     <div class="spinner"></div>
@@ -628,16 +631,20 @@ footer {
                 
                 document.getElementById('tagline').textContent = data.tagline || data.description;
                 
+                let contactHTML = '';
                 if (data.contact) {
-                    let contactHTML = '';
                     if (data.contact.telegram) {
                         contactHTML += `<a href="${data.contact.telegram}" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram</a>`;
                     }
                     if (data.contact.github) {
                         contactHTML += `<a href="${data.contact.github}" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>`;
                     }
-                    document.getElementById('contactLinks').innerHTML = contactHTML;
                 }
+                
+contactHTML += `<a href="monitoring.html" style="background: var(--error-color); color: var(--bg-color); border-color: var(--error-color);"><i class="fa-solid fa-chart-bar"></i> Monitoring</a>`;
+                // === END MODIFIKASI ===
+                
+                document.getElementById('contactLinks').innerHTML = contactHTML;
                 
                 // Hitung total endpoint
                 let totalEndpointCount = 0;
